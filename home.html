@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LABYSS STUDIO | Malaysia's Moss Design & Research Studio</title>
+<style>
+:root {
+    --bg-light: #EBE5DC;
+    --text-dark: #413936;
+    --bg-dark: #413936;
+    --text-light: #EBE5DC;
+    --btn-bg: #8C7A6B;
+    --btn-hover: #736457;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, sans-serif;
+    scroll-behavior: smooth;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+h1, h2, h3, p {
+    margin-top: 0;
+}
+
+    a.contact-item {
+        text-decoration: none;
+        color: inherit;
+    }
+    a.contact-item:hover {
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+
+/* Global Section Setup - min-height ensures content never gets cut off on mobile */
+section {
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px; /* Increased padding for better breathing room on scroll */
+    width: 100%;
+}
+
+/* SECTION 1: Hero Banner */
+#hero {
+    background-color: var(--bg-light);
+    background-image: url('icon/background image 1page.png');
+    background-size: cover;
+    background-position: center;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+.hero-content {
+    transform: translateY(-5vh); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 900px;
+}
+
+.hero-title {
+    font-size: clamp(1.8rem, 4vw, 3.0rem); /* Fluid sizing: shrinks on mobile, grows on desktop */
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.hero-desc {
+    font-size: clamp(1.0rem, 1.5vw, 1.2rem);
+    line-height: 1.8;
+    letter-spacing: 0.03em;
+    margin-bottom: 45px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 35px; 
+    background-color: var(--btn-bg);
+    color: var(--bg-light);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem; 
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover);
+}
+
+/* SECTION 2: About & Services */
+#about {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    text-align: center;
+}
+
+#about h2 {
+    font-size: clamp(1.8rem, 4vw, 3.0rem); 
+    margin-bottom: 50px;
+}
+
+.services-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px; 
+    max-width: 1200px;
+    margin: 0 auto 60px auto; 
+}
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 180px; /* Slightly wider to prevent awkward text splitting */
+    color: var(--text-light);
+}
+
+.service-item img {
+    width: 180px; 
+    height: 180px; 
+    margin-bottom: 20px;
+}
+
+.service-item span {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    text-align: center;
+    line-height: 1.4;
+}
+
+.about-text {
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.about-text p {
+    font-size: clamp(1.0rem, 1.5vw, 1.2rem); 
+}
+
+/* SECTION 3: Contact */
+#contact {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    text-align: center;
+}
+
+.contact-title {
+    font-size: clamp(1.8rem, 4vw, 3.0rem); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows logo to drop below text smoothly if screen is extremely narrow */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.inline-logo {
+    height: 1.2em; 
+    width: auto;
+}
+
+.contact-intro {
+    max-width: 950px; 
+    margin: 0 auto 45px auto; 
+    line-height: 1.6;
+}
+
+.contact-intro p {
+    font-size: clamp(1.0rem, 1.5vw, 1.2rem); 
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    width: fit-content;
+    gap: 25px; 
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: clamp(1.1rem, 2vw, 1.5rem); 
+}
+
+.contact-item img {
+    width: 45px; 
+    height: 45px; 
+}
+
+/* ==========================================================================
+   MEDIA QUERY: Rules specifically optimized for Mobile Devices (768px and down)
+   ========================================================================== */
+@media (max-width: 768px) {
+    section {
+        padding: 40px 20px; /* Reduced vertical padding so elements fit neatly on screen height */
+    }
+
+    /* --- Section 1 Hero Mobile Image Tuning --- */
+    #hero {
+        background-size: 100%; /* Made it bigger to sit elegantly on the bottom of mobile screens */
+        background-repeat: no-repeat;
+        background-position: center bottom; /* Places the background image at the absolute bottom */
+        padding-bottom: 140px; /* Increased padding slightly to accommodate the larger background graphic safely */
+    }
+
+    .hero-content {
+        transform: translateY(0); /* Resets the shift so content remains centered */
+    }
+
+    /* ONLY hide line breaks inside body descriptions, NOT the icon labels */
+    .hero-desc br, .about-text br, .contact-intro br {
+        display: none;
+    }
+
+    /* --- Forces Section 2 Icons into a crisp 2x2 Grid Layout --- */
+    #about h2 {
+        margin-bottom: 30px;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Forms exactly 2 side-by-side columns */
+        gap: 35px 20px; /* Balanced height and width gap between grid cards */
+        max-width: 320px; /* Hugs everything comfortably to match your mobile design portrait */
+        margin: 0 auto 40px auto; 
+    }
+
+    .service-item {
+        width: 100%; 
+    }
+
+    .service-item img {
+        width: 75px;  /* Scales down icon sizing nicely to avoid screen overcrowding */
+        height: 75px;
+        margin-bottom: 12px;
+    }
+
+    .service-item span {
+        font-size: 1.1rem; /* Clean, perfectly proportioned text size for mobile layouts */
+    }
+
+    /* Explicitly ensures the <br> tags inside the service item titles remain active */
+    .service-item span br {
+        display: inline !important;
+    }
+
+    /* --- Section 3 Contact Layout Mobile Fixing --- */
+    .contact-methods {
+        align-items: flex-start; /* Keeps items left-aligned relative to each other */
+        width: fit-content;      /* Shrinks the container wrapper to fit the longest line */
+        margin: 0 auto;          /* Centers the entire block on the mobile screen */
+        gap: 20px;               /* Slightly tighter spacing for vertical mobile layout */
+    }
+    
+    .contact-item {
+        width: auto;             /* Restores natural width instead of forcing full screen */
+        justify-content: flex-start; /* Ensures content flows naturally left-to-right */
+        font-size: 1.1rem;       /* Slightly smaller, clean text size for mobile screens */
+        gap: 15px;               /* Tighter gap between icon and text for mobile */
+    }
+    a.contact-item {
+        text-decoration: none;
+        color: inherit;
+    }
+    a.contact-item:hover {
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+</style>
+</head>
+<body>
+
+<section id="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Exploring the Beauty & Potential of Mosses in Malaysia</h1>
+        <p class="hero-desc">Discovering, Documenting, and Designing <br>with mosses to bring their beauty into modern landscapes and living spaces.</p>
+        <a href="#about" class="btn">About LAS</a>
+    </div>
+</section>
+
+<section id="about">
+    <h2>Connecting People with Moss</h2>
+    
+    <div class="services-grid">
+        <div class="service-item">
+             <img src="icon/noun-research-8093081.png" alt="Moss Research Icon">
+            <span>Moss<br>Research</span>
+        </div>
+        <div class="service-item">
+            <img src="icon/noun-card-1185338.png" alt="Moss Database Icon">
+            <span>Moss<br>Database</span>
+        </div>
+        <div class="service-item">
+            <img src="icon/noun-house-plant-3114676.png" alt="Moss Cultivation Icon">
+            <span>Moss<br>Cultivation</span>
+        </div>
+        <div class="service-item">
+            <img src="icon/noun-zen-stone-5195323.png" alt="Moss Landscape Icon">
+            <span>Moss<br>Landscape</span>
+        </div>
+    </div>
+
+    <div class="about-text">
+        <p><strong>Labyss Studio</strong> is on a journey to build Malaysia's moss database,<br>
+        share the hidden beauty of mosses, and create authentic moss landscapes<br>
+        that connect people with nature.</p>
+    </div>
+</section>
+
+<section id="contact">
+    <h2 class="contact-title">Contact <img src="icon/labyss-studio-las.png" alt="Labyss Studio Logo" class="inline-logo"></h2>
+    <div class="contact-intro">
+        <p>Interested in moss landscape design & build, research collaboration, or moss-related inquiries?<br> Contact Labyss Studio to discuss your project or idea.</p>
+    </div>
+    <div class="contact-methods">
+        <a href="https://www.instagram.com/LABYSS_STUDIO" target="_blank" class="contact-item">
+            <img src="icon/noun-ig-5772334.png" alt="Instagram Icon">
+            <span>@LABYSS_STUDIO</span>
+        </a>
+        
+        <a href="https://wa.me/601165375621" target="_blank" class="contact-item">
+            <img src="icon/noun-whatsapp-7340180.png" alt="WhatsApp Icon">
+            <span>+60-1165375621</span>
+        </a>
+        
+        <a href="mailto:labyssstudio@gmail.com" class="contact-item">
+            <img src="icon/noun-email-8293373.png" alt="Email Icon">
+            <span>labyssstudio@gmail.com</span>
+        </a>
+    </div>
+</section>
+
+</body>
+</html>
+

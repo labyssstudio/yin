@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="YBmcTj-8VD1HeMK8kHarrFe7Faqb_2GiOHwjQhRErNM" />
+    
+    <meta property="og:site_name" content="Labyss Studio" />
+    <meta property="og:type" content="website" />
+    <meta name="application-name" content="Labyss Studio">
+    <meta name="apple-mobile-web-app-title" content="Labyss Studio">
+    <meta property="og:url" content="https://labyssstudio.com" />
+
+    <script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "Organization",
+	  "name": "Labyss Studio",
+	  "url": "https://labyssstudio.com",
+ 	 "logo": "https://labyssstudio.com/icon/labyssstudio-logo.png"
+	}
+    </script>
+    <meta name="robots" content="max-image-preview:none">
+    <title>Labyss Studio | Malaysia Moss Database & Moss Landscape Design</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="icon/labyssstudio-logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Wabi-Sabi Overall Tone */
+        body { 
+            background-color: #EBE5DC; /* Light, earthy wabi-sabi background */
+            color: #4A4036; /* Dark brown text */
+        }
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        /* Rarity colors kept unchanged from original */
+        .rarity-UR { color: #d32f2f; font-weight: 900; }
+        .rarity-SR { color: #ef6c00; font-weight: 900; }
+        .rarity-R { color: #1976d2; font-weight: 900; }
+        .rarity-N { color: #616161; font-weight: 900; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+<datalist id="searchOptions"></datalist>
+<datalist id="snOptions"></datalist>
+<datalist id="cnOptions"></datalist>
+<datalist id="locOptions"></datalist>
+
+<nav class="bg-[#DCD4C7] border-b border-[#C2B6A6] px-4 md:px-12 py-3 shadow-sm select-none">
+  <div>
+    
+    <div class="hidden md:flex items-center gap-8 text-[#4A4036]">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#hero';">
+        <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-12 w-12 object-contain">
+        <span class="font-bold text-lg tracking-wide">Labyss Studio</span>
+      </div>
+      
+      <ul class="flex space-x-8 cursor-pointer text-[#6B5E51] font-medium text-base">
+        <li onclick="navigateToPath('#about')" class="hover:text-[#3B322A] transition-colors">About Moss</li>
+        <li onclick="navigateToPath('#catalog')" class="hover:text-[#3B322A] transition-colors">Moss Catalog</li> 
+        <li onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#contact';" class="hover:text-[#3B322A] transition-colors">Contact</li>
+      </ul>
+      
+      <button id="authBtn" onclick="toggleAdmin()" class="hidden text-xs bg-[#8C7A6B] hover:bg-[#736457] px-3 py-1.5 rounded text-white transition-colors shadow-sm ml-auto">
+        Admin Login
+      </button>
+    </div>
+
+    <div class="md:hidden grid grid-cols-4 items-center gap-2 text-center text-xs font-medium text-[#6B5E51]">
+      <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#hero';">
+        <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-9 w-9 object-contain mb-0.5">
+        <span class="font-bold text-[#4A4036] text-[11px]">Labyss<br>Studio</span>
+      </div>
+      
+      <div onclick="navigateToPath('#about')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30">
+        About<br>Moss
+      </div>
+      
+      <div onclick="navigateToPath('#catalog')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+      Moss<br>Catalog
+    </div>
+    
+    <div onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#contact';" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+      Contact
+    </div>      
+  </div>
+</nav>
+
+<div id="home" class="page active w-full">
+<iframe
+src="home.html"
+id="homeIframe"
+name="homeIframe"
+class="w-full h-[calc(100vh-90px)] border-0 m-0 p-0 vertical-align-bottom"
+title="Labyss Studio Home">
+</iframe>
+</div>
+
+<div id="about" class="page w-full mt-0">    
+
+    <div class="hidden md:block relative w-full overflow-hidden" style="padding-top: 449.7804%; height: 0; will-change: transform;">
+        <iframe loading="lazy" class="absolute w-full h-full top-0 left-0 border-none m-0 p-0"
+            style="transform: scale(1.015); transform-origin: center center;"
+            src="https://www.canva.com/design/DAHMRXCAAoM/DVggjDRXdbt11T0ue58TbQ/view?embed" 
+            allowfullscreen="allowfullscreen" allow="fullscreen">
+        </iframe>
+    </div>
+
+    <div class="block md:hidden relative w-full overflow-hidden" style="padding-top: 1344%; height: 0; margin-top: 1.6em; margin-bottom: 0.9em; will-change: transform;">
+        <iframe loading="lazy" 
+            class="absolute border-none m-0 p-0"
+            style="
+                width: 300%; 
+                height: 100%; 
+                top: 0%; 
+                left: -100%; 
+                object-fit: cover;
+            "
+            src="https://www.canva.com/design/DAHMh7PuUv4/uYkoBS5akyuyP1np5WBAoQ/view?embed" 
+            allowfullscreen="allowfullscreen" allow="fullscreen">
+        </iframe>
+    </div>
+
+</div>
+
+<div id="catalog" class="page p-6 max-w-7xl mx-auto">
+    <div class="mb-6 bg-white/40 p-4 rounded-xl border border-[#C2B6A6]/60 backdrop-blur-xs">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="w-full md:flex-grow relative flex items-center">
+                <input type="text" id="searchInput" list="searchOptions" onkeyup="handleSearchDropdown(event)" placeholder="Search catalog..." class="w-full p-3 pr-12 bg-white border border-[#C2B6A6] rounded-lg text-[#4A4036] placeholder-gray-400 focus:outline-none focus:border-[#8C7A6B] shadow-sm font-medium">
+                
+		<div id="customDropdown" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-[#C2B6A6] rounded-lg shadow-lg max-h-60 overflow-y-auto z-50 text-sm text-[#4A4036]"></div>
+
+                <button type="button" onclick="toggleFilterPanel()" class="absolute right-2 p-2 rounded-md text-[#6B5E51] hover:bg-[#EBE5DC] transition-colors focus:outline-none" title="Toggle Advanced Filter Panel">
+                    <svg id="filterChevron" class="w-5 h-5 transform transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+            
+            <button id="addBtn" onclick="openModal()" class="hidden bg-[#8C7A6B] hover:bg-[#736457] text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto shadow-md transition-all shrink-0">
+                + Add New Moss
+            </button>
+        </div>
+
+        <div id="filterPanel" class="hidden mt-4 pt-4 border-t border-[#C2B6A6]/50 transition-all duration-300 ease-in-out">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-[#4A4036]">
+                
+                <div>
+                    <span class="block font-bold text-[#5C5042] mb-2 uppercase tracking-wider">Lighting Condition:</span>
+                    <div class="flex flex-wrap gap-1.5" id="lightFilterGroup">
+                        <button type="button" onclick="setFilter('light', 'all')" data-val="all" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] font-bold transition-all bg-[#5C5042] text-white flex items-center justify-center gap-0.5">All</button>
+                        <button type="button" onclick="setFilter('light', '1')" data-val="1" class="filter-btn px-2 py-1 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5" title="Full Shade">
+                            <img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun">
+                        </button>
+                        <button type="button" onclick="setFilter('light', '2')" data-val="2" class="filter-btn px-2 py-1 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5" title="Semi Shade">
+                            <img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun"><img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun">
+                        </button>
+                        <button type="button" onclick="setFilter('light', '3')" data-val="3" class="filter-btn px-2 py-1 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5" title="Full Sun">
+                            <img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun"><img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun"><img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun">
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="block font-bold text-[#5C5042] mb-2 uppercase tracking-wider">Humidity / Water:</span>
+                    <div class="flex flex-wrap gap-1.5" id="humidFilterGroup">
+                        <button type="button" onclick="setFilter('humid', 'all')" data-val="all" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] font-bold transition-all bg-[#5C5042] text-white flex items-center justify-center gap-0.5">All</button>
+                        <button type="button" onclick="setFilter('humid', '1')" data-val="1" class="filter-btn px-2 py-1 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5" title="Little Water">
+                            <img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water">
+                        </button>
+                        <button type="button" onclick="setFilter('humid', '2')" data-val="2" class="filter-btn px-2 py-1 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5" title="Moderate Water">
+                            <img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water"><img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water">
+                        </button>
+                        <button type="button" onclick="setFilter('humid', '3')" data-val="3" class="filter-btn px-2 py-1 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5" title="Lots of Water">
+                            <img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water"><img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water"><img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water">
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="block font-bold text-[#5C5042] mb-2 uppercase tracking-wider">Rarity Level:</span>
+                    <div class="flex flex-wrap gap-1.5" id="rarityFilterGroup">
+                        <button type="button" onclick="setFilter('rarity', 'all')" data-val="all" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] font-bold transition-all bg-[#5C5042] text-white flex items-center justify-center gap-0.5">All</button>
+                        <button type="button" onclick="setFilter('rarity', 'N')" data-val="N" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] bg-white hover:bg-[#EBE5DC] transition-all font-black rarity-N">N</button>
+                        <button type="button" onclick="setFilter('rarity', 'R')" data-val="R" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] bg-white hover:bg-[#EBE5DC] transition-all font-black rarity-R">R</button>
+                        <button type="button" onclick="setFilter('rarity', 'SR')" data-val="SR" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] bg-white hover:bg-[#EBE5DC] transition-all font-black rarity-SR">SR</button>
+                        <button type="button" onclick="setFilter('rarity', 'UR')" data-val="UR" class="filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] bg-white hover:bg-[#EBE5DC] transition-all font-black rarity-UR">UR</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6 items-start">        
+    <div class="w-full md:w-60 shrink-0 bg-[#DCD4C7] p-4 rounded-lg border border-[#C2B6A6] shadow-sm">
+        
+        <button onclick="toggleLegend()" class="w-full flex justify-between items-center text-left focus:outline-none group border-b border-[#C2B6A6] pb-1 cursor-pointer">
+            <h4 class="font-bold text-[#5C5042] tracking-wide text-xs uppercase select-none">Symbols Legend</h4>
+            <svg id="legendArrow" class="w-4 h-4 text-[#5C5042] transform -rotate-90 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+        
+        <div id="legendContent" class="hidden mt-3">
+            
+            <div class="mb-4">
+                <p class="text-[10px] font-black text-[#6B5E51] mb-2 uppercase tracking-widest">Lighting Guide</p>
+                <div class="space-y-2 text-xs text-[#4A4036]">
+                    <div class="flex items-center gap-2">
+                        <div class="flex w-14 shrink-0 justify-start gap-0.5">
+                            <img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="1 Sun">
+                        </div>
+                        <span class="text-[#5C5042] font-medium">= Full Shade</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex w-14 shrink-0 justify-start gap-0.5">
+                            <img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun"><img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun">
+                        </div>
+                        <span class="text-[#5C5042] font-medium">= Semi Shade</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex w-14 shrink-0 justify-start gap-0.5">
+                            <img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun"><img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun"><img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 object-contain" alt="Sun">
+                        </div>
+                        <span class="text-[#5C5042] font-medium">= Full Sun</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <p class="text-[10px] font-black text-[#6B5E51] mb-2 uppercase tracking-widest">Water Guide</p>
+                <div class="space-y-2 text-xs text-[#4A4036]">
+                    <div class="flex items-center gap-2">
+                        <div class="flex w-14 shrink-0 justify-start gap-0.5">
+                            <img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="1 Water">
+                        </div>
+                        <span class="text-[#5C5042] font-medium">= Little Water</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex w-14 shrink-0 justify-start gap-0.5">
+                            <img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water"><img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water">
+                        </div>
+                        <span class="text-[#5C5042] font-medium">= Moderate Water</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex w-14 shrink-0 justify-start gap-0.5">
+                            <img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water"><img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water"><img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 object-contain" alt="Water">
+                        </div>
+                        <span class="text-[#5C5042] font-medium">= Lots of Water</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-[10px] font-black text-[#6B5E51] mb-2 uppercase tracking-widest">Rarity Level</p>
+                <div class="space-y-1.5 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 text-center font-black rarity-N text-sm">N</span>
+                        <span class="text-[#5C5042] font-medium">= Normal</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 text-center font-black rarity-R text-sm">R</span>
+                        <span class="text-[#5C5042] font-medium">= Rare</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 text-center font-black rarity-SR text-sm">SR</span>
+                        <span class="text-[#5C5042] font-medium">= Super Rare</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 text-center font-black rarity-UR text-sm">UR</span>
+                        <span class="text-[#5C5042] font-medium">= Ultra Rare</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="mossGrid" class="grid flex-grow grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+    </div>
+</div>
+
+<div id="previewOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden z-[100] flex justify-center items-center p-4" onclick="handleOutsideClick(event)">
+    <div id="previewContainer" class="relative w-full max-w-[420px] max-h-[90vh] aspect-[5/7] bg-gray-200 p-2 sm:p-4 rounded-lg flex flex-col shadow-2xl transition-transform transform scale-100" onclick="event.stopPropagation()">
+    </div>
+    <div class="absolute top-4 right-4 text-gray-400 text-sm font-bold bg-black/50 px-3 py-1 rounded cursor-pointer hover:text-white" onclick="closePreview()">ESC / Close</div>
+</div>
+
+<div id="mossModal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex justify-center items-center z-50 p-4 overflow-y-auto">
+    <div class="bg-[#F2EFE9] border border-[#C2B6A6] p-6 rounded-lg w-full max-w-2xl mt-auto mb-auto relative shadow-xl">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="modalTitle" class="text-2xl font-light text-[#5C5042]">Moss Specification</h3>
+            <button id="deleteBtn" onclick="deleteMoss()" class="hidden bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded">Delete Moss</button>
+        </div>
+        <form id="mossForm" class="space-y-4">
+            <input type="hidden" id="editId">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[#6B5E51] text-xs font-bold mb-1">Scientific Name (SN)</label>
+                    <input type="text" id="sn" list="snOptions" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                </div>
+                <div>
+                    <label class="block text-[#6B5E51] text-xs font-bold mb-1">Common Name (CN)</label>
+                    <input type="text" id="cn" list="cnOptions" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                </div>
+                <div>
+                    <label class="block text-[#6B5E51] text-xs font-bold mb-1">Location Found</label>
+                    <input type="text" id="loc" list="locOptions" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                </div>
+                <div>
+                    <label class="block text-[#6B5E51] text-xs font-bold mb-1">Substrate</label>
+                    <select id="substrate" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                        <option value="Rock">Rock</option>
+                        <option value="Tree">Tree</option>
+                        <option value="Soil">Soil</option>
+                        <option value="Concrete">Concrete</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Lighting (1-3)</label><input type="number" id="light" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
+                <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Humidity (1-3)</label><input type="number" id="humid" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
+                <div>
+                    <label class="block text-[#6B5E51] text-xs font-bold mb-1">Rarity Level</label>
+                    <select id="rarity" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                        <option value="N">Normal (N)</option>
+                        <option value="R">Rare (R)</option>
+                        <option value="SR">Super Rare (SR)</option>
+                        <option value="UR">Ultra Rare (UR)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 border-t border-[#C2B6A6] pt-4">
+                <p class="text-xs font-bold text-[#8C7A6B] mb-2 tracking-widest uppercase">Image Management Deck</p>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
+                        <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg0"></div>
+                        <div class="flex-grow">
+                            <label class="text-xs text-[#4A4036] block font-bold">Main Cover Image</label>
+                            <input type="file" id="uploadImg0" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 0)">
+                            <input type="hidden" id="base64Img0">
+                        </div>
+                        <button type="button" onclick="clearImage(0)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
+                        <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg1"></div>
+                        <div class="flex-grow">
+                            <label class="text-xs text-[#4A4036] block font-bold">Extra Gallery Image 1</label>
+                            <input type="file" id="uploadImg1" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 1)">
+                            <input type="hidden" id="base64Img1">
+                        </div>
+                        <button type="button" onclick="clearImage(1)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
+                        <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg2"></div>
+                        <div class="flex-grow">
+                            <label class="text-xs text-[#4A4036] block font-bold">Extra Gallery Image 2</label>
+                            <input type="file" id="uploadImg2" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 2)">
+                            <input type="hidden" id="base64Img2">
+                        </div>
+                        <button type="button" onclick="clearImage(2)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
+                        <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg3"></div>
+                        <div class="flex-grow">
+                            <label class="text-xs text-[#4A4036] block font-bold">Extra Gallery Image 3</label>
+                            <input type="file" id="uploadImg3" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 3)">
+                            <input type="hidden" id="base64Img3">
+                        </div>
+                        <button type="button" onclick="clearImage(3)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-4 pt-6 border-t border-[#C2B6A6] mt-6">
+                <button type="button" onclick="closeModal()" class="text-[#6B5E51] hover:text-[#3B322A] font-bold">Cancel</button>
+                <button type="submit" class="bg-[#8C7A6B] hover:bg-[#736457] text-white px-6 py-2 rounded font-bold shadow-md transition-colors">Save Data</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// --- STATE ---
+let isAdmin = false;
+const ADMIN_PASSWORD = "yin";
+let catalogList = [];
+
+// --- GLOBAL ADVANCED FILTER STATE VARIABLES ---
+let currentLightFilter = 'all';
+let currentHumidFilter = 'all';
+let currentRarityFilter = 'all';
+
+
+// Handles mobile-safe search autocomplete without breaking the main catalog grid
+function handleSearchDropdown(event) {
+  const input = document.getElementById('searchInput');
+  const dropdown = document.getElementById('customDropdown');
+  const query = input.value.trim().toLowerCase();
+
+  // If user presses the "Enter" key on keyboard, apply the current filter immediately and hide menu
+  if (event.key === 'Enter') {
+    dropdown.classList.add('hidden');
+    renderCatalog();
+    return;
+  }
+
+  // If search bar is cleared, reset views to complete list 
+  if (!query) {
+    dropdown.classList.add('hidden');
+    renderCatalog();
+    return;
+  }
+
+  // Gather matching selections from your existing catalogList data object arrays
+  const matches = new Set();
+  catalogList.forEach(item => {
+    if (item.id && item.id.toLowerCase().includes(query)) matches.add(item.id);
+    if (item.scientificName && item.scientificName.toLowerCase().includes(query)) matches.add(item.scientificName);
+    if (item.commonName && item.commonName.toLowerCase().includes(query)) matches.add(item.commonName);
+  });
+
+  // Display suggestions in custom popup panel
+  if (matches.size > 0) {
+    dropdown.innerHTML = '';
+    matches.forEach(value => {
+      const row = document.createElement('div');
+      row.className = "p-3 hover:bg-[#EBE5DC] cursor-pointer border-b border-[#C2B6A6]/30 last:border-0 transition-colors font-medium text-left";
+      row.innerText = value;
+      
+      // When selected, assign text choice, close popup window, and execute filtering safely
+      row.onclick = function() {
+        input.value = value;
+        dropdown.classList.add('hidden');
+        renderCatalog(); // Triggers the actual screen update here safely!
+      };
+      dropdown.appendChild(row);
+    });
+    dropdown.classList.remove('hidden');
+  } else {
+    dropdown.classList.add('hidden');
+  }
+}
+
+// Global click watcher to close the list overlay menu if a user clicks or taps outside the panel area
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('customDropdown');
+  const input = document.getElementById('searchInput');
+  if (dropdown && input && e.target !== input && e.target !== dropdown) {
+    dropdown.classList.add('hidden');
+  }
+});
+
+// Toggles the drawer open/closed and rotates the icon chevron arrow
+function toggleFilterPanel() {
+    const panel = document.getElementById('filterPanel');
+    const chevron = document.getElementById('filterChevron');
+    
+    if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        chevron.classList.add('rotate-180');
+    } else {
+        panel.classList.add('hidden');
+        chevron.classList.remove('rotate-180');
+    }
+}
+
+function toggleLegend() {
+    const content = document.getElementById('legendContent');
+    const arrow = document.getElementById('legendArrow');
+    
+    if (content.classList.contains('hidden')) {
+        // Show the panel
+        content.classList.remove('hidden');
+        // Point arrow straight down
+        arrow.classList.remove('-rotate-90');
+    } else {
+        // Hide the panel
+        content.classList.add('hidden');
+        // Point arrow sideways
+        arrow.classList.add('-rotate-90');
+    }
+}
+
+// Manages chosen styling changes and sets active criteria constraints
+function setFilter(type, value) {
+    let parentId = '';
+    if (type === 'light') { currentLightFilter = value; parentId = 'lightFilterGroup'; }
+    if (type === 'humid') { currentHumidFilter = value; parentId = 'humidFilterGroup'; }
+    if (type === 'rarity') { currentRarityFilter = value; parentId = 'rarityFilterGroup'; }
+
+    // Re-adjust style button classes to accurately present visual selected indications
+    const buttons = document.querySelectorAll(`#${parentId} .filter-btn`);
+    buttons.forEach(btn => {
+        if (btn.getAttribute('data-val') === value) {
+            btn.className = "filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] font-bold transition-all bg-[#5C5042] text-white flex items-center justify-center gap-0.5";
+            // Retain absolute color values for individual text labels when rare
+            if(value === 'N') btn.classList.add('rarity-N');
+            if(value === 'R') btn.classList.add('rarity-R');
+            if(value === 'SR') btn.classList.add('rarity-SR');
+            if(value === 'UR') btn.classList.add('rarity-UR');
+        } else {
+            btn.className = "filter-btn px-2.5 py-1.5 rounded-md border border-[#C2B6A6] bg-white text-[#4A4036] hover:bg-[#EBE5DC] transition-all flex items-center justify-center gap-0.5";
+            let valAttr = btn.getAttribute('data-val');
+            if(valAttr === 'N') btn.classList.add('rarity-N');
+            if(valAttr === 'R') btn.classList.add('rarity-R');
+            if(valAttr === 'SR') btn.classList.add('rarity-SR');
+            if(valAttr === 'UR') btn.classList.add('rarity-UR');
+        }
+    });
+
+    // Run catalog refresh applying full query parameters instantly
+    renderCatalog();
+}
+//  AFTER (Direct static JSON loading)
+async function loadCatalogFromServer() { 
+  try { 
+    const response = await fetch('moss_catalog.json'); // Reads your static data file directly
+    if (response.ok) { 
+      catalogList = await response.json(); 
+    } else { 
+      throw new Error("Could not load moss_catalog.json");
+    } 
+  } catch(e) { 
+    console.error("Error loading catalog data:", e); 
+    catalogList = []; 
+  } 
+  updateAutocompleteOptions(); 
+  renderCatalog();
+}
+
+async function saveToServer(itemData) {
+    try {
+        const response = await fetch('./api.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(itemData) // Sends ONLY the modified moss card!
+        });
+        
+        if (!response.ok) throw new Error("Upload failed");
+        
+        const result = await response.json();
+        
+        if (result.status === "success") {
+            // Get the item returned by the server (now containing safe image file paths)
+            const savedItem = result.item ? result.item : itemData;
+            
+            const index = catalogList.findIndex(m => m.id === savedItem.id);
+            if (index > -1) {
+                catalogList[index] = savedItem;
+            } else {
+                catalogList.push(savedItem);
+            }
+            
+            // Keep your local/offline copy updated
+            localStorage.setItem('moss_catalog_list', JSON.stringify(catalogList));
+            updateAutocompleteOptions();
+            renderCatalog();
+            return true;
+        }
+        return false;
+    } catch(error) {
+        console.error(error);
+        alert('Could not save data to server. Check your connection or server status.');
+        return false;
+    }
+}
+// --- AUTOCOMPLETE OPTION GENERATOR ---
+function updateAutocompleteOptions() {
+    const snSet = new Set();
+    const cnSet = new Set();
+    const locSet = new Set();
+    const searchSet = new Set();
+
+    catalogList.forEach(item => {
+        if (item.scientificName && item.scientificName.trim() !== '') {
+            snSet.add(item.scientificName.trim());
+            searchSet.add(item.scientificName.trim());
+        }
+        if (item.commonName && item.commonName.trim() !== '') {
+            cnSet.add(item.commonName.trim());
+            searchSet.add(item.commonName.trim());
+        }
+        if (item.location && item.location.trim() !== '') {
+            locSet.add(item.location.trim());
+        }
+        if (item.id) {
+            searchSet.add(item.id);
+        }
+    });
+
+    buildDatalist('snOptions', snSet);
+    buildDatalist('cnOptions', cnSet);
+    buildDatalist('locOptions', locSet);
+    buildDatalist('searchOptions', searchSet);
+}
+
+function buildDatalist(elementId, dataset) {
+    const dataListElement = document.getElementById(elementId);
+    if (!dataListElement) return;
+    dataListElement.innerHTML = '';
+    dataset.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        dataListElement.appendChild(option);
+    });
+}
+
+let currentPreviewItem = null;
+let currentPreviewIndex = 0;
+let currentPreviewImages = [];
+let touchstartX = 0;
+let touchendX = 0;
+
+// ICONS
+const sunIcon = '<img src="icon/noun-sun-3381257.png" class="w-3.5 h-3.5 sm:w-4 sm:h-4 inline-block object-contain" alt="Lighting">';
+const waterIcon = '<img src="icon/noun-water-169650.png" class="w-3.5 h-3.5 sm:w-4 sm:h-4 inline-block object-contain" alt="Humidity">';
+
+
+// ==========================================
+// NEW SECURE DIRECT-EDIT LINK ROUTING ENGINE
+// ==========================================
+
+// Global state tracking function
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+}
+
+// Intercept window URL strings on load and menu clicks
+function handleRouteProcess() {
+    const hash = window.location.hash || '#home';
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if the exclusive secret edit token is present in the URL
+    if (urlParams.get('token') === 'labyss-secure-edit-2026') {
+        isAdmin = true; // Instantly bypasses the login prompt
+        
+        // Ensure UI buttons update to administrative states
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) authBtn.innerText = 'Admin Logout';
+        
+        // Show administrative actions across your application lists
+        document.querySelectorAll('.admin-action').forEach(el => el.classList.remove('hidden'));
+
+        const addBtn = document.getElementById('addBtn');
+        if (addBtn) addBtn.classList.remove('hidden');
+    }
+
+    // Direct user to correct tab view
+    if (hash === '#about') {
+        showPage('about');
+    } else if (hash === '#catalog') {
+        showPage('catalog');
+    } else {
+        showPage('home');
+    }
+}
+
+// Navigation handling function for your header links
+function navigateToPath(targetHash) {
+    // Retains your secret token in the URL if it's there when switching tabs
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const queryString = token ? `?token=${token}` : '';
+    
+    window.history.pushState({}, '', window.location.pathname + queryString + targetHash);
+    handleRouteProcess();
+}
+
+// Hook router execution triggers up to window contexts
+window.addEventListener('popstate', handleRouteProcess);
+window.addEventListener('hashchange', handleRouteProcess);
+window.addEventListener('DOMContentLoaded', handleRouteProcess);
+
+// Attach clean tracking intercept listeners onto global window layer
+window.addEventListener('popstate', handleRouteProcess);
+window.addEventListener('DOMContentLoaded', () => {
+    // Evaluate path routing structure on hard refresh load
+    handleRouteProcess();
+
+    // Secret Admin hidden interface footer link click listener
+    const secretTrigger = document.getElementById('secret-admin-trigger');
+    if (secretTrigger) {
+        secretTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            navigateToPath('/catalog/admin-edit');
+        });
+    }
+});
+function toggleAdmin() {
+    if (isAdmin) {
+        isAdmin = false;
+        document.getElementById('authBtn').innerText = "Admin Login";
+        document.getElementById('authBtn').classList.replace('bg-red-700', 'bg-[#8C7A6B]');
+        document.getElementById('addBtn').classList.add('hidden');
+    } else {
+        const pass = prompt("Enter Admin Password:");
+        if (pass === ADMIN_PASSWORD) {
+            isAdmin = true;
+            document.getElementById('authBtn').innerText = "Logout Admin";
+            document.getElementById('authBtn').classList.replace('bg-[#8C7A6B]', 'bg-red-700');
+            document.getElementById('addBtn').classList.remove('hidden');
+        }
+    }
+    renderCatalog();
+}
+
+// --- PREVIEW/ZOOM LOGIC ---
+function openPreview(id) {
+    currentPreviewItem = catalogList.find(m => m.id === id);
+    if (!currentPreviewItem) return;
+
+    currentPreviewImages = (currentPreviewItem.imagePaths || []).filter(img => img && img.trim() !== "");
+    if (currentPreviewImages.length === 0) currentPreviewImages = [""];
+    currentPreviewIndex = 0;
+    
+    document.getElementById('previewOverlay').classList.remove('hidden');
+    renderPreviewCard();
+    document.addEventListener('keydown', handleEsc);
+
+    history.pushState({ previewOpen: true }, "");
+    window.addEventListener('popstate', closePreviewOnBack);
+}
+
+function closePreviewOnBack() {
+    closePreview(true);
+}
+
+// Fixed missing bracket errors from PDF gap
+function closePreview(fromBackButton = false) {
+    document.getElementById('previewOverlay').classList.add('hidden');
+    document.removeEventListener('keydown', handleEsc);
+    window.removeEventListener('popstate', closePreviewOnBack);
+    
+    if (!fromBackButton && history.state && history.state.previewOpen) {
+        history.back(); 
+    }
+}
+
+function handleEsc(e) { if(e.key === 'Escape') closePreview(); }
+// Fixed spaced string error from PDF output
+function handleOutsideClick(e) { if(e.target.id === 'previewOverlay') closePreview(); }
+
+function nextImage(e) {
+    if (e) e.stopPropagation();
+    currentPreviewIndex = (currentPreviewIndex + 1) % currentPreviewImages.length;
+    renderPreviewCard();
+}
+
+function prevImage(e) {
+    if (e) e.stopPropagation();
+    currentPreviewIndex = (currentPreviewIndex - 1 + currentPreviewImages.length) % currentPreviewImages.length;
+    renderPreviewCard();
+}
+
+document.getElementById('previewContainer').addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+document.getElementById('previewContainer').addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleGesture();
+}, {passive: true});
+
+function handleGesture() {
+    if (touchendX < touchstartX - 40) nextImage();
+    if (touchendX > touchstartX + 40) prevImage();
+}
+
+// --- CARD RENDERING ---
+function renderPreviewCard() {
+    const container = document.getElementById('previewContainer');
+    const item = currentPreviewItem;
+    const imgSrc = currentPreviewImages[currentPreviewIndex];
+    const humidIcons = waterIcon.repeat(parseInt(item.humidity) || 1);
+    const lightIcons = sunIcon.repeat(parseInt(item.lighting) || 1);
+    
+    let contentHTML = "";
+
+    if (currentPreviewIndex === 0) {
+        contentHTML = `
+        <div class="flex-[5] min-h-[250px] w-full rounded-sm bg-gray-800 bg-cover bg-center relative cursor-pointer group shrink-0" style="background-image: url('${imgSrc}');" onclick="nextImage(event)">
+            ${!imgSrc ? '<div class="absolute inset-0 flex items-center justify-center text-gray-500">No Image</div>' : ""}
+            <div class="absolute inset-y-0 left-0 w-1/3 z-10 flex items-center pl-2 opacity-0 group-hover:opacity-100 transition-opacity" onclick="prevImage(event)">
+                <div class="bg-black/50 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center hover:bg-black/80">&lt;</div>
+            </div>
+            <div class="absolute inset-y-0 right-0 w-1/3 z-10 flex items-center justify-end pr-2 opacity-0 group-hover:opacity-100 transition-opacity" onclick="nextImage(event)">
+                <div class="bg-black/50 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center hover:bg-black/80">&gt;</div>
+            </div>
+        </div>
+        <div class="h-2 sm:h-3 shrink-0"></div> 
+        <div class="flex-[2] bg-white rounded-sm p-3 sm:p-4 text-black relative flex flex-col w-full overflow-y-auto no-scrollbar min-h-0">
+            <div class="flex justify-between items-start w-full">
+                <span class="font-extrabold text-[42px] sm:text-5xl leading-none tracking-tight flex-shrink-0">${item.id}</span>
+                <div class="flex flex-col gap-1.5 mt-0.5 select-none">
+                    <div class="flex items-center">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-left w-14 shrink-0">Lighting</span>
+                        <span class="flex gap-0.5 items-center ml-2">${lightIcons}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-left w-14 shrink-0">Humidity</span>
+                        <span class="flex gap-0.5 items-center ml-2">${humidIcons}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-[11px] sm:text-xs flex flex-col gap-1.5 mt-4 pb-2">
+                <div class="flex"><span class="font-bold uppercase w-24 shrink-0">SN</span><span class="truncate">${item.scientificName || '---'}</span></div>
+                <div class="flex"><span class="font-bold uppercase w-24 shrink-0">CN</span><span class="truncate">${item.commonName || '---'}</span></div>
+                <div class="flex"><span class="font-bold uppercase w-24 shrink-0">Location</span><span class="truncate">${item.location || '---'}</span></div>
+                <div class="flex"><span class="font-bold uppercase w-24 shrink-0">Substrate</span><span class="truncate">${item.substrate || '---'}</span></div>
+            </div>
+            <div class="absolute bottom-2 right-3 font-black text-3xl sm:text-4xl rarity-${item.rarity}">${item.rarity}</div>
+        </div>`;
+    } else {
+        contentHTML = `
+        <div class="w-full h-full flex flex-col rounded-sm overflow-hidden bg-gray-200">
+            <div class="flex-grow w-full bg-gray-800 bg-cover bg-center relative cursor-pointer group" style="background-image: url('${imgSrc}');" onclick="nextImage(event)">
+                ${!imgSrc ? '<div class="absolute inset-0 flex items-center justify-center text-gray-500">No Image</div>' : ""}
+                <div class="absolute inset-y-0 left-0 w-1/3 z-10 flex items-center pl-2 opacity-0 group-hover:opacity-100 transition-opacity" onclick="prevImage(event)">
+                    <div class="bg-black/50 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center hover:bg-black/80">&lt;</div>
+                </div>
+                <div class="absolute inset-y-0 right-0 w-1/3 z-10 flex items-center justify-end pr-2 opacity-0 group-hover:opacity-100 transition-opacity" onclick="nextImage(event)">
+                    <div class="bg-black/50 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center hover:bg-black/80">&gt;</div>
+                </div>
+            </div>
+            <div class="h-12 sm:h-14 bg-[#e5e5e5] flex justify-between items-center px-4 text-black font-bold shrink-0 shadow-inner">
+                <span class="text-sm sm:text-base truncate pr-2">SN: ${item.scientificName || '---'}</span>
+                <span class="text-sm sm:text-base whitespace-nowrap">${item.id}</span>
+            </div>
+        </div>`;
+    }
+    
+    container.innerHTML = contentHTML;
+}
+
+// Reconstructed loop body that fell out of the PDF pages
+function renderCatalog() {
+    const grid = document.getElementById('mossGrid');
+    const searchInput = document.getElementById('searchInput');
+    const search = searchInput ? searchInput.value.toLowerCase() : "";
+
+    grid.innerHTML = "";
+
+    // Comprehensive query filter handling textual string matching and discrete options concurrently
+    const filtered = catalogList.filter(m => {
+        // 1. Text input search parsing 
+        const matchesSearch = (
+            (m.scientificName || "").toLowerCase().includes(search) ||
+            (m.commonName || "").toLowerCase().includes(search) ||
+            (m.id || "").toLowerCase().includes(search)
+        );
+
+        // 2. Check if discrete select value matches or is bypassed via "all" option
+        const matchesLight = (currentLightFilter === 'all' || String(m.lighting) === currentLightFilter);
+        const matchesHumid = (currentHumidFilter === 'all' || String(m.humidity) === currentHumidFilter);
+        const matchesRarity = (currentRarityFilter === 'all' || String(m.rarity) === currentRarityFilter);
+
+        return matchesSearch && matchesLight && matchesHumid && matchesRarity;
+    });
+
+    // Draw filtered output onto user screen grid display loop
+    filtered.forEach(item => {
+        const mainImg = (item.imagePaths && item.imagePaths[0]) ? item.imagePaths[0].trim() : '';
+        const card = document.createElement('div');
+        card.className = "flex flex-col relative";
+
+        card.innerHTML = `
+            <div class="aspect-[5/7] bg-gray-200 p-2 sm:p-2.5 rounded-md shadow-xl flex flex-col cursor-pointer transition-transform hover:scale-105" onclick="openPreview('${item.id}')">
+                <div class="flex-[5] min-h-[150px] w-full bg-gray-800 rounded-sm bg-cover bg-center relative" style="background-image: url('${mainImg}')">
+                    ${!mainImg ? '<div class="absolute inset-0 flex items-center justify-center text-gray-500 text-xs">No Image</div>' : ""}
+                    <div class="absolute top-1 left-1 bg-black/60 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">${item.id}</div>
+                </div>
+                <div class="flex-[2] bg-white mt-1.5 sm:mt-2 rounded-sm p-2 text-black text-[10px] sm:text-xs relative flex flex-col justify-center w-full">
+                    <p class="truncate"><strong class="font-bold uppercase pr-1">SN</strong> <span>${item.scientificName || '---'}</span></p>
+                    <p class="truncate"><strong class="font-bold uppercase pr-1">CN</strong> <span>${item.commonName || '---'}</span></p>
+                    <div class="absolute bottom-1 right-1 font-black text-lg rarity-${item.rarity}">${item.rarity}</div>
+                </div>
+            </div>
+            ${isAdmin ? `<button class="absolute -top-2 -right-2 bg-[#736457] hover:bg-[#5C5042] text-white text-[10px] px-2 py-1 rounded shadow z-10" onclick="editMoss('${item.id}')">Edit</button>` : ""}
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// --- MODAL & DATA MANAGEMENT ---
+function openModal() {
+    document.getElementById('mossForm').reset();
+    document.getElementById('editId').value = "";
+    document.getElementById('modalTitle').innerText = "Add New Moss";
+    document.getElementById('deleteBtn').classList.add('hidden');
+    for(let i=0; i<4; i++) clearImage(i);
+    document.getElementById('mossModal').classList.remove('hidden');
+}
+
+function closeModal() {
+    document.getElementById('mossModal').classList.add('hidden');
+}
+
+function editMoss(id) {
+    const item = catalogList.find(m => m.id === id);
+    if(!item) return;
+    
+    document.getElementById('modalTitle').innerText = "Edit Moss: " + id;
+    document.getElementById('editId').value = id;
+    document.getElementById('sn').value = item.scientificName || '';
+    document.getElementById('cn').value = item.commonName || '';
+    document.getElementById('loc').value = item.location || '';
+    document.getElementById('substrate').value = item.substrate || 'Other';
+    document.getElementById('light').value = item.lighting || 1;
+    document.getElementById('humid').value = item.humidity || 1;
+    document.getElementById('rarity').value = item.rarity || 'N';
+    
+    document.getElementById('deleteBtn').classList.remove('hidden');
+
+    const images = item.imagePaths || [null, null, null, null];
+    for(let i=0; i<4; i++) {
+        clearImage(i);
+        if (images[i]) {
+            document.getElementById(`base64Img${i}`).value = images[i];
+            document.getElementById(`previewImg${i}`).innerHTML = `<img src="${images[i]}" class="w-full h-full object-cover">`;
+        }
+    }
+    
+    document.getElementById('mossModal').classList.remove('hidden');
+}
+
+async function deleteMoss() {
+    const id = document.getElementById('editId').value;
+    if (!id) return;
+
+    if (confirm('Are you sure you want to delete ' + id + '?')) {
+        try {
+            // Send an ultra-fast DELETE request specifying only the ID
+            const response = await fetch(`api.php?id=${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                // 1. Filter out the deleted item from your local list
+                const filteredList = catalogList.filter(m => m.id !== id);
+
+                // 2. CONTINUOUS SEQUENTIAL ID RE-ASSIGNMENT on the frontend
+                catalogList = filteredList.map((item, index) => {
+                    item.id = 'M' + String(index + 1).padStart(3, '0');
+                    return item;
+                });
+
+                // 3. Update local/offline fallback storage and refresh views
+                localStorage.setItem('moss_catalog_list', JSON.stringify(catalogList));
+                updateAutocompleteOptions();
+                renderCatalog();
+                closeModal();
+            } else {
+                alert('Server failed to delete the item.');
+            }
+        } catch (e) {
+            console.error(e);
+            alert('Error connecting to server for deletion.');
+        }
+    }
+}
+
+document.getElementById('mossForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const editId = document.getElementById('editId').value;
+    
+    const itemData = {
+        scientificName: document.getElementById('sn').value,
+        commonName: document.getElementById('cn').value,
+        location: document.getElementById('loc').value,
+        substrate: document.getElementById('substrate').value,
+        lighting: document.getElementById('light').value,
+        humidity: document.getElementById('humid').value,
+        rarity: document.getElementById('rarity').value,
+        imagePaths: [
+            document.getElementById('base64Img0').value,
+            document.getElementById('base64Img1').value,
+            document.getElementById('base64Img2').value,
+            document.getElementById('base64Img3').value
+        ]
+    };
+
+    if (editId) {
+        itemData.id = editId;
+    } else {
+        itemData.id = 'M' + String(catalogList.length + 1).padStart(3, '0');
+    }
+
+    // Trigger the fast server save
+    const success = await saveToServer(itemData);
+    if (success) {
+        closeModal();
+    }
+});
+// --- IMAGE HANDLING ---
+function handleImageUpload(event, index) {
+    const file = event.target.files[0];
+    if(!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_SIZE = 1600;
+            let width = img.width;
+            let height = img.height;
+            
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+            
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            const compressedData = canvas.toDataURL('image/jpeg', 0.8);
+            document.getElementById(`base64Img${index}`).value = compressedData;
+            document.getElementById(`previewImg${index}`).innerHTML = `<img src="${compressedData}" class="w-full h-full object-cover">`;
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function clearImage(index) {
+    document.getElementById('base64Img' + index).value = "";
+    document.getElementById('uploadImg' + index).value = "";
+    document.getElementById('previewImg' + index).innerHTML = "";
+}
+
+// Initialize App from server database
+loadCatalogFromServer();
+</script>
+
+</footer>
+</body>
+</html>
+
+
+
+
