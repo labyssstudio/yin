@@ -340,35 +340,29 @@
                             <input type="text" id="loc" list="locOptions" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
                         </div>
                         <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="block text-[#6B5E51] text-xs font-bold">Substrate</label>
-                                <span class="text-[10px] text-[#A39788]">Click to toggle multiple</span>
-                            </div>
-                            <div id="substrate-tag-container" class="flex flex-wrap gap-1.5 p-2 bg-white border border-[#C2B6A6] rounded min-h-[42px]">
-                                <button type="button" class="sub-btn px-2.5 py-1 bg-[#FAF8F5] border border-[#EFEAE2] text-[#4A4036] rounded text-xs font-medium transition-all" data-val="Rock">Rock</button>
-                                <button type="button" class="sub-btn px-2.5 py-1 bg-[#FAF8F5] border border-[#EFEAE2] text-[#4A4036] rounded text-xs font-medium transition-all" data-val="Tree">Tree</button>
-                                <button type="button" class="sub-btn px-2.5 py-1 bg-[#FAF8F5] border border-[#EFEAE2] text-[#4A4036] rounded text-xs font-medium transition-all" data-val="Soil">Soil</button>
-                                <button type="button" class="sub-btn px-2.5 py-1 bg-[#FAF8F5] border border-[#EFEAE2] text-[#4A4036] rounded text-xs font-medium transition-all" data-val="Concrete">Concrete</button>
-                                <button type="button" class="sub-btn px-2.5 py-1 bg-[#FAF8F5] border border-[#EFEAE2] text-[#4A4036] rounded text-xs font-medium transition-all" data-val="Other">Other</button>
-                            </div>
-                            <!-- Hidden input to let your existing JS gather the selected string natively -->
-                            <input type="hidden" id="substrate" name="substrate" value="">
+                            <label class="block text-[#6B5E51] text-xs font-bold mb-1">Substrate</label>
+                    <select id="substrate" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                        <option value="Rock">Rock</option>
+                        <option value="Tree">Tree</option>
+                        <option value="Soil">Soil</option>
+                        <option value="Concrete">Concrete</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+
+                        <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Lighting (1-3)</label><input type="number" id="light" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
+                        <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Humidity (1-3)</label><input type="number" id="humid" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
+                        <div>
+                            <label class="block text-[#6B5E51] text-xs font-bold mb-1">Rarity Level</label>
+                            <select id="rarity" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                                <option value="N">Normal (N)</option>
+                                <option value="R">Rare (R)</option>
+                                <option value="SR">Super Rare (SR)</option>
+                                <option value="UR">Ultra Rare (UR)</option>
+                            </select>
                         </div>
                     </div>
-
-
-                    <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Lighting (1-3)</label><input type="number" id="light" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
-                    <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Humidity (1-3)</label><input type="number" id="humid" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
-                    <div>
-                        <label class="block text-[#6B5E51] text-xs font-bold mb-1">Rarity Level</label>
-                        <select id="rarity" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
-                            <option value="N">Normal (N)</option>
-                            <option value="R">Rare (R)</option>
-                            <option value="SR">Super Rare (SR)</option>
-                            <option value="UR">Ultra Rare (UR)</option>
-                        </select>
-                    </div>
-</div>
 
                     <div class="mt-4 border-t border-[#C2B6A6] pt-4">
                         <p class="text-xs font-bold text-[#8C7A6B] mb-2 tracking-widest uppercase">Image Management Deck</p>
@@ -929,16 +923,13 @@
 
             // --- MODAL & DATA MANAGEMENT ---
             function openModal() {
-    document.getElementById('mossForm').reset();
-    document.getElementById('editld').value = "";
-    document.getElementById('modal Title').innerText = "Add New Moss";
-    document.getElementById('deleteBtn').classList.add('hidden');
-    
-    resetSubstrateTags(); // <-- INSERT THIS LINE HERE TO WIPE SELECTIONS CLEAN
-    
-    for(let i=0; i<4; i++) clearlmage(i);
-    document.getElementById('mossModal').classList.remove('hidden');
-}
+            document.getElementById('mossForm').reset();
+            document.getElementById('editId').value = "";
+            document.getElementById('modalTitle').innerText = "Add New Moss";
+            document.getElementById('deleteBtn').classList.add('hidden');
+            for(let i=0; i<4; i++) clearImage(i);
+            document.getElementById('mossModal').classList.remove('hidden');
+            }
 
             function closeModal() {
             document.getElementById('mossModal').classList.add('hidden');
@@ -1076,41 +1067,7 @@
             document.getElementById(`base64Img${index}`).value = "";
             document.getElementById(`previewImg${index}`).innerHTML = "";
             }
-            // --- MULTI-SELECT SUBSTRATE TAG ENGINE ---
-let selectedSubstrates = [];
 
-document.addEventListener("click", function(e) {
-    if (e.target && e.target.classList.contains('sub-btn')) {
-        e.preventDefault();
-        const btn = e.target;
-        const val = btn.getAttribute('data-val');
-        const hiddenInput = document.getElementById('substrate');
-
-        if (selectedSubstrates.includes(val)) {
-            // Unselect it
-            selectedSubstrates = selectedSubstrates.filter(item => item !== val);
-            btn.classList.remove('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
-            btn.classList.add('bg-[#FAF8F5]', 'text-[#4A4036]', 'border-[#EFEAE2]');
-        } else {
-            // Select it
-            selectedSubstrates.push(val);
-            btn.classList.remove('bg-[#FAF8F5]', 'text-[#4A4036]', 'border-[#EFEAE2]');
-            btn.classList.add('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
-        }
-        hiddenInput.value = selectedSubstrates.join(', ');
-    }
-});
-
-// Helper function to dynamically reset UI tags
-window.resetSubstrateTags = function() {
-    selectedSubstrates = [];
-    const hiddenInput = document.getElementById('substrate');
-    if (hiddenInput) hiddenInput.value = "";
-    document.querySelectorAll('.sub-btn').forEach(btn => {
-        btn.classList.remove('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
-        btn.classList.add('bg-[#FAF8F5]', 'text-[#4A4036]', 'border-[#EFEAE2]');
-    });
-};
             // Initialize App from server database
             loadCatalogFromServer();
         </script>
