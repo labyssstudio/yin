@@ -61,12 +61,6 @@
     })
     .then(data => {
       document.getElementById('header-placeholder').innerHTML = data;
-      
-      // Ensure Admin Login stays explicitly hidden on the main index interface
-      const authBtn = document.getElementById('authBtn');
-      if (authBtn) {
-        authBtn.style.setProperty('display', 'none', 'important');
-      }
     })
     .catch(error => console.error('Header processing error:', error));
 </script>

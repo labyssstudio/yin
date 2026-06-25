@@ -287,27 +287,21 @@
 <body>
 
     <!-- DYNAMIC HEADER INSERTION CONTAINER (Hides itself when inside index.html iframe) -->
-    <div id="header-placeholder"></div>
+<div id="header-placeholder"></div>
 
 <script>
-  // Robust frame-ancestor validation check
-  if (window.self === window.top) {
-    // Opened directly: Fetch and inject header assets
+  const isEmbedded = window.location.search.includes('embed=true');
+
+  if (!isEmbedded) {
     fetch('header.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
-        // Keep admin hidden here too
-        const authBtn = document.getElementById('authBtn');
-        if (authBtn) authBtn.style.setProperty('display', 'none', 'important');
       })
-      .catch(error => console.error('Standalone header load failed:', error));
+      .catch(error => console.error('Error loading standalone header:', error));
   } else {
-    // Inside index.html iframe: Instantly drop container presence to avoid errors
     const container = document.getElementById('header-placeholder');
-    if (container) {
-      container.style.display = 'none';
-    }
+    if (container) container.remove();
   }
 </script>
 
