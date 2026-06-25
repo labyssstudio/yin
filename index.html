@@ -54,26 +54,21 @@
 <div id="header-placeholder"></div>
 
 <script>
-  // Dynamically load the global shared header markup layout
   fetch('header.html')
     .then(response => {
-      if (!response.ok) throw new Error('Failed to load header asset file.');
+      if (!response.ok) throw new Error('Failed to load header file.');
       return response.text();
     })
     .then(data => {
       document.getElementById('header-placeholder').innerHTML = data;
       
-      // Keep Admin Login button state aligned with the main page state
+      // Ensure Admin Login stays explicitly hidden on the main index interface
       const authBtn = document.getElementById('authBtn');
       if (authBtn) {
-        authBtn.classList.remove('hidden');
-        if (isAdmin) {
-          authBtn.innerText = "Logout Admin";
-          authBtn.classList.replace('bg-[#8C7A6B]', 'bg-red-700');
-        }
+        authBtn.style.setProperty('display', 'none', 'important');
       }
     })
-    .catch(error => console.error('Header processing layout adjustment error:', error));
+    .catch(error => console.error('Header processing error:', error));
 </script>
 
     <!-- Page Content Sections -->

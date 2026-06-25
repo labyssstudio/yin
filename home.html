@@ -289,26 +289,27 @@
     <!-- DYNAMIC HEADER INSERTION CONTAINER (Hides itself when inside index.html iframe) -->
     <div id="header-placeholder"></div>
 
-    <script>
-        // Frame matching verification check rule block
-        if (window.self === window.top) {
-        // home.html is opened directly on its own! Load and display the header normally.
-        fetch('header.html')
-        .then(response => {
-        if (!response.ok) throw new Error('Network response error fetching header');
-        return response.text();
-        })
-        .then(data => {
+<script>
+  // Robust frame-ancestor validation check
+  if (window.self === window.top) {
+    // Opened directly: Fetch and inject header assets
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading header outside wrapper shell:', error));
-        } else {
-        // home.html is loading inside the index.html iframe wrapper shell!
-        // Safely force remove the container element space to prevent double layout headers.
-        const container = document.getElementById('header-placeholder');
-        if (container) container.style.display = 'none';
-        }
-    </script>
+        // Keep admin hidden here too
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) authBtn.style.setProperty('display', 'none', 'important');
+      })
+      .catch(error => console.error('Standalone header load failed:', error));
+  } else {
+    // Inside index.html iframe: Instantly drop container presence to avoid errors
+    const container = document.getElementById('header-placeholder');
+    if (container) {
+      container.style.display = 'none';
+    }
+  }
+</script>
 
     <section id="hero">
         <div class="hero-content">
