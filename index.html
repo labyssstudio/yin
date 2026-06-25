@@ -424,36 +424,7 @@
             let currentHumidFilter = 'all';
             let currentRarityFilter = 'all';
 
-            // Array to hold currently selected substrates
-let selectedSubstrates = [];
-
-document.querySelectorAll('.substrate-tag').forEach(tag => {
-    tag.addEventListener('click', function() {
-        const value = this.getAttribute('data-value');
-        
-        if (selectedSubstrates.includes(value)) {
-            // 1. If already selected, REMOVE/CANCEL it
-            selectedSubstrates = selectedSubstrates.filter(item => item !== value);
             
-            // Revert back to original unselected styles
-            this.classList.remove('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
-            this.classList.add('bg-white', 'text-[#4A4036]', 'border-[#C2B6A6]');
-        } else {
-            // 2. If not selected, ADD it
-            selectedSubstrates.push(value);
-            
-            // Apply selected styling (Inverted color palette to highlight it)
-            this.classList.remove('bg-white', 'text-[#4A4036]', 'border-[#C2B6A6]');
-            this.classList.add('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
-        }
-
-        console.log("Active Substrates:", selectedSubstrates); 
-        // 3. Call your catalog filtering function here passing `selectedSubstrates`
-        // updateCatalogFilter(selectedSubstrates); 
-    });
-});
-
-
             // Handles mobile-safe search autocomplete without breaking the main catalog grid
             function handleSearchDropdown(event) {
             const input = document.getElementById('searchInput');
