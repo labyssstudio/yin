@@ -341,14 +341,15 @@
                         </div>
                         <div>
                             <label class="block text-[#6B5E51] text-xs font-bold mb-1">Substrate</label>
-                            <div id="substrate-container" class="flex flex-wrap gap-2">
-                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Rock">Rock</button>
-                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Tree">Tree</button>
-                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Soil">Soil</button>
-                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Concrete">Concrete</button>
-                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Other">Other</button>
-                            </div>
+                            <select id="substrate" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
+                                <option value="Rock">Rock</option>
+                                <option value="Tree">Tree</option>
+                                <option value="Soil">Soil</option>
+                                <option value="Concrete">Concrete</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
+
 
                         <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Lighting (1-3)</label><input type="number" id="light" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
                         <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Humidity (1-3)</label><input type="number" id="humid" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
