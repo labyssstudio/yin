@@ -49,25 +49,28 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 60px 20px; /* Increased padding for better breathing room on scroll */
+            padding: 60px 20px;
             width: 100%;
         }
 
         /* ==========================================================================
-               METHOD 1: EXACT INDEX-MATCHING HEADER STRUCTURE (VERDANA REMOVED FOR NAVBAR)
+               METHOD 1: EXACT INDEX-MATCHING NAV BAR LOOK AND FEEL (NO VERDANA)
                ========================================================================== */
         .main-navbar {
             background-color: var(--nav-bg);
             border-bottom: 1px solid var(--nav-border);
-            padding: 12px 48px; /* px-12 py-3 */
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 32px; /* gap-8 */
-            user-select: none;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            padding: 12px 48px; /* py-3 px-12 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            user-select: none; /* select-none */
             box-sizing: border-box;
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .nav-container-desktop {
+            display: flex;
+            align-items: center;
+            gap: 32px; /* gap-8 */
+            color: var(--nav-text);
         }
 
         .nav-brand {
@@ -75,8 +78,6 @@
             align-items: center;
             gap: 12px; /* gap-3 */
             cursor: pointer;
-            color: var(--nav-text);
-            text-decoration: none;
         }
 
             .nav-brand img {
@@ -96,27 +97,28 @@
             list-style: none;
             margin: 0;
             padding: 0;
-            gap: 32px; /* space-x-8 equivalent */
+            gap: 32px; /* space-x-8 */
+            cursor: pointer;
+            color: var(--nav-muted);
+            font-weight: 500; /* font-medium */
+            font-size: 1rem; /* text-base */
         }
 
-            .nav-menu a {
-                color: var(--nav-muted);
-                font-weight: 500; /* font-medium */
-                text-decoration: none;
-                font-size: 1rem; /* text-base */
+            .nav-menu li {
                 transition: color 0.2s ease;
-                cursor: pointer;
             }
 
-                .nav-menu a:hover {
+                .nav-menu li:hover {
                     color: #3B322A; /* hover:text-[#3B322A] */
                 }
 
-        /* Mobile Navigation Grid layout extracted from index.html */
+        /* Mobile View Breakdown Configuration */
         .mobile-navbar {
             display: none;
             background-color: var(--nav-bg);
             border-bottom: 1px solid var(--nav-border);
+            padding: 0 16px; /* px-4 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
             user-select: none;
             box-sizing: border-box;
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -130,20 +132,23 @@
             .mobile-navbar {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
+                align-items: center;
+                gap: 8px; /* gap-2 */
                 text-align: center;
                 font-size: 0.75rem; /* text-xs */
                 font-weight: 500; /* font-medium */
                 color: var(--nav-muted);
-                align-items: center;
             }
 
             .mobile-nav-item {
                 padding: 12px 0; /* py-3 */
                 cursor: pointer;
-                text-decoration: none;
-                color: inherit;
                 line-height: 1.25;
             }
+
+                .mobile-nav-item:active {
+                    color: #3B322A; /* active:text-[#3B322A] */
+                }
 
                 .mobile-nav-item:not(:first-child) {
                     border-left: 1px solid rgba(194, 182, 166, 0.3); /* border-l border-[#C2B6A6]/30 */
@@ -154,11 +159,8 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                color: var(--nav-text);
-                font-weight: 700;
-                font-size: 11px; /* text-[11px] */
                 padding: 4px 0; /* py-1 */
-                line-height: 1.25;
+                line-height: tight;
             }
 
                 .mobile-brand img {
@@ -167,9 +169,15 @@
                     object-fit: contain;
                     margin-bottom: 2px; /* mb-0.5 */
                 }
+
+                .mobile-brand span {
+                    font-weight: 700;
+                    color: var(--nav-text);
+                    font-size: 11px; /* text-[11px] */
+                }
         }
 
-        /* Hides header completely if inside index.html iframe */
+        /* Hide both menus instantly when parsed within an iframe element */
         .embedded-iframe .main-navbar,
         .embedded-iframe .mobile-navbar {
             display: none !important;
@@ -194,7 +202,7 @@
         }
 
         .hero-title {
-            font-size: clamp(1.8rem, 4vw, 3.0rem); /* Fluid sizing: shrinks on mobile, grows on desktop */
+            font-size: clamp(1.8rem, 4vw, 3.0rem);
             margin-bottom: 20px;
             line-height: 1.3;
         }
@@ -247,8 +255,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 180px; /* Slightly wider to prevent awkward text splitting */
-            color: var(--text-light);
+            width: 180px;
         }
 
             .service-item img {
@@ -285,7 +292,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap; /* Allows logo to drop below text smoothly if screen is extremely narrow */
+            flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 20px;
         }
@@ -331,36 +338,33 @@
         ========================================================================== */
         @media (max-width: 768px) {
             section {
-                padding: 40px 20px; /* Reduced vertical padding so elements fit neatly on screen height */
+                padding: 40px 20px;
             }
 
-            /* --- Section 1 Hero Mobile Image Tuning --- */
             #hero {
-                background-size: 100%; /* Made it bigger to sit elegantly on the bottom of mobile screens */
+                background-size: 100%;
                 background-repeat: no-repeat;
-                background-position: center bottom; /* Places the background image at the absolute bottom */
-                padding-bottom: 140px; /* Increased padding slightly to accommodate the larger background graphic safely */
+                background-position: center bottom;
+                padding-bottom: 140px;
             }
 
             .hero-content {
-                transform: translateY(0); /* Resets the shift so content remains centered */
+                transform: translateY(0);
             }
 
-            /* ONLY hide line breaks inside body descriptions, NOT the icon labels */
             .hero-desc br, .about-text br, .contact-intro br {
                 display: none;
             }
 
-            /* --- Forces Section 2 Icons into a crisp 2x2 Grid Layout --- */
             #about h2 {
                 margin-bottom: 30px;
             }
 
             .services-grid {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr); /* Forms exactly 2 side-by-side columns */
-                gap: 35px 20px; /* Balanced height and width gap between grid cards */
-                max-width: 320px; /* Hugs everything comfortably to match your mobile design portrait */
+                grid-template-columns: repeat(2, 1fr);
+                gap: 35px 20px;
+                max-width: 320px;
                 margin: 0 auto 40px auto;
             }
 
@@ -369,33 +373,31 @@
             }
 
                 .service-item img {
-                    width: 75px; /* Scales down icon sizing nicely to avoid screen overcrowding */
+                    width: 75px;
                     height: 75px;
                     margin-bottom: 12px;
                 }
 
                 .service-item span {
-                    font-size: 1.1rem; /* Clean, perfectly proportioned text size for mobile layouts */
+                    font-size: 1.1rem;
                 }
 
-                    /* Explicitly ensures the <br> tags inside the service item titles remain active */
                     .service-item span br {
                         display: inline !important;
                     }
 
-            /* --- Section 3 Contact Layout Mobile Fixing --- */
             .contact-methods {
-                align-items: flex-start; /* Keeps items left-aligned relative to each other */
-                width: fit-content; /* Shrinks the container wrapper to fit the longest line */
-                margin: 0 auto; /* Centers the entire block on the mobile screen */
-                gap: 20px; /* Slightly tighter spacing for vertical mobile layout */
+                align-items: flex-start;
+                width: fit-content;
+                margin: 0 auto;
+                gap: 20px;
             }
 
             .contact-item {
-                width: auto; /* Restores natural width instead of forcing full screen */
-                justify-content: flex-start; /* Ensures content flows naturally left-to-right */
-                font-size: 1.1rem; /* Slightly smaller, clean text size for mobile screens */
-                gap: 15px; /* Tighter gap between icon and text for mobile */
+                width: auto;
+                justify-content: flex-start;
+                font-size: 1.1rem;
+                gap: 15px;
             }
 
             a.contact-item {
@@ -414,30 +416,49 @@
         if (window.self !== window.top) {
         document.documentElement.classList.add('embedded-iframe');
         }
+
+        // Simulates the exact routing behavior of index.html when viewed standalone
+        function handleNav(target) {
+        if (target === '#home') {
+        document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === '#contact') {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        } else if (target === '#about' || target === '#catalog') {
+        window.location.href = 'https://labyssstudio.com/' + target;
+        }
+        }
     </script>
 </head>
 <body>
 
     <nav class="main-navbar">
-        <a href="#hero" class="nav-brand">
-            <img src="icon/labyss-studio-las.png" alt="Labyss Studio">
-            <span>Labyss Studio</span>
-        </a>
-        <ul class="nav-menu">
-            <li><a href="https://labyssstudio.com/#about" target="_top">About Moss</a></li>
-            <li><a href="https://labyssstudio.com/#catalog" target="_top">Moss Catalog</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="nav-container-desktop">
+            <div class="nav-brand" onclick="handleNav('#home')">
+                <img src="icon/labyss-studio-las.png" alt="Labyss Studio">
+                <span>Labyss Studio</span>
+            </div>
+            <ul class="nav-menu">
+                <li onclick="handleNav('#about')">About Moss</li>
+                <li onclick="handleNav('#catalog')">Moss Catalog</li>
+                <li onclick="handleNav('#contact')">Contact</li>
+            </ul>
+        </div>
     </nav>
 
     <nav class="mobile-navbar">
-        <a href="#hero" class="mobile-nav-item mobile-brand">
+        <div class="mobile-nav-item mobile-brand" onclick="handleNav('#home')">
             <img src="icon/labyss-studio-las.png" alt="Labyss Studio">
             <span>Labyss<br>Studio</span>
-        </a>
-        <a href="https://labyssstudio.com/#about" target="_top" class="mobile-nav-item">About<br>Moss</a>
-        <a href="https://labyssstudio.com/#catalog" target="_top" class="mobile-nav-item">Moss<br>Catalog</a>
-        <a href="#contact" class="mobile-nav-item">Contact</a>
+        </div>
+        <div onclick="handleNav('#about')" class="mobile-nav-item">
+            About<br>Moss
+        </div>
+        <div onclick="handleNav('#catalog')" class="mobile-nav-item">
+            Moss<br>Catalog
+        </div>
+        <div onclick="handleNav('#contact')" class="mobile-nav-item">
+            Contact
+        </div>
     </nav>
 
     <section id="hero">
