@@ -50,48 +50,31 @@
     <datalist id="cnOptions"></datalist>
     <datalist id="locOptions"></datalist>
 
-    <nav class="bg-[#DCD4C7] border-b border-[#C2B6A6] px-4 md:px-12 py-3 shadow-sm select-none">
-        <div>
+<!-- DYNAMIC HEADER INSERTION CONTAINER -->
+<div id="header-placeholder"></div>
 
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center gap-8 text-[#4A4036]">
-                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToPath('#home'); try { document.getElementById('homeIframe').contentWindow.location.replace('home.html#hero'); } catch(e) { document.getElementById('homeIframe').src='home.html#hero'; }">
-                    <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-12 w-12 object-contain">
-                    <span class="font-bold text-lg tracking-wide">Labyss Studio</span>
-                </div>
-
-                <ul class="flex space-x-8 cursor-pointer text-[#6B5E51] font-medium text-base">
-                    <li onclick="navigateToPath('#about')" class="hover:text-[#3B322A] transition-colors">About Moss</li>
-                    <li onclick="navigateToPath('#catalog')" class="hover:text-[#3B322A] transition-colors">Moss Catalog</li>
-                    <li onclick="navigateToPath('#home'); try { document.getElementById('homeIframe').contentWindow.location.replace('home.html#contact'); } catch(e) { document.getElementById('homeIframe').src='home.html#contact'; }" class="hover:text-[#3B322A] transition-colors">Contact</li>
-                </ul>
-
-                <button id="authBtn" onclick="toggleAdmin()" class="hidden text-xs bg-[#8C7A6B] hover:bg-[#736457] px-3 py-1.5 rounded text-white transition-colors shadow-sm ml-auto">
-                    Admin Login
-                </button>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div class="md:hidden grid grid-cols-4 items-center gap-2 text-center text-xs font-medium text-[#6B5E51]">
-                <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigateToPath('#home'); try { document.getElementById('homeIframe').contentWindow.location.replace('home.html#hero'); } catch(e) { document.getElementById('homeIframe').src='home.html#hero'; }">
-                    <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-9 w-9 object-contain mb-0.5">
-                    <span class="font-bold text-[#4A4036] text-[11px]">Labyss<br>Studio</span>
-                </div>
-
-                <div onclick="navigateToPath('#about')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30">
-                    About<br>Moss
-                </div>
-
-                <div onclick="navigateToPath('#catalog')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
-                    Moss<br>Catalog
-                </div>
-
-                <div onclick="navigateToPath('#home'); try { document.getElementById('homeIframe').contentWindow.location.replace('home.html#contact'); } catch(e) { document.getElementById('homeIframe').src='home.html#contact'; }" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
-                    Contact
-                </div>
-            </div>
-        </div>
-    </nav>
+<script>
+  // Dynamically load the global shared header markup layout
+  fetch('header.html')
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to load header asset file.');
+      return response.text();
+    })
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+      
+      // Keep Admin Login button state aligned with the main page state
+      const authBtn = document.getElementById('authBtn');
+      if (authBtn) {
+        authBtn.classList.remove('hidden');
+        if (isAdmin) {
+          authBtn.innerText = "Logout Admin";
+          authBtn.classList.replace('bg-[#8C7A6B]', 'bg-red-700');
+        }
+      }
+    })
+    .catch(error => console.error('Header processing layout adjustment error:', error));
+</script>
 
     <!-- Page Content Sections -->
     <div id="home" class="page active w-full">
