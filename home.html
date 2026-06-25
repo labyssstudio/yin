@@ -5,285 +5,437 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LABYSS STUDIO | Malaysia's Moss Design & Research Studio</title>
     <style>
-             :root {
-                 --bg-light: #EBE5DC;
-                 --text-dark: #413936;
-                 --bg-dark: #413936;
-                 --text-light: #EBE5DC;
-                 --btn-bg: #8C7A6B;
-                 --btn-hover: #736457;
-             }
+        :root {
+            --bg-light: #EBE5DC;
+            --text-dark: #413936;
+            --bg-dark: #413936;
+            --text-light: #EBE5DC;
+            --btn-bg: #8C7A6B;
+            --btn-hover: #736457;
+            --nav-bg: #DCD4C7;
+            --nav-border: #C2B6A6;
+            --nav-text: #4A4036;
+            --nav-muted: #6B5E51;
+        }
 
-             body, html {
-                 margin: 0;
-                 padding: 0;
-                 font-family: Verdana, sans-serif;
-                 scroll-behavior: smooth;
-                 background-color: var(--bg-light);
-                 color: var(--text-dark);
-             }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
 
-             h1, h2, h3, p {
-                 margin-top: 0;
-             }
+        h1, h2, h3, p {
+            margin-top: 0;
+        }
 
-             a.contact-item {
-                 text-decoration: none;
-                 color: inherit;
-             }
+        a.contact-item {
+            text-decoration: none;
+            color: inherit;
+        }
 
-                 a.contact-item:hover {
-                     opacity: 0.8;
-                     transition: opacity 0.2s ease;
-                 }
+            a.contact-item:hover {
+                opacity: 0.8;
+                transition: opacity 0.2s ease;
+            }
 
-             /* Global Section Setup - min-height ensures content never gets cut off on mobile */
-             section {
-                 min-height: 100vh;
-                 box-sizing: border-box;
-                 display: flex;
-                 flex-direction: column;
-                 justify-content: center;
-                 align-items: center;
-                 padding: 60px 20px; /* Increased padding for better breathing room on scroll */
-                 width: 100%;
-             }
+        /* Global Section Setup - min-height ensures content never gets cut off on mobile */
+        section {
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px; /* Increased padding for better breathing room on scroll */
+            width: 100%;
+        }
 
-             /* SECTION 1: Hero Banner */
-             #hero {
-                 background-color: var(--bg-light);
-                 background-image: url('icon/background image 1page.png');
-                 background-size: cover;
-                 background-position: center;
-                 color: var(--text-dark);
-                 text-align: center;
-             }
+        /* ==========================================================================
+               METHOD 1: NAVIGATION STYLING & IFRAME HIDING CONTROL
+               ========================================================================== */
+        .main-navbar {
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--nav-border);
+            padding: 12px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 32px;
+            user-select: none;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+        }
 
-             .hero-content {
-                 transform: translateY(-5vh);
-                 display: flex;
-                 flex-direction: column;
-                 align-items: center;
-                 max-width: 900px;
-             }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            color: var(--nav-text);
+            text-decoration: none;
+        }
 
-             .hero-title {
-                 font-size: clamp(1.8rem, 4vw, 3.0rem); /* Fluid sizing: shrinks on mobile, grows on desktop */
-                 margin-bottom: 20px;
-                 line-height: 1.3;
-             }
+            .nav-brand img {
+                height: 48px;
+                width: 48px;
+                object-fit: contain;
+            }
 
-             .hero-desc {
-                 font-size: clamp(1.0rem, 1.5vw, 1.2rem);
-                 line-height: 1.8;
-                 letter-spacing: 0.03em;
-                 margin-bottom: 45px;
-             }
+            .nav-brand span {
+                font-weight: bold;
+                font-size: 1.125rem;
+                letter-spacing: 0.025em;
+            }
 
-             .btn {
-                 display: inline-block;
-                 padding: 15px 35px;
-                 background-color: var(--btn-bg);
-                 color: var(--bg-light);
-                 text-decoration: none;
-                 border-radius: 30px;
-                 font-weight: bold;
-                 font-size: 1.1rem;
-                 transition: background-color 0.3s ease;
-             }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 32px;
+        }
 
-                 .btn:hover {
-                     background-color: var(--btn-hover);
-                 }
+            .nav-menu a {
+                color: var(--nav-muted);
+                font-weight: 500;
+                text-decoration: none;
+                font-size: 1rem;
+                transition: color 0.2s ease;
+                cursor: pointer;
+            }
 
-             /* SECTION 2: About & Services */
-             #about {
-                 background-color: var(--bg-dark);
-                 color: var(--text-light);
-                 text-align: center;
-             }
+                .nav-menu a:hover {
+                    color: #3B322A;
+                }
 
-                 #about h2 {
-                     font-size: clamp(1.8rem, 4vw, 3.0rem);
-                     margin-bottom: 50px;
-                 }
+        /* Mobile Navigation Grid matching your index layout */
+        .mobile-navbar {
+            display: none;
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--nav-border);
+            user-select: none;
+            box-sizing: border-box;
+        }
 
-             .services-grid {
-                 display: flex;
-                 justify-content: center;
-                 flex-wrap: wrap;
-                 gap: 40px;
-                 max-width: 1200px;
-                 margin: 0 auto 60px auto;
-             }
+        @media (max-width: 768px) {
+            .main-navbar {
+                display: none;
+            }
 
-             .service-item {
-                 display: flex;
-                 flex-direction: column;
-                 align-items: center;
-                 width: 180px; /* Slightly wider to prevent awkward text splitting */
-                 color: var(--text-light);
-             }
+            .mobile-navbar {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                text-align: center;
+                font-size: 0.7rem;
+                font-weight: 500;
+                color: var(--nav-muted);
+                align-items: center;
+            }
 
-                 .service-item img {
-                     width: 180px;
-                     height: 180px;
-                     margin-bottom: 20px;
-                 }
+            .mobile-nav-item {
+                padding: 12px 0;
+                cursor: pointer;
+                text-decoration: none;
+                color: inherit;
+                line-height: 1.3;
+            }
 
-                 .service-item span {
-                     font-size: clamp(1.2rem, 2vw, 1.6rem);
-                     text-align: center;
-                     line-height: 1.4;
-                 }
+                .mobile-nav-item:not(:first-child) {
+                    border-left: 1px solid rgba(194, 182, 166, 0.3);
+                }
 
-             .about-text {
-                 max-width: 1000px;
-                 margin: 0 auto;
-                 line-height: 1.8;
-             }
+            .mobile-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--nav-text);
+                font-weight: bold;
+                font-size: 11px;
+                padding: 4px 0;
+            }
 
-                 .about-text p {
-                     font-size: clamp(1.0rem, 1.5vw, 1.2rem);
-                 }
+                .mobile-brand img {
+                    height: 36px;
+                    width: 36px;
+                    object-fit: contain;
+                    margin-bottom: 2px;
+                }
+        }
 
-             /* SECTION 3: Contact */
-             #contact {
-                 background-color: var(--bg-light);
-                 color: var(--text-dark);
-                 text-align: center;
-             }
+        /* THE MAGIC LINK: If trapped inside an iframe, hide both headers entirely */
+        .embedded-iframe .main-navbar,
+        .embedded-iframe .mobile-navbar {
+            display: none !important;
+        }
 
-             .contact-title {
-                 font-size: clamp(1.8rem, 4vw, 3.0rem);
-                 display: flex;
-                 align-items: center;
-                 justify-content: center;
-                 flex-wrap: wrap; /* Allows logo to drop below text smoothly if screen is extremely narrow */
-                 gap: 15px;
-                 margin-bottom: 20px;
-             }
+        /* SECTION 1: Hero Banner */
+        #hero {
+            background-color: var(--bg-light);
+            background-image: url('icon/background image 1page.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-dark);
+            text-align: center;
+        }
 
-             .inline-logo {
-                 height: 1.2em;
-                 width: auto;
-             }
+        .hero-content {
+            transform: translateY(-5vh);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+        }
 
-             .contact-intro {
-                 max-width: 950px;
-                 margin: 0 auto 45px auto;
-                 line-height: 1.6;
-             }
+        .hero-title {
+            font-size: clamp(1.8rem, 4vw, 3.0rem); /* Fluid sizing: shrinks on mobile, grows on desktop */
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
 
-                 .contact-intro p {
-                     font-size: clamp(1.0rem, 1.5vw, 1.2rem);
-                 }
+        .hero-desc {
+            font-size: clamp(1.0rem, 1.5vw, 1.2rem);
+            line-height: 1.8;
+            letter-spacing: 0.03em;
+            margin-bottom: 45px;
+        }
 
-             .contact-methods {
-                 display: flex;
-                 flex-direction: column;
-                 align-items: flex-start;
-                 margin: 0 auto;
-                 width: fit-content;
-                 gap: 25px;
-             }
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background-color: var(--btn-bg);
+            color: var(--bg-light);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
 
-             .contact-item {
-                 display: flex;
-                 align-items: center;
-                 gap: 20px;
-                 font-size: clamp(1.1rem, 2vw, 1.5rem);
-             }
+            .btn:hover {
+                background-color: var(--btn-hover);
+            }
 
-                 .contact-item img {
-                     width: 45px;
-                     height: 45px;
-                 }
+        /* SECTION 2: About & Services */
+        #about {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            text-align: center;
+        }
 
-             /* ==========================================================================
+            #about h2 {
+                font-size: clamp(1.8rem, 4vw, 3.0rem);
+                margin-bottom: 50px;
+            }
+
+        .services-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+        }
+
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 180px; /* Slightly wider to prevent awkward text splitting */
+            color: var(--text-light);
+        }
+
+            .service-item img {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 20px;
+            }
+
+            .service-item span {
+                font-size: clamp(1.2rem, 2vw, 1.6rem);
+                text-align: center;
+                line-height: 1.4;
+            }
+
+        .about-text {
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+            .about-text p {
+                font-size: clamp(1.0rem, 1.5vw, 1.2rem);
+            }
+
+        /* SECTION 3: Contact */
+        #contact {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: clamp(1.8rem, 4vw, 3.0rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap; /* Allows logo to drop below text smoothly if screen is extremely narrow */
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .inline-logo {
+            height: 1.2em;
+            width: auto;
+        }
+
+        .contact-intro {
+            max-width: 950px;
+            margin: 0 auto 45px auto;
+            line-height: 1.6;
+        }
+
+            .contact-intro p {
+                font-size: clamp(1.0rem, 1.5vw, 1.2rem);
+            }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0 auto;
+            width: fit-content;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+        }
+
+            .contact-item img {
+                width: 45px;
+                height: 45px;
+            }
+
+        /* ==========================================================================
         MEDIA QUERY: Rules specifically optimized for Mobile Devices (768px and down)
         ========================================================================== */
-             @media (max-width: 768px) {
-                 section {
-                     padding: 40px 20px; /* Reduced vertical padding so elements fit neatly on screen height */
-                 }
+        @media (max-width: 768px) {
+            section {
+                padding: 40px 20px; /* Reduced vertical padding so elements fit neatly on screen height */
+            }
 
-                 /* --- Section 1 Hero Mobile Image Tuning --- */
-                 #hero {
-                     background-size: 100%; /* Made it bigger to sit elegantly on the bottom of mobile screens */
-                     background-repeat: no-repeat;
-                     background-position: center bottom; /* Places the background image at the absolute bottom */
-                     padding-bottom: 140px; /* Increased padding slightly to accommodate the larger background graphic safely */
-                 }
+            /* --- Section 1 Hero Mobile Image Tuning --- */
+            #hero {
+                background-size: 100%; /* Made it bigger to sit elegantly on the bottom of mobile screens */
+                background-repeat: no-repeat;
+                background-position: center bottom; /* Places the background image at the absolute bottom */
+                padding-bottom: 140px; /* Increased padding slightly to accommodate the larger background graphic safely */
+            }
 
-                 .hero-content {
-                     transform: translateY(0); /* Resets the shift so content remains centered */
-                 }
+            .hero-content {
+                transform: translateY(0); /* Resets the shift so content remains centered */
+            }
 
-                 /* ONLY hide line breaks inside body descriptions, NOT the icon labels */
-                 .hero-desc br, .about-text br, .contact-intro br {
-                     display: none;
-                 }
+            /* ONLY hide line breaks inside body descriptions, NOT the icon labels */
+            .hero-desc br, .about-text br, .contact-intro br {
+                display: none;
+            }
 
-                 /* --- Forces Section 2 Icons into a crisp 2x2 Grid Layout --- */
-                 #about h2 {
-                     margin-bottom: 30px;
-                 }
+            /* --- Forces Section 2 Icons into a crisp 2x2 Grid Layout --- */
+            #about h2 {
+                margin-bottom: 30px;
+            }
 
-                 .services-grid {
-                     display: grid;
-                     grid-template-columns: repeat(2, 1fr); /* Forms exactly 2 side-by-side columns */
-                     gap: 35px 20px; /* Balanced height and width gap between grid cards */
-                     max-width: 320px; /* Hugs everything comfortably to match your mobile design portrait */
-                     margin: 0 auto 40px auto;
-                 }
+            .services-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr); /* Forms exactly 2 side-by-side columns */
+                gap: 35px 20px; /* Balanced height and width gap between grid cards */
+                max-width: 320px; /* Hugs everything comfortably to match your mobile design portrait */
+                margin: 0 auto 40px auto;
+            }
 
-                 .service-item {
-                     width: 100%;
-                 }
+            .service-item {
+                width: 100%;
+            }
 
-                     .service-item img {
-                         width: 75px; /* Scales down icon sizing nicely to avoid screen overcrowding */
-                         height: 75px;
-                         margin-bottom: 12px;
-                     }
+                .service-item img {
+                    width: 75px; /* Scales down icon sizing nicely to avoid screen overcrowding */
+                    height: 75px;
+                    margin-bottom: 12px;
+                }
 
-                     .service-item span {
-                         font-size: 1.1rem; /* Clean, perfectly proportioned text size for mobile layouts */
-                     }
+                .service-item span {
+                    font-size: 1.1rem; /* Clean, perfectly proportioned text size for mobile layouts */
+                }
 
-                         /* Explicitly ensures the <br> tags inside the service item titles remain active */
-                         .service-item span br {
-                             display: inline !important;
-                         }
+                    /* Explicitly ensures the <br> tags inside the service item titles remain active */
+                    .service-item span br {
+                        display: inline !important;
+                    }
 
-                 /* --- Section 3 Contact Layout Mobile Fixing --- */
-                 .contact-methods {
-                     align-items: flex-start; /* Keeps items left-aligned relative to each other */
-                     width: fit-content; /* Shrinks the container wrapper to fit the longest line */
-                     margin: 0 auto; /* Centers the entire block on the mobile screen */
-                     gap: 20px; /* Slightly tighter spacing for vertical mobile layout */
-                 }
+            /* --- Section 3 Contact Layout Mobile Fixing --- */
+            .contact-methods {
+                align-items: flex-start; /* Keeps items left-aligned relative to each other */
+                width: fit-content; /* Shrinks the container wrapper to fit the longest line */
+                margin: 0 auto; /* Centers the entire block on the mobile screen */
+                gap: 20px; /* Slightly tighter spacing for vertical mobile layout */
+            }
 
-                 .contact-item {
-                     width: auto; /* Restores natural width instead of forcing full screen */
-                     justify-content: flex-start; /* Ensures content flows naturally left-to-right */
-                     font-size: 1.1rem; /* Slightly smaller, clean text size for mobile screens */
-                     gap: 15px; /* Tighter gap between icon and text for mobile */
-                 }
+            .contact-item {
+                width: auto; /* Restores natural width instead of forcing full screen */
+                justify-content: flex-start; /* Ensures content flows naturally left-to-right */
+                font-size: 1.1rem; /* Slightly smaller, clean text size for mobile screens */
+                gap: 15px; /* Tighter gap between icon and text for mobile */
+            }
 
-                 a.contact-item {
-                     text-decoration: none;
-                     color: inherit;
-                 }
+            a.contact-item {
+                text-decoration: none;
+                color: inherit;
+            }
 
-                     a.contact-item:hover {
-                         opacity: 0.8;
-                         transition: opacity 0.2s ease;
-                     }
+                a.contact-item:hover {
+                    opacity: 0.8;
+                    transition: opacity 0.2s ease;
+                }
+        }
     </style>
+
+    <script>
+        if (window.self !== window.top) {
+        document.documentElement.classList.add('embedded-iframe');
+        }
+    </script>
 </head>
 <body>
+
+    <nav class="main-navbar">
+        <a href="#hero" class="nav-brand">
+            <img src="icon/labyss-studio-las.png" alt="Labyss Studio">
+            <span>Labyss Studio</span>
+        </a>
+        <ul class="nav-menu">
+            <li><a href="https://labyssstudio.com/#about" target="_top">About Moss</a></li>
+            <li><a href="https://labyssstudio.com/#catalog" target="_top">Moss Catalog</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <nav class="mobile-navbar">
+        <a href="#hero" class="mobile-nav-item mobile-brand">
+            <img src="icon/labyss-studio-las.png" alt="Labyss Studio">
+            <span>Labyss<br>Studio</span>
+        </a>
+        <a href="https://labyssstudio.com/#about" target="_top" class="mobile-nav-item">About<br>Moss</a>
+        <a href="https://labyssstudio.com/#catalog" target="_top" class="mobile-nav-item">Moss<br>Catalog</a>
+        <a href="#contact" class="mobile-nav-item">Contact</a>
+    </nav>
 
     <section id="hero">
         <div class="hero-content">
@@ -349,4 +501,3 @@
 
 </body>
 </html>
-
