@@ -341,13 +341,13 @@
                         </div>
                         <div>
                             <label class="block text-[#6B5E51] text-xs font-bold mb-1">Substrate</label>
-                            <select id="substrate" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]">
-                                <option value="Rock">Rock</option>
-                                <option value="Tree">Tree</option>
-                                <option value="Soil">Soil</option>
-                                <option value="Concrete">Concrete</option>
-                                <option value="Other">Other</option>
-                            </select>
+                            <div id="substrate-container" class="flex flex-wrap gap-2">
+                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Rock">Rock</button>
+                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Tree">Tree</button>
+                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Soil">Soil</button>
+                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Concrete">Concrete</button>
+                                <button type="button" class="substrate-tag px-3 py-1.5 bg-white border border-[#C2B6A6] text-[#4A4036] rounded text-sm transition-all" data-value="Other">Other</button>
+                            </div>
                         </div>
 
                         <div><label class="block text-[#6B5E51] text-xs font-bold mb-1">Lighting (1-3)</label><input type="number" id="light" min="1" max="3" value="1" class="w-full p-2 bg-white border border-[#C2B6A6] rounded text-[#4A4036]"></div>
@@ -423,6 +423,35 @@
             let currentLightFilter = 'all';
             let currentHumidFilter = 'all';
             let currentRarityFilter = 'all';
+
+            // Array to hold currently selected substrates
+let selectedSubstrates = [];
+
+document.querySelectorAll('.substrate-tag').forEach(tag => {
+    tag.addEventListener('click', function() {
+        const value = this.getAttribute('data-value');
+        
+        if (selectedSubstrates.includes(value)) {
+            // 1. If already selected, REMOVE/CANCEL it
+            selectedSubstrates = selectedSubstrates.filter(item => item !== value);
+            
+            // Revert back to original unselected styles
+            this.classList.remove('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
+            this.classList.add('bg-white', 'text-[#4A4036]', 'border-[#C2B6A6]');
+        } else {
+            // 2. If not selected, ADD it
+            selectedSubstrates.push(value);
+            
+            // Apply selected styling (Inverted color palette to highlight it)
+            this.classList.remove('bg-white', 'text-[#4A4036]', 'border-[#C2B6A6]');
+            this.classList.add('bg-[#6B5E51]', 'text-white', 'border-[#6B5E51]');
+        }
+
+        console.log("Active Substrates:", selectedSubstrates); 
+        // 3. Call your catalog filtering function here passing `selectedSubstrates`
+        // updateCatalogFilter(selectedSubstrates); 
+    });
+});
 
 
             // Handles mobile-safe search autocomplete without breaking the main catalog grid
