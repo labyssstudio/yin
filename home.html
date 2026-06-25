@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LABYSS STUDIO | Malaysia's Moss Design & Research Studio</title>
+
+    <!-- TAILWIND CSS CDN (Fixes unstyled raw elements in standalone header view) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         :root {
             --bg-light: #EBE5DC;
@@ -287,23 +291,23 @@
 <body>
 
     <!-- DYNAMIC HEADER INSERTION CONTAINER (Hides itself when inside index.html iframe) -->
-<div id="header-placeholder"></div>
+    <div id="header-placeholder"></div>
 
-<script>
-  const isEmbedded = window.location.search.includes('embed=true');
+    <script>
+        const isEmbedded = window.location.search.includes('embed=true');
 
-  if (!isEmbedded) {
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
+        if (!isEmbedded) {
+        fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading standalone header:', error));
-  } else {
-    const container = document.getElementById('header-placeholder');
-    if (container) container.remove();
-  }
-</script>
+        })
+        .catch(error => console.error('Error loading standalone header:', error));
+        } else {
+        const container = document.getElementById('header-placeholder');
+        if (container) container.remove();
+        }
+    </script>
 
     <section id="hero">
         <div class="hero-content">
@@ -366,6 +370,18 @@
             </a>
         </div>
     </section>
+
+    <!-- NAVIGATION TRACKING FALLBACK (Ensures header clicks function when viewed directly) -->
+    <script>
+        if (typeof navigateToPath !== 'function') {
+        window.navigateToPath = function(hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        }
+        };
+        }
+    </script>
 
 </body>
 </html>
