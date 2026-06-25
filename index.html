@@ -670,30 +670,28 @@
 
             // Intercept window URL strings on load and menu clicks
             function handleRouteProcess() {
-            const hash = window.location.hash || '#home';
-            const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash || '#home';
+    const urlParams = new URLSearchParams(window.location.search);
 
-            // Check if the exclusive secret edit token is present in the URL
-            if (urlParams.get('token') === 'labyss-secure-edit-2026') {
-            isAdmin = true; // Instantly bypasses the login prompt
+    if (urlParams.get('token') === 'labyss-secure-edit-2026') {
+        isAdmin = true; 
+        // 👇 ADD THIS LINE TO AUTOMATICALLY UNHIDE THE ADD BUTTON WITH THE TOKEN
+        document.getElementById('addBtn').classList.remove('hidden'); 
+    }
 
-            // Ensure UI buttons update to administrative states
-            const authBtn = document.getElementById('authBtn');
-            if (authBtn) authBtn.innerText = 'Admin Logout';
+    const authBtn = document.getElementById('authBtn');
+    if (authBtn && isAdmin) authBtn.innerText = 'Admin Logout'; // (Cleaned typo here)
 
-            // Show administrative actions across your application lists
-            document.querySelectorAll('.admin-action').forEach(el => el.classList.remove('hidden'));
-            }
+    document.querySelectorAll('.admin-action').forEach(el => el.classList.remove('hidden'));
 
-            // Direct user to correct tab view
-            if (hash === '#about') {
-            showPage('about');
-            } else if (hash === '#catalog') {
-            showPage('catalog');
-            } else {
-            showPage('home');
-            }
-            }
+    if (hash === '#about') {
+        showPage('about');
+    } else if (hash === '#catalog') {
+        showPage('catalog');
+    } else {
+        showPage('home');
+    }
+}
 
             // Navigation handling function for your header links
             function navigateToPath(targetHash) {
