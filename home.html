@@ -54,7 +54,7 @@
         }
 
         /* ==========================================================================
-               METHOD 1: EXACT INDEX-MATCHING NAV BAR LOOK AND FEEL (NO VERDANA)
+               METHOD 1: NAVIGATION BAR WITH PERFECT TEXT VERTICAL ALIGNMENT
                ========================================================================== */
         .main-navbar {
             background-color: var(--nav-bg);
@@ -90,6 +90,7 @@
                 font-weight: 700; /* font-bold */
                 font-size: 1.125rem; /* text-lg */
                 letter-spacing: 0.025em; /* tracking-wide */
+                line-height: 1; /* Tight layout line-height */
             }
 
         .nav-menu {
@@ -102,10 +103,13 @@
             color: var(--nav-muted);
             font-weight: 500; /* font-medium */
             font-size: 1rem; /* text-base */
+            /* Nudges the desktop links up 2px to align perfectly with branding center point */
+            transform: translateY(-2px);
         }
 
             .nav-menu li {
                 transition: color 0.2s ease;
+                line-height: 1;
             }
 
                 .nav-menu li:hover {
@@ -144,6 +148,8 @@
                 padding: 12px 0; /* py-3 */
                 cursor: pointer;
                 line-height: 1.25;
+                /* Optional: Also applies a micro adjustment upward on mobile headers to offset descenders */
+                transform: translateY(-1px);
             }
 
                 .mobile-nav-item:active {
@@ -161,6 +167,7 @@
                 justify-content: center;
                 padding: 4px 0; /* py-1 */
                 line-height: tight;
+                transform: none; /* Keeps base container centered on mobile */
             }
 
                 .mobile-brand img {
@@ -177,7 +184,7 @@
                 }
         }
 
-        /* Hide both menus instantly when parsed within an iframe element */
+        /* Hide menu if loaded in index.html iframe */
         .embedded-iframe .main-navbar,
         .embedded-iframe .mobile-navbar {
             display: none !important;
@@ -417,7 +424,6 @@
         document.documentElement.classList.add('embedded-iframe');
         }
 
-        // Simulates the exact routing behavior of index.html when viewed standalone
         function handleNav(target) {
         if (target === '#home') {
         document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
