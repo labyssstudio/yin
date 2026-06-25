@@ -290,24 +290,27 @@
 </head>
 <body>
 
-    <!-- DYNAMIC HEADER INSERTION CONTAINER (Hides itself when inside index.html iframe) -->
-    <div id="header-placeholder"></div>
+    <!-- DYNAMIC HEADER INSERTION CONTAINER -->
+<div id="header-placeholder"></div>
 
-    <script>
-        const isEmbedded = window.location.search.includes('embed=true');
+<script>
+  // Robust check: Is this page currently trapped inside an iframe?
+  const isInsideIframe = window.self !== window.top;
 
-        if (!isEmbedded) {
-        fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
+  if (isInsideIframe) {
+    // If inside index.html, completely delete the container so it never duplicates
+    const container = document.getElementById('header-placeholder');
+    if (container) container.remove();
+  } else {
+    // Only fetch and render the header if home.html is opened directly by itself
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
         document.getElementById('header-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading standalone header:', error));
-        } else {
-        const container = document.getElementById('header-placeholder');
-        if (container) container.remove();
-        }
-    </script>
+      })
+      .catch(error => console.error('Error loading standalone header:', error));
+  }
+</script>
 
     <section id="hero">
         <div class="hero-content">

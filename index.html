@@ -443,6 +443,18 @@
             }
             });
 
+            function navigateToPath(hash) {
+        // 1. If the user clicks a hash meant for index.html sections (like #about or #catalog)
+        if (hash === '#about' || hash === '#catalog') {
+          const element = document.querySelector(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        } 
+        // 2. If it's managing active states, handle it smoothly here
+        console.log("Navigating main page to:", hash);
+      }
+
             // Toggles the drawer open/closed and rotates the icon chevron arrow
             function toggleFilterPanel() {
             const panel = document.getElementById('filterPanel');
