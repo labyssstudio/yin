@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="YBmcTj-8VD1HeMK8kHarrFe7Faqb_2GiOHwjQhRErNM" />
-    
+
     <meta property="og:site_name" content="Labyss Studio" />
     <meta property="og:type" content="website" />
     <meta name="application-name" content="Labyss Studio">
@@ -12,13 +12,13 @@
     <meta property="og:url" content="https://labyssstudio.com" />
 
     <script type="application/ld+json">
-	{
-	  "@context": "https://schema.org",
-	  "@type": "Organization",
-	  "name": "Labyss Studio",
-	  "url": "https://labyssstudio.com",
- 	 "logo": "https://labyssstudio.com/icon/labyssstudio-logo.png"
-	}
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Labyss Studio",
+          "url": "https://labyssstudio.com",
+         "logo": "https://labyssstudio.com/icon/labyssstudio-logo.png"
+        }
     </script>
     <meta name="robots" content="max-image-preview:none">
     <title>Labyss Studio | Malaysia Moss Database & Moss Landscape Design</title>
@@ -26,21 +26,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Wabi-Sabi Overall Tone */
-        body { 
+        body {
             background-color: #EBE5DC; /* Light, earthy wabi-sabi background */
             color: #4A4036; /* Dark brown text */
         }
-        .page { display: none; }
-        .page.active { display: block; }
-        
+
+        .page {
+            display: none;
+        }
+
+            .page.active {
+                display: block;
+            }
+
         /* Rarity colors kept unchanged from original */
-        .rarity-UR { color: #d32f2f; font-weight: 900; }
-        .rarity-SR { color: #ef6c00; font-weight: 900; }
-        .rarity-R { color: #1976d2; font-weight: 900; }
-        .rarity-N { color: #616161; font-weight: 900; }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .rarity-UR {
+            color: #d32f2f;
+            font-weight: 900;
+        }
+
+        .rarity-SR {
+            color: #ef6c00;
+            font-weight: 900;
+        }
+
+        .rarity-R {
+            color: #1976d2;
+            font-weight: 900;
+        }
+
+        .rarity-N {
+            color: #616161;
+            font-weight: 900;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="font-sans antialiased">
@@ -50,27 +77,57 @@
     <datalist id="cnOptions"></datalist>
     <datalist id="locOptions"></datalist>
 
-<!-- DYNAMIC HEADER INSERTION CONTAINER -->
-<div id="header-placeholder"></div>
+    <nav class="bg-[#DCD4C7] border-b border-[#C2B6A6] px-4 md:px-12 py-3 shadow-sm select-none">
+        <div>
 
-<script>
-  fetch('header.html')
-    .then(response => {
-      if (!response.ok) throw new Error('Failed to load header file.');
-      return response.text();
-    })
-    .then(data => {
-      document.getElementById('header-placeholder').innerHTML = data;
-    })
-    .catch(error => console.error('Header processing error:', error));
-</script>
+            <div class="hidden md:flex items-center gap-8 text-[#4A4036]">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#hero';">
+                    <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-12 w-12 object-contain">
+                    <span class="font-bold text-lg tracking-wide">Labyss Studio</span>
+                </div>
 
-    <!-- Page Content Sections -->
+                <ul class="flex space-x-8 cursor-pointer text-[#6B5E51] font-medium text-base">
+                    <li onclick="navigateToPath('#about')" class="hover:text-[#3B322A] transition-colors">About Moss</li>
+                    <li onclick="navigateToPath('#catalog')" class="hover:text-[#3B322A] transition-colors">Moss Catalog</li>
+                    <li onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#contact';" class="hover:text-[#3B322A] transition-colors">Contact</li>
+                </ul>
+
+                <button id="authBtn" onclick="toggleAdmin()" class="hidden text-xs bg-[#8C7A6B] hover:bg-[#736457] px-3 py-1.5 rounded text-white transition-colors shadow-sm ml-auto">
+                    Admin Login
+                </button>
+            </div>
+
+            <div class="md:hidden grid grid-cols-4 items-center gap-2 text-center text-xs font-medium text-[#6B5E51]">
+                <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#hero';">
+                    <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-9 w-9 object-contain mb-0.5">
+                    <span class="font-bold text-[#4A4036] text-[11px]">Labyss<br>Studio</span>
+                </div>
+
+                <div onclick="navigateToPath('#about')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30">
+                    About<br>Moss
+                </div>
+
+                <div onclick="navigateToPath('#catalog')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+                    Moss<br>Catalog
+                </div>
+
+                <div onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#contact';" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+                    Contact
+                </div>
+            </div>
+    </nav>
+
     <div id="home" class="page active w-full">
-        <iframe src="home.html" id="homeIframe" name="homeIframe" class="w-full h-[calc(100vh-90px)] border-0 m-0 p-0 vertical-align-bottom" title="Labyss Studio Home"></iframe>
+        <iframe src="home.html"
+                id="homeIframe"
+                name="homeIframe"
+                class="w-full h-[calc(100vh-90px)] border-0 m-0 p-0 vertical-align-bottom"
+                title="Labyss Studio Home">
+        </iframe>
     </div>
 
     <div id="about" class="page w-full mt-0">
+
         <div class="hidden md:block relative w-full overflow-hidden" style="padding-top: 449.7804%; height: 0; will-change: transform;">
             <iframe loading="lazy" class="absolute w-full h-full top-0 left-0 border-none m-0 p-0"
                     style="transform: scale(1.015); transform-origin: center center;"
@@ -83,32 +140,16 @@
             <iframe loading="lazy"
                     class="absolute border-none m-0 p-0"
                     style="
-            width: 300%;
-            height: 100%;
-            top: 0%;
-            left: -100%;
-            object-fit: cover;
-        "
-                    src="https://www.canva.com/design/DAHMh7PuUv4/uYkoBS5akyuyP1np5WBAoQ/view?embed"
-                    allowfullscreen="allowfullscreen" allow="fullscreen">
-            </iframe>
-        </div>
-    </div>
-
-    <div class="block md:hidden relative w-full overflow-hidden" style="padding-top: 1344%; height: 0; margin-top: 1.6em; margin-bottom: 0.9em; will-change: transform;">
-        <iframe loading="lazy"
-                class="absolute border-none m-0 p-0"
-                style="
                 width: 300%;
                 height: 100%;
                 top: 0%;
                 left: -100%;
                 object-fit: cover;
             "
-                src="https://www.canva.com/design/DAHMh7PuUv4/uYkoBS5akyuyP1np5WBAoQ/view?embed"
-                allowfullscreen="allowfullscreen" allow="fullscreen">
-        </iframe>
-    </div>
+                    src="https://www.canva.com/design/DAHMh7PuUv4/uYkoBS5akyuyP1np5WBAoQ/view?embed"
+                    allowfullscreen="allowfullscreen" allow="fullscreen">
+            </iframe>
+        </div>
 
     </div>
 
@@ -443,18 +484,6 @@
             }
             });
 
-            function navigateToPath(hash) {
-        // 1. If the user clicks a hash meant for index.html sections (like #about or #catalog)
-        if (hash === '#about' || hash === '#catalog') {
-          const element = document.querySelector(hash);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        } 
-        // 2. If it's managing active states, handle it smoothly here
-        console.log("Navigating main page to:", hash);
-      }
-
             // Toggles the drawer open/closed and rotates the icon chevron arrow
             function toggleFilterPanel() {
             const panel = document.getElementById('filterPanel');
@@ -535,7 +564,7 @@
 
             async function saveToServer(itemData) {
             try {
-            const response = await fetch('./api.php', {
+            const response = await fetch('api.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(itemData) // Sends ONLY the modified moss card!
@@ -653,9 +682,6 @@
 
             // Show administrative actions across your application lists
             document.querySelectorAll('.admin-action').forEach(el => el.classList.remove('hidden'));
-
-            const addBtn = document.getElementById('addBtn');
-            if (addBtn) addBtn.classList.remove('hidden');
             }
 
             // Direct user to correct tab view
@@ -1036,9 +1062,9 @@
             }
 
             function clearImage(index) {
-            document.getElementById('base64Img' + index).value = "";
-            document.getElementById('uploadImg' + index).value = "";
-            document.getElementById('previewImg' + index).innerHTML = "";
+            document.getElementById(`uploadImg${index}`).value = "";
+            document.getElementById(`base64Img${index}`).value = "";
+            document.getElementById(`previewImg${index}`).innerHTML = "";
             }
 
             // Initialize App from server database
@@ -1048,6 +1074,7 @@
         </footer>
 </body>
 </html>
+
 
 
 
