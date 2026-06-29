@@ -186,11 +186,17 @@
                 }
         }
 
+        /* Hide menu if loaded in index.html iframe */
+        .embedded-iframe .main-navbar,
+        .embedded-iframe .mobile-navbar {
+            display: none !important;
+        }
+
         /* HERO SECTION */
         #hero {
             background-color: var(--bg-light);
             background-image: url('icon/background image 1page.png');
-            background-size: cover; /* Keeps background scaling dynamic across mobile frame sizes */
+            background-size: cover;
             background-position: center;
             color: var(--text-dark);
             text-align: center;
@@ -349,7 +355,7 @@
             }
 
             #hero {
-                background-size: cover;
+                background-size: cover; /* Keeps background scaling dynamic across mobile frame sizes */
                 background-position: center;
                 padding-bottom: 60px;
             }
@@ -409,6 +415,10 @@
     </style>
 
     <script>
+        if (window.self !== window.top) {
+        document.documentElement.classList.add('embedded-iframe');
+        }
+
         function handleNav(target) {
         if (target === '#home') {
         document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
