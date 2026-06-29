@@ -313,9 +313,9 @@
         </div>
 
         <div id="previewOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden z-[100] flex justify-center items-center p-4" onclick="handleOutsideClick(event)">
-            <div id="previewContainer" class="relative w-full max-w-[420px] max-h-[90vh] aspect-[5/7] bg-gray-200 p-2 sm:p-4 rounded-lg flex flex-col shadow-2xl transition-transform transform scale-100" onclick="event.stopPropagation()">
+            <div id="previewContainer" class="relative w-full max-w-[420px] max-h-[90vh] aspect-[5/7] bg-neutral-900 p-2 sm:p-4 rounded-lg flex flex-col shadow-2xl transition-transform transform scale-100" onclick="event.stopPropagation()">
             </div>
-            <div class="absolute top-4 right-4 text-neutral-900 text-sm font-bold bg-black/50 px-3 py-1 rounded cursor-pointer hover:text-white" onclick="closePreview()">ESC / Close</div>
+            <div class="absolute top-4 right-4 text-gray-400 text-sm font-bold bg-black/50 px-3 py-1 rounded cursor-pointer hover:text-white" onclick="closePreview()">ESC / Close</div>
         </div>
 
         <div id="mossModal" class="fixed inset-0 bg-black bg-opacity-80 hidden flex justify-center items-center z-50 p-4 overflow-y-auto">
@@ -368,7 +368,7 @@
                         <p class="text-xs font-bold text-[#8C7A6B] mb-2 tracking-widest uppercase">Image Management Deck</p>
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
-                                <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg0"></div>
+                                <div class="w-12 h-12 bg-neutral-900 flex-shrink-0" id="previewImg0"></div>
                                 <div class="flex-grow">
                                     <label class="text-xs text-[#4A4036] block font-bold">Main Cover Image</label>
                                     <input type="file" id="uploadImg0" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 0)">
@@ -377,7 +377,7 @@
                                 <button type="button" onclick="clearImage(0)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
                             </div>
                             <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
-                                <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg1"></div>
+                                <div class="w-12 h-12 bg-neutral-900 flex-shrink-0" id="previewImg1"></div>
                                 <div class="flex-grow">
                                     <label class="text-xs text-[#4A4036] block font-bold">Extra Gallery Image 1</label>
                                     <input type="file" id="uploadImg1" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 1)">
@@ -386,7 +386,7 @@
                                 <button type="button" onclick="clearImage(1)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
                             </div>
                             <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
-                                <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg2"></div>
+                                <div class="w-12 h-12 bg-neutral-900 flex-shrink-0" id="previewImg2"></div>
                                 <div class="flex-grow">
                                     <label class="text-xs text-[#4A4036] block font-bold">Extra Gallery Image 2</label>
                                     <input type="file" id="uploadImg2" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 2)">
@@ -395,7 +395,7 @@
                                 <button type="button" onclick="clearImage(2)" class="text-red-500 text-xs hover:text-red-400 font-bold">Clear</button>
                             </div>
                             <div class="flex items-center gap-2 bg-white p-2 rounded border border-[#C2B6A6]">
-                                <div class="w-12 h-12 bg-gray-200 flex-shrink-0" id="previewImg3"></div>
+                                <div class="w-12 h-12 bg-neutral-900 flex-shrink-0" id="previewImg3"></div>
                                 <div class="flex-grow">
                                     <label class="text-xs text-[#4A4036] block font-bold">Extra Gallery Image 3</label>
                                     <input type="file" id="uploadImg3" accept="image/*" class="text-xs text-gray-500 w-full" onchange="handleImageUpload(event, 3)">
@@ -850,7 +850,7 @@
             </div>`;
             } else {
             contentHTML = `
-            <div class="w-full h-full flex flex-col rounded-sm overflow-hidden bg-gray-200">
+            <div class="w-full h-full flex flex-col rounded-sm overflow-hidden bg-neutral-900">
             <div class="flex-grow w-full bg-gray-800 bg-cover bg-center relative cursor-pointer group" style="background-image: url('${imgSrc}');" onclick="nextImage(event)">
             ${!imgSrc ? '<div class="absolute inset-0 flex items-center justify-center text-gray-500">No Image</div>' : ""}
             <div class="absolute inset-y-0 left-0 w-1/3 z-10 flex items-center pl-2 opacity-0 group-hover:opacity-100 transition-opacity" onclick="prevImage(event)">
@@ -902,7 +902,7 @@
             card.className = "flex flex-col relative";
 
             card.innerHTML = `
-            <div class="aspect-[5/7] bg-gray-200 p-2 sm:p-2.5 rounded-md shadow-xl flex flex-col cursor-pointer transition-transform hover:scale-105" onclick="openPreview('${item.id}')">
+            <div class="aspect-[5/7] bg-neutral-900 p-2 sm:p-2.5 rounded-md shadow-xl flex flex-col cursor-pointer transition-transform hover:scale-105" onclick="openPreview('${item.id}')">
             <div class="flex-[5] min-h-[150px] w-full bg-gray-800 rounded-sm bg-cover bg-center relative" style="background-image: url('${mainImg}')">
             ${!mainImg ? '<div class="absolute inset-0 flex items-center justify-center text-gray-500 text-xs">No Image</div>' : ""}
             <div class="absolute top-1 left-1 bg-black/60 px-1.5 py-0.5 rounded text-[10px] font-bold text-white">${item.id}</div>
