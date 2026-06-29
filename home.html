@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="max-image-preview:none">
     <title>Labyss Studio | Living Moss & Zen Garden Design</title>
     <style>
         :root {
@@ -26,10 +25,9 @@
             scroll-behavior: smooth;
             background-color: var(--bg-light);
             color: var(--text-dark);
-            overflow-x: hidden; /* Prevents layout-breaking horizontal scroll shifts on mobile */
+            overflow-x: hidden;
         }
 
-        /* Global defensive rule to keep uncompressed assets from shattering layouts */
         img {
             max-width: 100%;
             height: auto;
@@ -348,14 +346,14 @@
                 object-fit: contain;
             }
 
-        /* MOBILE MEDIA QUERIES (768px and down) */
+        /* MOBILE MEDIA QUERIES */
         @media (max-width: 768px) {
             section {
                 padding: 50px 16px;
             }
 
             #hero {
-                background-size: cover; /* Keeps background scaling dynamic across mobile frame sizes */
+                background-size: cover;
                 background-position: center;
                 padding-bottom: 60px;
             }
@@ -376,7 +374,7 @@
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 24px 16px;
-                max-width: 100%; /* Eliminated rigid viewport boundaries */
+                max-width: 100%;
                 margin: 0 auto 40px auto;
             }
 
