@@ -356,11 +356,19 @@
 
             #hero {
                 background-image: url('icon/background phone 1.png'); /* Switched to new background for mobile devices */
-                background-size: content;
+                background-size: 100% auto;
                 background-repeat: no-repeat;
                 background-position: center top;
                 background-color: var(--bg-light);
-                padding-bottom: 50px;
+                
+                min-height: 100vh; 
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                padding: 80px 20px 60px 20px; 
+                box-sizing: border-box;
             }
 
             .hero-content {
