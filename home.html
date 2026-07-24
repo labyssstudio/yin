@@ -434,6 +434,9 @@
         } else if (target === '#contact') {
         document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
         } else if (target === '#about' || target === '#catalog' || target === '#product') {
+        if (window.parent && window.parent.navigateToPath) {
+        window.parent.navigateToPath(target);
+        } else {
         window.location.href = 'https://labyssstudio.com/' + target;
         }
         }
