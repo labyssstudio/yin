@@ -1307,14 +1307,13 @@ function initScrollAnimations() {
 function renderCatalog(itemsToRender) {
   const grid = document.getElementById('productGrid');
   if (!grid) return;
-  
   grid.innerHTML = '';
-  
+
   itemsToRender.forEach((prod) => {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.onclick = () => openDetailsPage(prod.id);
-    
+
     let badgeHtml = prod.badge ? `<div class="product-badge">${prod.badge}</div>` : '';
 
     // Admin controls container
@@ -1337,7 +1336,7 @@ function renderCatalog(itemsToRender) {
         <div class="price">RM ${prod.price}</div>
       </div>
     `;
-    
+
     grid.appendChild(card);
   });
 }
