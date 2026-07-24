@@ -1022,7 +1022,8 @@ body.admin-editing [contenteditable="true"] {
         </div>
         <!-- Admin Image Controls for Details Page -->
         <div id="adminGalleryControls" style="display:none; gap:10px; margin-top:10px;">
-          <button class="admin-action-btn" onclick="addDetailImage()">Add Image URL</button>
+          <input type="file" id="detailFileInput" accept="image/*" style="display: none;" onchange="handleDetailFileUpload(event)">
+          <button class="admin-action-btn" onclick="triggerDetailFileUpload()">Choose File</button>
           <button class="admin-action-btn danger" onclick="clearDetailImages()">Clear Images</button>
         </div>
       </div>
@@ -1599,12 +1600,33 @@ function deleteProduct(id) {
   }
 }
 
-function addDetailImage() {
-  const url = prompt("Enter Image URL / Filename:");
-  if (url && currentSelectedProduct) {
-    currentSelectedProduct.gallery.push(url);
-    renderDetailsGallery();
-  }
+// 1. Programmatically click the hidden file input
+function triggerDetailFileUpload() {
+  document.getElementById('detailFileInput').click();
+}
+
+// 2. Read the uploaded file and convert it to a local image URL
+function handleDetailFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  
+  reader.onload = function(e) {
+    const imageUrl = e.target.result; // Local base64 Data URL
+    if (currentSelectedProduct) {
+      if (!currentSelectedProduct.gallery) {
+        currentSelectedProduct.gallery = [];
+      }
+      currentSelectedProduct.gallery.push(imageUrl);
+      renderDetailsGallery(); // Refresh the gallery thumbnails
+    }
+  };
+
+  reader.readAsDataURL(file);
+  
+  // Reset input value so the user can upload the same file again if needed
+  event.target.value = '';
 }
 
 function clearDetailImages() {
