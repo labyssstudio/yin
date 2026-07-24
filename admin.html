@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Labyss Studio | Secure Admin Manager</title>
+<style>
+:root { --bg-color: #F7F5F0; --accent-brown: #3E3631; --white: #FFFFFF; }
+body { background-color: var(--bg-color); color: #1A1A1A; font-family: 'Helvetica Neue', sans-serif; padding: 40px; }
+.login-box, .dashboard { max-width: 800px; margin: 0 auto; background: var(--white); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.dashboard { display: none; }
+h1 { font-family: 'Georgia', serif; font-size: 2rem; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+input, select, textarea { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+button { background-color: var(--accent-brown); color: var(--white); border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.product-manager-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD LOGIN SCREEN -->
+<div class="login-box" id="loginScreen">
+    <h1>Labyss Studio Admin</h1>
+    <p style="margin-bottom:20px; color:#666;">Enter your secure password to manage content and images.</p>
+    <div class="form-group">
+        <label>Admin Password</label>
+        <input type="password" id="adminPassInput" placeholder="Enter password...">
+    </div>
+    <button onclick="checkAdminLogin()">Unlock Dashboard</button>
+</div>
+
+<!-- SECURE DASHBOARD -->
+<div class="dashboard" id="dashboardScreen">
+    <h1>Website Content & Image Manager</h1>
+    <p style="margin-bottom:30px; color:#666;">Changes saved here instantly update your live store page (`product.html`).</p>
+    
+    <h3>Edit Banner & Text Content</h3>
+    <div class="form-group"><label>Logo Text</label><input type="text" id="editLogo"></div>
+    <div class="form-group"><label>Hero Small Text</label><input type="text" id="editHeroSmall"></div>
+    <div class="form-group"><label>Hero Main Title</label><input type="text" id="editHeroBig"></div>
+    <div class="form-group"><label>Hero Description</label><textarea id="editHeroDesc"></textarea></div>
+    <div class="form-group"><label>Hero Image File Name (e.g., 1.jpg)</label><input type="text" id="editHeroImg"></div>
+    <div class="form-group"><label>Split Section Title</label><input type="text" id="editSplitTitle"></div>
+    <div class="form-group"><label>Catalog Title</label><input type="text" id="editCatalogTitle"></div>
+    <button onclick="saveSiteContent()" style="margin-bottom:40px;">Save Content Changes</button>
+
+    <h3>Manage Products Catalog</h3>
+    <div id="adminProductList" style="margin-bottom:20px;"></div>
+    
+    <div style="background:#F7F5F0; padding:20px; border-radius:12px;">
+        <h4>Add New Product</h4>
+        <div class="form-group" style="margin-top:15px;"><label>Product Name</label><input type="text" id="newProdName"></div>
+        <div class="form-group"><label>Category</label><select id="newProdCat"><option value="Complete">Complete</option><option value="Structure">Structure</option><option value="Living Moss">Living Moss</option></select></div>
+        <div class="form-group"><label>Price (RM)</label><input type="number" id="newProdPrice"></div>
+        <div class="form-group"><label>Image Filename</label><input type="text" id="newProdImg" value="1.jpg"></div>
+        <button onclick="addNewProduct()">Add Product to Catalog</button>
+    </div>
+</div>
+
+<script>
+// Change this password to whatever secure key you prefer!
+const SECRET_PASSWORD = "labyss-admin-2026";
+
+function checkAdminLogin() {
+    const input = document.getElementById('adminPassInput').value;
+    if (input === SECRET_PASSWORD) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboardScreen').style.display = 'block';
+        loadAdminData();
+    } else {
+        alert('Incorrect password.');
+    }
+}
+
+function loadAdminData() {
+    let siteContent = JSON.parse(localStorage.getItem('labyss_content')) || {
+        logo: "Labyss Studio", heroSmall: "Bring", heroBig: "Nature In", heroDesc: "Sustainable 3D-printed moss terrarium...", heroImg: "1.jpg", splitTitle: "3D printed moss terrarium", catalogTitle: "Para Series Terrarium"
+    };
+    document.getElementById('editLogo').value = siteContent.logo;
+    document.getElementById('editHeroSmall').value = siteContent.heroSmall;
+    document.getElementById('editHeroBig').value = siteContent.heroBig;
+    document.getElementById('editHeroDesc').value = siteContent.heroDesc;
+    document.getElementById('editHeroImg').value = siteContent.heroImg;
+    document.getElementById('editSplitTitle').value = siteContent.splitTitle;
+    document.getElementById('editCatalogTitle').value = siteContent.catalogTitle;
+    renderAdminProducts();
+}
+
+function saveSiteContent() {
+    let siteContent = {
+        logo: document.getElementById('editLogo').value,
+        heroSmall: document.getElementById('editHeroSmall').value,
+        heroBig: document.getElementById('editHeroBig').value,
+        heroDesc: document.getElementById('editHeroDesc').value,
+        heroImg: document.getElementById('editHeroImg').value,
+        splitTitle: document.getElementById('editSplitTitle').value,
+        splitDesc: "Measures 15 cm tall by 7 cm wide...",
+        splitImg: "2.png",
+        catalogTitle: document.getElementById('editCatalogTitle').value
+    };
+    localStorage.setItem('labyss_content', JSON.stringify(siteContent));
+    alert('Website content updated successfully!');
+}
+
+function renderAdminProducts() {
+    let products = JSON.parse(localStorage.getItem('labyss_products')) || [
+        { id: 1, name: "Para 01 Moss Terrarium", category: "Complete", price: 99, date: "JUL 2026", badge: "", mainImg: "1.jpg", gallery: ["1.jpg", "3.jpg"] }
+    ];
+    let container = document.getElementById('adminProductList');
+    container.innerHTML = '';
+    products.forEach((p, idx) => {
+        let row = document.createElement('div');
+        row.className = 'product-manager-row';
+        row.innerHTML = `<span><b>${p.name}</b> (RM ${p.price})</span> <button style="background:#C0392B; padding:6px 12px;" onclick="deleteAdminProduct(${idx})">Delete</button>`;
+        container.appendChild(row);
+    });
+}
+
+function addNewProduct() {
+    let name = document.getElementById('newProdName').value;
+    let price = parseFloat(document.getElementById('newProdPrice').value) || 99;
+    let cat = document.getElementById('newProdCat').value;
+    let img = document.getElementById('newProdImg').value;
+    if (!name) { alert('Enter name'); return; }
+    
+    let products = JSON.parse(localStorage.getItem('labyss_products')) || [];
+    products.push({ id: Date.now(), name, category: cat, price, date: "JUL 2026", badge: "", mainImg: img, gallery: [img, "3.jpg"] });
+    localStorage.setItem('labyss_products', JSON.stringify(products));
+    renderAdminProducts();
+    alert('Product added!');
+}
+
+function deleteAdminProduct(idx) {
+    let products = JSON.parse(localStorage.getItem('labyss_products')) || [];
+    products.splice(idx, 1);
+    localStorage.setItem('labyss_products', JSON.stringify(products));
+    renderAdminProducts();
+}
+</script>
+</body>
+</html>
