@@ -289,9 +289,14 @@ nav {
   letter-spacing: 0.5px;
 }
 
-/* Show Badges only when Admin mode is activated */
-body.admin-editing .product-badge {
-  display: block;
+/* Hide admin actions on cards by default */
+.product-card .admin-card-actions {
+  display: none !important;
+}
+
+/* Show admin actions when logged in as admin */
+body.admin-editing .product-card .admin-card-actions {
+  display: flex !important;
 }
 
 .product-info .date {
@@ -1252,33 +1257,27 @@ let currentSelectedProduct = null;
 let currentDetailQty = 1;
 let currentFilter = 'all';
 
-// Initialize Admin Mode check on page load
+// 3. DOM Load Initialization
 window.addEventListener('DOMContentLoaded', () => {
-  // 1. Get query params and sanitize any attached hash fragments
-  const urlParams = new URLSearchParams(window.location.search);
-  let token = urlParams.get('token');
-  
-  if (token) {
-    token = token.split('#')[0]; // Removes '#product' if appended to the token
-  }
-
-  // 2. Safety check: Verify via URLSearchParams OR raw URL inclusion
-  const isValidToken = token === 'labyss-secure-edit-2026' || 
-                       window.location.href.includes('token=labyss-secure-edit-2026');
-
-  if (isValidToken) {
+  const currentUrl = window.location.href;
+  if (currentUrl.includes('token=labyss-secure-edit-2026')) {
+    document.body.classList.add('admin-editing');
+    
     const adminBanner = document.getElementById('adminBanner');
     const galleryControls = document.getElementById('adminGalleryControls');
     const productControls = document.getElementById('adminProductEditControls');
 
     if (adminBanner) adminBanner.classList.add('active');
-    document.body.classList.add('admin-editing');
     if (galleryControls) galleryControls.style.display = 'flex';
     if (productControls) productControls.style.display = 'block';
   }
 
-  renderCatalog(products);
-  initScrollAnimations();
+  if (typeof products !== 'undefined') {
+    renderCatalog(products);
+  }
+  if (typeof initScrollAnimations === 'function') {
+    initScrollAnimations();
+  }
 });
 
 function switchView(viewId) {
@@ -1307,21 +1306,30 @@ function initScrollAnimations() {
 
 function renderCatalog(itemsToRender) {
   const grid = document.getElementById('productGrid');
+  if (!grid) return;
+  
   grid.innerHTML = '';
+  
   itemsToRender.forEach((prod) => {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.onclick = () => openDetailsPage(prod.id);
     
     let badgeHtml = prod.badge ? `<div class="product-badge">${prod.badge}</div>` : '';
-    let adminDeleteHtml = document.body.classList.contains('admin-editing') ? 
-      `<button class="admin-action-btn danger" style="position: absolute; bottom: 15px; right: 15px; z-index: 10;" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete Product</button>` : '';
+
+    // Admin controls container
+    let adminControlsHtml = `
+      <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
+        <button class="admin-action-btn" onclick="event.stopPropagation(); editProduct(${prod.id})">Edit</button>
+        <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
+      </div>
+    `;
 
     card.innerHTML = `
-      <div class="product-img-wrapper">
+      <div class="product-img-wrapper" style="position: relative;">
         <img src="${prod.mainImg}" alt="${prod.name}">
         ${badgeHtml}
-        ${adminDeleteHtml}
+        ${adminControlsHtml}
       </div>
       <div class="product-info">
         <div class="date">${prod.date}</div>
@@ -1329,8 +1337,16 @@ function renderCatalog(itemsToRender) {
         <div class="price">RM ${prod.price}</div>
       </div>
     `;
+    
     grid.appendChild(card);
   });
+}
+
+function editProduct(productId) {
+  openDetailsPage(productId);
+  if (typeof toggleDetailsEditMode === 'function') {
+    toggleDetailsEditMode();
+  }
 }
 
 function filterProducts(category, btnElement) {
