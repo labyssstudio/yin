@@ -1254,14 +1254,29 @@ let currentFilter = 'all';
 
 // Initialize Admin Mode check on page load
 window.addEventListener('DOMContentLoaded', () => {
+  // 1. Get query params and sanitize any attached hash fragments
   const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
-  if (token === 'labyss-secure-edit-2026') {
-    document.getElementById('adminBanner').classList.add('active');
-    document.body.classList.add('admin-editing');
-    document.getElementById('adminGalleryControls').style.display = 'flex';
-    document.getElementById('adminProductEditControls').style.display = 'block';
+  let token = urlParams.get('token');
+  
+  if (token) {
+    token = token.split('#')[0]; // Removes '#product' if appended to the token
   }
+
+  // 2. Safety check: Verify via URLSearchParams OR raw URL inclusion
+  const isValidToken = token === 'labyss-secure-edit-2026' || 
+                       window.location.href.includes('token=labyss-secure-edit-2026');
+
+  if (isValidToken) {
+    const adminBanner = document.getElementById('adminBanner');
+    const galleryControls = document.getElementById('adminGalleryControls');
+    const productControls = document.getElementById('adminProductEditControls');
+
+    if (adminBanner) adminBanner.classList.add('active');
+    document.body.classList.add('admin-editing');
+    if (galleryControls) galleryControls.style.display = 'flex';
+    if (productControls) productControls.style.display = 'block';
+  }
+
   renderCatalog(products);
   initScrollAnimations();
 });
