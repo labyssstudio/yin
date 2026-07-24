@@ -89,6 +89,7 @@
                 <ul class="flex space-x-8 cursor-pointer text-[#6B5E51] font-medium text-base">
                     <li onclick="navigateToPath('#about')" class="hover:text-[#3B322A] transition-colors">About Moss</li>
                     <li onclick="navigateToPath('#catalog')" class="hover:text-[#3B322A] transition-colors">Moss Catalog</li>
+                    <li onclick="navigatePath('#product')" class="hover:text-[#3B322A] transition-colors">Product</li>
                     <li onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#contact';" class="hover:text-[#3B322A] transition-colors">Contact</li>
                 </ul>
 
@@ -97,24 +98,24 @@
                 </button>
             </div>
 
-            <div class="md:hidden grid grid-cols-4 items-center gap-2 text-center text-xs font-medium text-[#6B5E51]">
-                <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#hero';">
+            <div class="md:hidden grid grid-cols-5 items-center gap-1 text-center text-xs font-medium text-[#6B5E51]">
+                <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigatePath('#home'); document.getElementById('homeiframe').src='home.html#hero';">
                     <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-9 w-9 object-contain mb-0.5">
                     <span class="font-bold text-[#4A4036] text-[11px]">Labyss<br>Studio</span>
                 </div>
-
-                <div onclick="navigateToPath('#about')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30">
-                    About<br>Moss
+                <div onclick="navigatePath('#about')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30">
+                About<br>Moss
                 </div>
-
-                <div onclick="navigateToPath('#catalog')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
-                    Moss<br>Catalog
+                <div onclick="navigatePath('#catalog')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+                Moss<br>Catalog
                 </div>
-
-                <div onclick="navigateToPath('#home'); document.getElementById('homeIframe').src='home.html#contact';" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
-                    Contact
+                <div onclick="navigatePath('#product')" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-xs cursor-pointer">
+                Product
                 </div>
+                <div onclick="navigatePath('#home'); document.getElementById('homeiframe').src='home.html#contact';" class="active:text-[#3B322A] py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+                Contact
             </div>
+        </div>
     </nav>
 
     <div id="home" class="page active w-full">
@@ -124,6 +125,10 @@
                 class="w-full h-[calc(100vh-90px)] border-0 m-0 p-0 vertical-align-bottom"
                 title="Labyss Studio Home">
         </iframe>
+    </div>
+
+    <div id="product" class="page w-full mt-0">
+        <iframe src="product.html" class="w-full h-[calc(100vh-90px)] border-0 m-0 p-0" title="Labyss Studio Product"></iframe>
     </div>
 
     <div id="about" class="page w-full mt-0">
@@ -688,6 +693,8 @@
         showPage('about');
     } else if (hash === '#catalog') {
         showPage('catalog');
+    } else if (hash === '#product') {
+        showPage('product');
     } else {
         showPage('home');
     }

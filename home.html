@@ -433,7 +433,7 @@
         document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
         } else if (target === '#contact') {
         document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        } else if (target === '#about' || target === '#catalog') {
+        } else if (target === '#about' || target === '#catalog' || target === '#product') {
         window.location.href = 'https://labyssstudio.com/' + target;
         }
         }
@@ -450,6 +450,7 @@
             <ul class="nav-menu">
                 <li onclick="handleNav('#about')">About Moss</li>
                 <li onclick="handleNav('#catalog')">Moss Catalog</li>
+                <li onclick="handleNav('#product')">Product</li>
                 <li onclick="handleNav('#contact')">Contact</li>
             </ul>
         </div>
@@ -460,14 +461,17 @@
             <img src="icon/labyss-studio-las.png" alt="Labyss Studio">
             <span>Labyss<br>Studio</span>
         </div>
-        <div onclick="handleNav('#about')" class="mobile-nav-item">
-            About<br>Moss
+        <div onclick="handleNav('#about')" class="mobile-nav-item py-3 border-l border-[#C2B6A6]/30">
+        About<br>Moss
         </div>
-        <div onclick="handleNav('#catalog')" class="mobile-nav-item">
-            Moss<br>Catalog
+        <div onclick="handleNav('#catalog')" class="mobile-nav-item py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+        Moss<br>Catalog
         </div>
-        <div onclick="handleNav('#contact')" class="mobile-nav-item">
-            Contact
+        <div onclick="handleNav('#product')" class="mobile-nav-item py-3 border-l border-[#C2B6A6]/30">
+        Product
+        </div>
+        <div onclick="handleNav('#contact')" class="mobile-nav-item py-3 border-l border-[#C2B6A6]/30 flex items-center justify-center font-normal text-sm cursor-pointer">
+        Contact
         </div>
     </nav>
 
