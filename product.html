@@ -975,27 +975,27 @@ body.admin-editing [contenteditable="true"] {
     padding: 15px 20px;
   }
 
-  /* --- SECTION 1: Full-Bleed Image Background with Text Overlays --- */
+  /* --- SECTION 1: Mobile Hero Layout --- */
   .hero-section {
     position: relative;
     min-height: 100vh;
-    padding: 90px 20px 40px 20px;
+    padding: 90px 20px 20px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes Title to Top, Description to Bottom */
+    justify-content: space-between;
     align-items: center;
     overflow: hidden;
     box-sizing: border-box;
   }
 
-  /* Image as full-bleed background (Crops Left/Right, Preserves Top/Bottom) */
+  /* Image Layer (Side Crop, Vertically Centered) */
   .hero-image-container {
     position: absolute !important;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Behind text */
+    z-index: 1;
     margin: 0 !important;
     opacity: 1;
   }
@@ -1003,14 +1003,14 @@ body.admin-editing [contenteditable="true"] {
   .hero-image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Fills container vertically to crop left/right */
-    object-position: 50% 50%; /* Keeps dome & base centered vertically */
+    object-fit: cover;
+    object-position: 50% 45%; /* Slightly offsets upward to give space for bottom text */
   }
 
-  /* Text Container Layer */
+  /* Foreground Text Container */
   .hero-content {
     position: relative;
-    z-index: 2; /* In FRONT of image */
+    z-index: 2;
     width: 100%;
     height: 100%;
     display: flex;
@@ -1021,45 +1021,62 @@ body.admin-editing [contenteditable="true"] {
     pointer-events: none;
   }
 
-  /* TOP OVERLAY: "Bring Nature In" */
+  /* TOP TEXT: Left-aligned & shift "In" away from terrarium dome */
   .hero-left {
     transform: none !important;
     text-align: left;
-    width: 100%;
+    max-width: 65%; /* Restricts width so text stays on the left side */
     padding: 0;
     pointer-events: auto;
+    /* Move in from top animation */
+    animation: moveInFromTop 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
   .hero-left h1 {
-    font-size: 3.8rem;
+    font-size: 3.1rem; /* Slightly reduced so "In" fits on the left */
     line-height: 0.95;
     letter-spacing: -1px;
     color: #000000;
   }
 
   .hero-left h1 span.small-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     margin-bottom: 4px;
     display: block;
   }
 
-  /* BOTTOM OVERLAY: "Sustainable 3D-printed..." */
+  /* BOTTOM TEXT: Shifted lower to avoid base overlay */
   .hero-right {
     transform: none !important;
     width: 100%;
-    padding: 0 10px;
-    margin-top: auto; /* Pins to bottom */
+    padding: 0 15px;
+    margin-top: auto;
+    padding-bottom: 15px; /* Pushes text further down */
     pointer-events: auto;
+    /* Move in from top animation with slight delay */
+    animation: moveInFromTop 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
   }
 
   .hero-right p {
     font-family: 'Georgia', serif;
     font-style: italic;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     line-height: 1.35;
     text-align: center;
     color: var(--text-dark);
     text-shadow: none;
+  }
+}
+
+/* --- ANIMATION KEYFRAMES --- */
+@keyframes moveInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
