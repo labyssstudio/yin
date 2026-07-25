@@ -970,69 +970,84 @@ body.admin-editing [contenteditable="true"] {
    ENHANCED MOBILE RESPONSIVE FIXES
    ========================================== */
 @media (max-width: 900px) {
-  /* Header Overlay */
   nav {
     padding: 15px 20px;
   }
 
-  /* --- SECTION 1 (Hero Mobile - Fixed Layout to match Image 2) --- */
+  /* --- SECTION 1: Mobile Hero Layout (Matches Image 1) --- */
   .hero-section {
     height: auto;
     min-height: 100vh;
-    padding: 90px 20px 40px 20px;
+    padding: 80px 0px 40px 0px;
     display: flex;
-    flex-direction: column; /* Stack vertically: Title -> Image -> Text */
-    justify-content: flex-start;
-  }
-
-  /* Keep image static at the back, scaled down to make room */
-  .hero-image-container {
-    position: relative;
-    height: 55vh; /* Reduced height to prevent covering text */
-    width: 100%;
-    margin: 10px 0;
-  }
-
-  .hero-image-container img {
-    object-fit: contain; /* Prevents overflow/cropping on mobile screens */
+    flex-direction: column; /* Stacks components vertically on mobile */
+    align-items: center;
   }
 
   .hero-content {
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    gap: 15px;
-    text-align: center;
-    position: relative;
+    width: 100%;
+    transform: none !important;
   }
 
+  /* 1. Top Title (Order 1) */
   .hero-left {
-    transform: translateY(0) !important; /* Reset desktop offset */
-    text-align: left; /* Align title left to match Image 2 */
+    order: 1;
+    transform: none !important;
     width: 100%;
+    padding: 0 24px;
+    text-align: left;
+    margin-bottom: 20px;
   }
 
   .hero-left h1 {
-    font-size: 3.8rem; /* Adjusted down so "Nature In" stays on 1 line */
-    line-height: 1.0;
+    font-size: 3.8rem;
+    line-height: 0.95;
+    letter-spacing: -1px;
   }
 
   .hero-left h1 span.small-title {
     font-size: 1.6rem;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
-  .hero-right {
-    max-width: 100%;
-    transform: translateY(0) !important; /* Reset desktop offset */
+  /* 2. Middle Image Crop & Zoom (Order 2) */
+  .hero-image-container {
+    order: 2;
+    position: relative;
+    top: auto;
+    left: auto;
     width: 100%;
-    padding: 0 10px;
+    height: 460px; /* Viewport height for focal cropping */
+    overflow: hidden;
+    margin-bottom: 25px;
+    opacity: 1;
+  }
+
+  .hero-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 45%; /* Centers on the terrarium */
+    transform: scale(1.35); /* Zoom in to match Image 1 */
+  }
+
+  /* 3. Bottom Text Caption (Order 3) */
+  .hero-right {
+    order: 3;
+    max-width: 100%;
+    transform: none !important;
+    padding: 0 30px;
+    text-align: center;
+    width: 100%;
   }
 
   .hero-right p {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     line-height: 1.3;
-    text-align: center; /* Center the caption text below image like Image 2 */
-    color: var(--text-dark); /* Ensure text is dark and readable */
+    text-align: center;
+    color: var(--text-dark);
     text-shadow: none;
   }
 
