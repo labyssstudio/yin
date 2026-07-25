@@ -80,17 +80,49 @@ nav {
   display: block;
 }
 
-/* SECTION 1: Main Banner */
+/* ==========================================
+   SECTION 1: Main Banner (Full-Bleed Background)
+   ========================================== */
 .hero-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 85vh;
-  align-items: center;
-  padding: 0 80px;
-  gap: 40px;
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* Full screen height */
+  display: flex;
+  align-items: flex-end; /* Places text towards the lower half like image 1 */
+  padding: 0 80px 100px 80px; /* Padding for positioning text */
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
+/* Background Image styling to stretch full screen */
+.hero-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards 0.3s;
+}
+
+.hero-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Stretches edge-to-edge without distortion */
+  object-position: center;
+  border-radius: 0; /* Removed border-radius for full screen */
+  box-shadow: none;
+}
+
+/* Content Container overlaid on top of image */
 .hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Pushes title to left, description to right */
+  align-items: flex-end;
   opacity: 0;
   transform: translateY(-40px);
   animation: moveDownFromTop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -98,57 +130,50 @@ nav {
 
 .hero-content h1 {
   font-family: 'Georgia', serif;
-  font-size: 4.5rem;
-  line-height: 1.1;
+  font-size: 5rem;
+  line-height: 1;
   font-weight: 400;
-  margin-bottom: 20px;
+  margin: 0;
+  color: #000;
 }
 
 .hero-content h1 span.small-title {
   display: block;
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0px;
+  margin-bottom: 8px;
+  font-family: 'Georgia', serif; /* Matched serif style */
+  font-weight: 400;
 }
 
 .hero-content p {
   font-family: 'Georgia', serif;
-  font-size: 1.3rem;
-  color: #4A4540;
-  line-height: 1.5;
-  max-width: 450px;
+  font-style: italic; /* Matched italic text in reference */
+  font-size: 1.4rem;
+  color: #000;
+  line-height: 1.3;
+  max-width: 320px;
+  margin: 0;
+  text-align: right;
 }
 
-.hero-image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  animation: fadeIn 1.2s ease forwards 0.3s;
-}
-
-.hero-image-container img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-}
-
-/* SECTION 2: Split Intro Layout */
+/* ==========================================
+   SECTION 2: Split Intro Layout
+   ========================================== */
 .split-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 75vh;
+  min-height: 100vh;
   align-items: stretch;
   background-color: var(--white);
+  width: 100%;
 }
 
 .split-left {
   display: flex;
-  flex-direction: flex-start;
   align-items: center;
-  padding: 80px;
+  justify-content: center;
+  padding: 60px;
   gap: 40px;
   opacity: 0;
   transform: translateY(-30px);
@@ -158,25 +183,31 @@ nav {
   animation: moveDownFromTop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Increased Exploded Graphic Size */
 .split-left .exploded-graphic {
-  max-width: 180px;
+  max-width: 260px; /* Scaled up graphic */
+  width: 100%;
   height: auto;
+  max-height: 70vh;
+  object-fit: contain;
 }
 
 .split-left h2 {
   font-family: 'Georgia', serif;
-  font-size: 3.2rem;
+  font-size: 4rem;
   font-weight: 400;
-  line-height: 1.2;
-  text-align: center;
+  line-height: 1.1;
+  text-align: left;
   flex: 1;
+  margin: 0;
+  color: #000;
 }
 
 .split-right {
   background-color: var(--accent-brown);
   color: var(--white);
   display: flex;
-  align-items: center;      /* Vertically Centered */
+  align-items: center;    /* Vertically Centered */
   justify-content: center; /* Horizontally Centered */
   padding: 80px;
   text-align: center;
@@ -184,9 +215,10 @@ nav {
 
 .split-right p {
   font-family: 'Georgia', serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   line-height: 1.8;
-  max-width: 480px;
+  max-width: 440px;
+  margin: 0;
 }
 
 /* SECTION 3: Product Showcase / Shop Area */
@@ -957,29 +989,33 @@ body.admin-editing [contenteditable="true"] {
 </nav>
 
 <div id="home-view" class="view-section active">
-  <!-- SECTION 1: Full-Screen Hero Banner -->
+
+  <!-- SECTION 1: Full-Bleed Hero Banner -->
   <section class="hero-section">
-    <div class="hero-bg-wrapper">
-      <img src="icon/Labyss Studio Moss Terrarium Banner.png" alt="Labyss Studio Moss Terrarium Banner" id="editable-hero-img">
-    </div>
-    <div class="hero-content">
-      <h1 id="editable-hero-title">
-        <span class="small-title" contenteditable="true" data-key="heroSmall">Bring</span>
-        <span contenteditable="true" data-key="heroMain">Nature In</span>
-      </h1>
-      <p id="editable-hero-desc" contenteditable="true" data-key="heroDesc">
-        Sustainable 3D-printed moss terrarium designed for spaces that breathe.
-      </p>
+    <img src="icon/Labyss Studio Moss Terrarium Banner.png" alt="Labyss Studio Moss Terrarium Banner" class="hero-bg-img" id="editable-hero-img">
+    
+    <div class="hero-content-container">
+      <div class="hero-left">
+        <h1 id="editable-hero-title">
+          <span class="small-title" contenteditable="true" data-key="heroSmall">Bring</span>
+          <span contenteditable="true" data-key="heroMain">Nature In</span>
+        </h1>
+      </div>
+      <div class="hero-right">
+        <p id="editable-hero-desc" contenteditable="true" data-key="heroDesc">
+          Sustainable 3D-printed moss terrarium designed for spaces that breathe.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- SECTION 2: Split Intro Layout -->
+  <!-- SECTION 2: Split Layout -->
   <section class="split-section">
     <div class="split-left" id="splitLeftAnim">
-      <div class="exploded-graphic-wrapper">
-        <img src="icon/Exploded View Graphic.png" alt="Exploded View Graphic" class="exploded-graphic" id="editable-split-graphic">
-      </div>
-      <h2 id="editable-split-title" contenteditable="true" data-key="splitTitle">3D printed moss terrarium</h2>
+      <img src="icon/Exploded View Graphic.png" alt="Exploded View Graphic" class="exploded-graphic" id="editable-split-graphic">
+      <h2 id="editable-split-title" contenteditable="true" data-key="splitTitle">
+        3D<br>printed<br>moss<br>terrarium
+      </h2>
     </div>
     <div class="split-right">
       <p id="editable-split-desc" contenteditable="true" data-key="splitDesc">
@@ -987,6 +1023,8 @@ body.admin-editing [contenteditable="true"] {
       </p>
     </div>
   </section>
+
+</div>
 
   <!-- SECTION 3: Product Showcase / Shop Area -->
   <section class="showcase-section" id="catalog">
