@@ -974,12 +974,12 @@ body.admin-editing [contenteditable="true"] {
     padding: 15px 20px !important;
   }
 
-  /* 1. SECTION CONTAINER */
+  /* --- SECTION 1 CONTAINER --- */
   body .hero-section {
     position: relative !important;
-    min-height: 85vh !important;
-    height: 85vh !important;
-    padding: 80px 20px 20px 20px !important;
+    min-height: 90vh !important;
+    height: 90vh !important;
+    padding: 90px 15px 20px 15px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -988,7 +988,7 @@ body.admin-editing [contenteditable="true"] {
     box-sizing: border-box !important;
   }
 
-  /* 2. BACKGROUND IMAGE (Cropped Left/Right, Centered Vertically) */
+  /* --- BACKGROUND IMAGE (Cropped Left/Right, Shifted Up slightly) --- */
   body .hero-section .hero-image-container {
     position: absolute !important;
     top: 0 !important;
@@ -1004,10 +1004,10 @@ body.admin-editing [contenteditable="true"] {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: 50% 45% !important;
+    object-position: 50% 38% !important; /* Moves image upward so base clears the bottom text */
   }
 
-  /* 3. FOREGROUND TEXT WRAPPER */
+  /* --- FOREGROUND CONTENT WRAPPER --- */
   body .hero-section .hero-content {
     position: relative !important;
     z-index: 2 !important;
@@ -1021,21 +1021,23 @@ body.admin-editing [contenteditable="true"] {
     pointer-events: none !important;
   }
 
-  /* 4. TOP TITLE ("Bring Nature In" - Constrained to Left) */
+  /* --- TOP LEFT TITLE ("Bring", "Nature", "In" Staked Vertically) --- */
   body .hero-section .hero-left {
     transform: none !important;
     text-align: left !important;
-    max-width: 60% !important; /* Forces "In" to stay on the left side */
-    padding: 0 !important;
+    max-width: 110px !important; /* Narrow width forces "Nature" and "In" to wrap onto separate lines */
+    padding: 0 0 0 10px !important;
     pointer-events: auto !important;
-    animation: moveInFromTop 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+    /* Hooked up to your existing keyframes */
+    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
   }
 
   body .hero-section .hero-left h1 {
-    font-size: 3.1rem !important;
-    line-height: 0.95 !important;
+    font-size: 3.2rem !important;
+    line-height: 0.92 !important;
     letter-spacing: -1px !important;
     color: #000000 !important;
+    word-break: break-word !important;
   }
 
   body .hero-section .hero-left h1 span.small-title {
@@ -1044,38 +1046,28 @@ body.admin-editing [contenteditable="true"] {
     display: block !important;
   }
 
-  /* 5. BOTTOM DESCRIPTION (Shifted Down Below Base) */
+  /* --- BOTTOM DESCRIPTION (Shifted Down for Readability) --- */
   body .hero-section .hero-right {
     transform: none !important;
     width: 100% !important;
-    padding: 0 10px 10px 10px !important;
+    padding: 0 15px 10px 15px !important;
     margin-top: auto !important;
     pointer-events: auto !important;
-    animation: moveInFromTop 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards !important;
+    /* Hooked up to your existing keyframes with 0.2s delay */
+    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards !important;
   }
 
   body .hero-section .hero-right p {
     font-family: 'Georgia', serif !important;
     font-style: italic !important;
-    font-size: 1.2rem !important;
+    font-size: 1.15rem !important;
     line-height: 1.35 !important;
     text-align: center !important;
     color: var(--text-dark) !important;
-    text-shadow: none !important;
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8) !important;
   }
 }
 
-/* ANIMATION KEYFRAMES */
-@keyframes moveInFromTop {
-  0% {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
   /* --- SECTION 2 (Split Mobile - Stacked Layout to match Image 3) --- */
   .split-section {
