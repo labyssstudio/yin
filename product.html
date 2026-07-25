@@ -966,102 +966,133 @@ body.admin-editing [contenteditable="true"] {
   100% { opacity: 1; }
 }
 
-@/* ==========================================
-     ENHANCED MOBILE & TABLET RESPONSIVE FIXES
-     ========================================== */
-  @media (max-width: 900px) {
-    /* Header Overlay */
-    nav { 
-      padding: 15px 20px; 
-    }
-
-    /* --- SECTION 1 (Hero Mobile) --- */
-    .hero-section {
-      height: auto;
-      min-height: 100vh;
-      padding: 100px 20px 60px 20px;
-      grid-template-columns: 1fr;
-    }
-
-    .hero-content {
-      flex-direction: column;
-      justify-content: center;
-      gap: 30px;
-      text-align: center;
-    }
-
-    .hero-left {
-      transform: translateY(0) !important; /* Clears desktop offset */
-    }
-
-    .hero-left h1 {
-      font-size: 3.2rem;
-    }
-
-    .hero-left h1 span.small-title {
-      font-size: 1.5rem;
-    }
-
-    .hero-right {
-      max-width: 100%;
-      transform: translateY(0) !important; /* Clears desktop offset */
-    }
-
-    .hero-right p {
-      font-size: 1.2rem;
-      text-align: center;
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    }
-
-    /* --- SECTION 2 (Split Mobile: Diagram First, Text Second) --- */
-    .split-section {
-      grid-template-columns: 1fr;
-    }
-
-    .split-left {
-      flex-direction: column; /* Diagram on top, heading underneath */
-      padding: 50px 20px;
-      gap: 25px;
-      align-items: center;
-      text-align: center;
-    }
-
-    .split-left .exploded-graphic {
-      max-width: 240px;
-    }
-
-    .split-left h2 {
-      font-size: 2.6rem;
-      padding-left: 0;
-      text-align: center;
-    }
-
-    .split-right {
-      padding: 50px 25px;
-    }
-
-    .split-right p {
-      font-size: 1.25rem;
-      line-height: 1.6;
-    }
-
-    /* --- OTHER MOBILE LAYOUT FIXES --- */
-    .details-container,
-    .policy-modal-card, 
-    .delivery-form-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .cart-header-row, .cart-item-row { 
-      grid-template-columns: 2fr 1fr 1fr; 
-    }
-
-    .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
-    .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) {
-      display: none;
-    }
+/* ==========================================
+   ENHANCED MOBILE RESPONSIVE FIXES
+   ========================================== */
+@media (max-width: 900px) {
+  /* Header Overlay */
+  nav {
+    padding: 15px 20px;
   }
+
+  /* --- SECTION 1 (Hero Mobile - Fixed Layout to match Image 2) --- */
+  .hero-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 90px 20px 40px 20px;
+    display: flex;
+    flex-direction: column; /* Stack vertically: Title -> Image -> Text */
+    justify-content: flex-start;
+  }
+
+  /* Keep image static at the back, scaled down to make room */
+  .hero-image-container {
+    position: relative;
+    height: 55vh; /* Reduced height to prevent covering text */
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .hero-image-container img {
+    object-fit: contain; /* Prevents overflow/cropping on mobile screens */
+  }
+
+  .hero-content {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 15px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-left {
+    transform: translateY(0) !important; /* Reset desktop offset */
+    text-align: left; /* Align title left to match Image 2 */
+    width: 100%;
+  }
+
+  .hero-left h1 {
+    font-size: 3.8rem; /* Adjusted down so "Nature In" stays on 1 line */
+    line-height: 1.0;
+  }
+
+  .hero-left h1 span.small-title {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+
+  .hero-right {
+    max-width: 100%;
+    transform: translateY(0) !important; /* Reset desktop offset */
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .hero-right p {
+    font-size: 1.25rem;
+    line-height: 1.3;
+    text-align: center; /* Center the caption text below image like Image 2 */
+    color: var(--text-dark); /* Ensure text is dark and readable */
+    text-shadow: none;
+  }
+
+  /* --- SECTION 2 (Split Mobile - Stacked Layout to match Image 3) --- */
+  .split-section {
+    grid-template-columns: 1fr; /* Force 1 column */
+  }
+
+  /* Top Section: Diagram on Left, Text on Right (2 Columns inside Mobile Top Panel) */
+  .split-left {
+    display: grid;
+    grid-template-columns: 120px 1fr; /* Left graphic, Right title */
+    align-items: center;
+    padding: 40px 20px;
+    gap: 20px;
+    background-color: var(--white);
+  }
+
+  .split-left .exploded-graphic {
+    max-width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+  }
+
+  .split-left h2 {
+    font-size: 2.2rem;
+    line-height: 1.1;
+    padding-left: 0;
+    text-align: left;
+  }
+
+  /* Bottom Section: Full-Width Dark Brown Box */
+  .split-right {
+    background-color: var(--accent-brown);
+    padding: 40px 25px;
+    text-align: center;
+  }
+
+  .split-right p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--white);
+  }
+
+  /* --- OTHER MOBILE LAYOUT FIXES --- */
+  .details-container,
+  .policy-modal-card,
+  .delivery-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-header-row, .cart-item-row {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
+  .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) {
+    display: none;
+  }
+}
 </style>
 </head>
 <body>
