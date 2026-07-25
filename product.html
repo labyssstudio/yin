@@ -970,35 +970,58 @@ body.admin-editing [contenteditable="true"] {
    ENHANCED MOBILE RESPONSIVE FIXES
    ========================================== */
 @media (max-width: 900px) {
+  /* Header Overlay */
   nav {
     padding: 15px 20px;
   }
 
-  /* --- SECTION 1: Mobile Hero Layout (Matches Image 1) --- */
+  /* --- SECTION 1 (Hero Mobile) --- */
   .hero-section {
     height: auto;
     min-height: 100vh;
     padding: 80px 0px 40px 0px;
     display: flex;
-    flex-direction: column; /* Stacks components vertically on mobile */
-    align-items: center;
+    flex-direction: column; /* Stack vertically */
+    justify-content: flex-start;
+  }
+
+  /* Image Container - Scaled to fit full glass dome without clipping */
+  .hero-image-container {
+    order: 2; /* Sits in the middle, between title and description */
+    position: relative;
+    top: auto;
+    left: auto;
+    height: 52vh; /* Optimal height to display full glass dome */
+    width: 100%;
+    margin: 10px 0 20px 0;
+    overflow: hidden;
+    opacity: 1;
+  }
+
+  .hero-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensures the glass dome is NEVER cut off */
+    object-position: center;
   }
 
   .hero-content {
+    order: 1; /* Title container sits at top */
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+    text-align: center;
+    position: relative;
     width: 100%;
-    transform: none !important;
   }
 
-  /* 1. Top Title (Order 1) */
+  /* Top Title Block */
   .hero-left {
-    order: 1;
-    transform: none !important;
+    transform: translateY(0) !important; /* Reset desktop offset */
+    text-align: left; /* Align title left */
     width: 100%;
-    padding: 0 24px;
-    text-align: left;
-    margin-bottom: 20px;
+    padding: 0 20px;
   }
 
   .hero-left h1 {
@@ -1009,47 +1032,29 @@ body.admin-editing [contenteditable="true"] {
 
   .hero-left h1 span.small-title {
     font-size: 1.6rem;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
-  /* 2. Middle Image Crop & Zoom (Order 2) */
-  .hero-image-container {
-    order: 2;
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 100%;
-    height: 460px; /* Viewport height for focal cropping */
-    overflow: hidden;
-    margin-bottom: 25px;
-    opacity: 1;
-  }
-
-  .hero-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 45%; /* Centers on the terrarium */
-    transform: scale(1.35); /* Zoom in to match Image 1 */
-  }
-
-  /* 3. Bottom Text Caption (Order 3) */
+  /* Bottom Description Block (Moved below the image) */
   .hero-right {
-    order: 3;
+    order: 3; /* Forces description to render below the hero image container */
     max-width: 100%;
-    transform: none !important;
-    padding: 0 30px;
-    text-align: center;
+    transform: translateY(0) !important; /* Reset desktop offset */
     width: 100%;
+    padding: 0 20px;
+    margin-top: 10px;
   }
 
   .hero-right p {
-    font-size: 1.35rem;
-    line-height: 1.3;
-    text-align: center;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.35;
+    text-align: center; /* Center caption text below image */
     color: var(--text-dark);
     text-shadow: none;
   }
+}
 
   /* --- SECTION 2 (Split Mobile - Stacked Layout to match Image 3) --- */
   .split-section {
