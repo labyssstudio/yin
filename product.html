@@ -981,47 +981,23 @@ body.admin-editing [contenteditable="true"] {
     min-height: 100vh;
     padding: 80px 0px 40px 0px;
     display: flex;
-    flex-direction: column; /* Stack vertically */
+    flex-direction: column; /* Stacks items vertically: 1 -> 2 -> 3 */
     justify-content: flex-start;
   }
 
-  /* Image Container - Scaled to fit full glass dome without clipping */
-  .hero-image-container {
-    order: 2; /* Sits in the middle, between title and description */
-    position: relative;
-    top: auto;
-    left: auto;
-    height: 52vh; /* Optimal height to display full glass dome */
-    width: 100%;
-    margin: 10px 0 20px 0;
-    overflow: hidden;
-    opacity: 1;
-  }
-
-  .hero-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensures the glass dome is NEVER cut off */
-    object-position: center;
-  }
-
+  /* Unwraps .hero-content on mobile so its child elements re-order around the image */
   .hero-content {
-    order: 1; /* Title container sits at top */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0;
-    text-align: center;
-    position: relative;
-    width: 100%;
+    display: contents !important;
   }
 
-  /* Top Title Block */
+  /* 1. TOP: Title Block */
   .hero-left {
+    order: 1;
     transform: translateY(0) !important; /* Reset desktop offset */
-    text-align: left; /* Align title left */
+    text-align: left;
     width: 100%;
     padding: 0 20px;
+    margin-bottom: 15px;
   }
 
   .hero-left h1 {
@@ -1035,14 +1011,34 @@ body.admin-editing [contenteditable="true"] {
     margin-bottom: 4px;
   }
 
-  /* Bottom Description Block (Moved below the image) */
+  /* 2. MIDDLE: Terrarium Image (Center Cropped & Zoomed) */
+  .hero-image-container {
+    order: 2; /* Sits directly in the middle */
+    position: relative;
+    top: auto;
+    left: auto;
+    height: 440px; /* Gives enough vertical space for the cropped center focus */
+    width: 100%;
+    margin: 10px 0 25px 0;
+    overflow: hidden; /* Crops out left notebook and right background */
+    opacity: 1;
+  }
+
+  .hero-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crops sides to isolate center product */
+    object-position: 50% 50%; /* Keeps the terrarium perfectly centered */
+    transform: scale(1.6); /* Zooms in to crop out side clutter */
+  }
+
+  /* 3. BOTTOM: Description Block */
   .hero-right {
-    order: 3; /* Forces description to render below the hero image container */
+    order: 3; /* Placed cleanly BELOW the terrarium image */
     max-width: 100%;
     transform: translateY(0) !important; /* Reset desktop offset */
     width: 100%;
-    padding: 0 20px;
-    margin-top: 10px;
+    padding: 0 25px;
   }
 
   .hero-right p {
