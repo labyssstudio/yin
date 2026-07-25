@@ -29,16 +29,19 @@ body {
 }
 
 /* Navigation Bar */
+/* Navigation Bar Overlaid Flush On Top */
 nav {
   display: flex;
-  justify-content: flex-end; /* Clean right alignment without left logo */
+  justify-content: flex-end;
   align-items: center;
   padding: 20px 50px;
-  background-color: var(--bg-color);
-  position: sticky;
+  background-color: transparent; /* Makes header transparent so background image extends to top */
+  position: absolute;            /* Overlays directly on top of section 1 */
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
-  border-bottom: 1px solid rgba(62, 54, 49, 0.1);
+  box-sizing: border-box;
 }
 
 .nav-links {
@@ -124,7 +127,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   opacity: 0;
-  animation: moveDownFromTop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Left Block: "Bring Nature In" (Lifted higher to match center of terrarium) */
@@ -192,7 +195,7 @@ nav {
 }
 
 .split-left.animate {
-  animation: moveDownFromTop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Significantly Larger Exploded Graphic */
@@ -954,7 +957,7 @@ body.admin-editing [contenteditable="true"] {
 
 /* Keyframes & Responsive Design */
 @keyframes moveDownFromTop {
-  0% { opacity: 0; transform: translateY(-40px); }
+  0% { opacity: 0; transform: translateY(-50px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
@@ -963,20 +966,102 @@ body.admin-editing [contenteditable="true"] {
   100% { opacity: 1; }
 }
 
-@media (max-width: 900px) {
-  .hero-section, .split-section, .details-container,
-  .policy-modal-card, .delivery-form-grid {
-    grid-template-columns: 1fr;
+@/* ==========================================
+     ENHANCED MOBILE & TABLET RESPONSIVE FIXES
+     ========================================== */
+  @media (max-width: 900px) {
+    /* Header Overlay */
+    nav { 
+      padding: 15px 20px; 
+    }
+
+    /* --- SECTION 1 (Hero Mobile) --- */
+    .hero-section {
+      height: auto;
+      min-height: 100vh;
+      padding: 100px 20px 60px 20px;
+      grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+      flex-direction: column;
+      justify-content: center;
+      gap: 30px;
+      text-align: center;
+    }
+
+    .hero-left {
+      transform: translateY(0) !important; /* Clears desktop offset */
+    }
+
+    .hero-left h1 {
+      font-size: 3.2rem;
+    }
+
+    .hero-left h1 span.small-title {
+      font-size: 1.5rem;
+    }
+
+    .hero-right {
+      max-width: 100%;
+      transform: translateY(0) !important; /* Clears desktop offset */
+    }
+
+    .hero-right p {
+      font-size: 1.2rem;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    /* --- SECTION 2 (Split Mobile: Diagram First, Text Second) --- */
+    .split-section {
+      grid-template-columns: 1fr;
+    }
+
+    .split-left {
+      flex-direction: column; /* Diagram on top, heading underneath */
+      padding: 50px 20px;
+      gap: 25px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .split-left .exploded-graphic {
+      max-width: 240px;
+    }
+
+    .split-left h2 {
+      font-size: 2.6rem;
+      padding-left: 0;
+      text-align: center;
+    }
+
+    .split-right {
+      padding: 50px 25px;
+    }
+
+    .split-right p {
+      font-size: 1.25rem;
+      line-height: 1.6;
+    }
+
+    /* --- OTHER MOBILE LAYOUT FIXES --- */
+    .details-container,
+    .policy-modal-card, 
+    .delivery-form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cart-header-row, .cart-item-row { 
+      grid-template-columns: 2fr 1fr 1fr; 
+    }
+
+    .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
+    .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) {
+      display: none;
+    }
   }
-  nav { padding: 20px; }
-  .hero-section { padding: 40px 20px; }
-  .split-left, .split-right { padding: 40px 20px; }
-  .cart-header-row, .cart-item-row { grid-template-columns: 2fr 1fr 1fr; }
-  .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
-  .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) {
-    display: none;
-  }
-}
 </style>
 </head>
 <body>
