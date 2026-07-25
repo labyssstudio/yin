@@ -971,103 +971,102 @@ body.admin-editing [contenteditable="true"] {
    ========================================== */
 @media screen and (max-width: 900px) {
   nav {
-    padding: 15px 20px !important;
+    padding: 15px 20px;
   }
 
-  /* --- SECTION 1 CONTAINER --- */
-  body .hero-section {
-    position: relative !important;
-    min-height: 90vh !important;
-    height: 90vh !important;
-    padding: 90px 15px 20px 15px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
+  /* 1. SECTION CONTAINER */
+  .hero-section {
+    position: relative;
+    min-height: 90vh;
+    height: 90vh;
+    padding: 90px 15px 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
-  /* --- BACKGROUND IMAGE (Cropped Left/Right, Shifted Up slightly) --- */
-  body .hero-section .hero-image-container {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 1 !important;
-    margin: 0 !important;
-    opacity: 1 !important;
+  /* 2. BACKGROUND IMAGE (Positioned higher so base clears description) */
+  .hero-section .hero-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    margin: 0;
+    opacity: 1;
   }
 
-  body .hero-section .hero-image-container img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: 50% 38% !important; /* Moves image upward so base clears the bottom text */
+  .hero-section .hero-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 35%;
   }
 
-  /* --- FOREGROUND CONTENT WRAPPER --- */
-  body .hero-section .hero-content {
-    position: relative !important;
-    z-index: 2 !important;
-    width: 100% !important;
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    flex-grow: 1 !important;
-    transform: none !important;
-    pointer-events: none !important;
+  /* 3. FOREGROUND CONTENT WRAPPER */
+  .hero-section .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    transform: none;
+    pointer-events: none;
   }
 
-  /* --- TOP LEFT TITLE ("Bring", "Nature", "In" Staked Vertically) --- */
-  body .hero-section .hero-left {
-    transform: none !important;
-    text-align: left !important;
-    max-width: 110px !important; /* Narrow width forces "Nature" and "In" to wrap onto separate lines */
-    padding: 0 0 0 10px !important;
-    pointer-events: auto !important;
-    /* Hooked up to your existing keyframes */
-    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+  /* 4. TOP TITLE: Shifted Left & Prevents "Nature" from breaking */
+  .hero-section .hero-left {
+    transform: none;
+    text-align: left;
+    max-width: 170px; /* Wide enough so "Nature" doesn't break, narrow enough to wrap "In" */
+    padding: 0 0 0 5px;
+    margin-right: auto; /* Anchors content to the far left margin */
+    pointer-events: auto;
+    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
-  body .hero-section .hero-left h1 {
-    font-size: 3.2rem !important;
-    line-height: 0.92 !important;
-    letter-spacing: -1px !important;
-    color: #000000 !important;
-    word-break: break-word !important;
+  .hero-section .hero-left h1 {
+    font-size: 3rem;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    color: #000000;
+    white-space: normal;
+    word-break: normal; /* Prevents breaking individual words like "Nature" */
   }
 
-  body .hero-section .hero-left h1 span.small-title {
-    font-size: 1.5rem !important;
-    margin-bottom: 4px !important;
-    display: block !important;
+  .hero-section .hero-left h1 span.small-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    display: block;
   }
 
-  /* --- BOTTOM DESCRIPTION (Shifted Down for Readability) --- */
-  body .hero-section .hero-right {
-    transform: none !important;
-    width: 100% !important;
-    padding: 0 15px 10px 15px !important;
-    margin-top: auto !important;
-    pointer-events: auto !important;
-    /* Hooked up to your existing keyframes with 0.2s delay */
-    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards !important;
+  /* 5. BOTTOM DESCRIPTION: Moved Down, No Text-Shadow, 2.2s Animation */
+  .hero-section .hero-right {
+    transform: none;
+    width: 100%;
+    padding: 0 10px 0 10px;
+    margin-top: auto;
+    pointer-events: auto;
+    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
-  body .hero-section .hero-right p {
-    font-family: 'Georgia', serif !important;
-    font-style: italic !important;
-    font-size: 1.15rem !important;
-    line-height: 1.35 !important;
-    text-align: center !important;
-    color: var(--text-dark) !important;
-    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8) !important;
+  .hero-section .hero-right p {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    text-align: center;
+    color: var(--text-dark);
+    text-shadow: none; /* Completely removed text shadow */
   }
 }
-
 
   /* --- SECTION 2 (Split Mobile - Stacked Layout to match Image 3) --- */
   .split-section {
