@@ -81,14 +81,14 @@ nav {
 }
 
 /* ==========================================
-   SECTION 1: Main Banner (Adjusted Layout & Text)
+   SECTION 1: Main Banner Layout Adjustments
    ========================================== */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 100vh; /* Full screen height */
+  height: 100vh;
   display: flex;
-  align-items: center; /* Shifted UP to center vertically */
+  align-items: center; /* Base vertical center */
   padding: 0 8%;
   box-sizing: border-box;
   overflow: hidden;
@@ -121,17 +121,20 @@ nav {
   z-index: 2;
   width: 100%;
   display: flex;
-  justify-content: space-between; /* Heading on left, description on right */
-  align-items: center; /* Vertically aligns title and description */
-  transform: translateY(-20px); /* Slightly lifts the overall content block */
+  justify-content: space-between;
+  align-items: center;
   opacity: 0;
   animation: moveDownFromTop 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Left Title Styling */
+/* Left Block: "Bring Nature In" (Lifted higher to match center of terrarium) */
+.hero-left {
+  transform: translateY(-160px); /* Pushes title up to match terrarium's middle height */
+}
+
 .hero-left h1 {
   font-family: 'Georgia', serif;
-  font-size: 5.8rem; /* Bigger title size */
+  font-size: 5.8rem;
   line-height: 0.95;
   font-weight: 400;
   margin: 0;
@@ -139,25 +142,26 @@ nav {
   letter-spacing: -1px;
 }
 
-/* "Bring" - Bold & Small Title */
+/* "Bring" - Unbolded / Regular Weight */
 .hero-left h1 span.small-title {
   display: block;
-  font-size: 2.2rem; /* Scaled up */
-  font-weight: 700;  /* Bolded */
-  font-family: 'Georgia', serif; /* Serif style matching image 2 */
+  font-size: 2.2rem;
+  font-weight: 400;
+  font-family: 'Georgia', serif;
   letter-spacing: 0px;
   margin-bottom: 12px;
 }
 
-/* Right Paragraph Styling */
+/* Right Block: Description (Shifted down onto dark table surface) */
 .hero-right {
-  max-width: 380px; /* Slightly wider block */
+  max-width: 380px;
+  transform: translateY(110px); /* Remains on top of the dark desk */
 }
 
 .hero-right p {
   font-family: 'Georgia', serif;
-  font-style: italic; /* Matches italic style */
-  font-size: 1.8rem;   /* Scaled up font size */
+  font-style: italic;
+  font-size: 1.8rem;
   color: #000000;
   line-height: 1.25;
   margin: 0;
