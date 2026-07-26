@@ -1069,61 +1069,56 @@ body.admin-editing [contenteditable="true"] {
     text-shadow: none; /* Completely removed text shadow */
   }
 }
-
-  /* --- SECTION 2 (Split Mobile - Stacked Layout to match Image 3) --- */
-  .split-section {
-    grid-template-columns: 1fr; /* Force 1 column */
-  }
-
-  /* Top Section: Diagram on Left, Text on Right (2 Columns inside Mobile Top Panel) */
-  .split-section {
-        grid-template-columns: 1fr;
-    }
-
-    .split-left {
-        padding: 40px 20px 10px 20px;
-    }
-
-    .split-left .exploded-graphic {
-        max-width: 180px;
-        max-height: 250px;
-    }
-
-    .split-center {
-        padding: 0 20px 30px 20px;
-        text-align: center;
-    }
-
-    .split-center h2 {
-        font-size: 2.5rem;
-        text-align: center;
-    }
-
-    .split-right {
-        padding: 40px 25px;
-    }
-
-    .split-right p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-    }
-
-  /* --- OTHER MOBILE LAYOUT FIXES --- */
-  .details-container,
-  .policy-modal-card,
-  .delivery-form-grid {
+  /* --- SECTION 2 (Split Mobile - Stacked Layout) --- */
+.split-section {
     grid-template-columns: 1fr;
-  }
-
-  .cart-header-row, .cart-item-row {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
-
-  .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
-  .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) {
-    display: none;
-  }
 }
+
+.split-left {
+    padding: 40px 20px 10px 20px;
+}
+
+.split-left .exploded-graphic {
+    max-width: 180px;
+    max-height: 250px;
+}
+
+.split-center {
+    padding: 0 20px 30px 20px;
+    text-align: center;
+}
+
+.split-center h2 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.split-right {
+    padding: 40px 25px;
+}
+
+.split-right p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* --- OTHER MOBILE LAYOUT FIXES --- */
+.details-container,
+.policy-modal-card,
+.delivery-form-grid {
+    grid-template-columns: 1fr;
+}
+
+.cart-header-row, .cart-item-row {
+    grid-template-columns: 2fr 1fr 1fr;
+}
+
+.cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
+.cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) {
+    display: none;
+}
+}
+</style>
 </style>
 </head>
 <body>
