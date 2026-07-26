@@ -48,7 +48,7 @@ nav {
 }
 .nav-links a {
   text-decoration: none;
-  color: var(--text-dark);
+  color: var(--white);
   font-size: 0.95rem;
   font-weight: 500;
   transition: color 0.3s;
@@ -64,7 +64,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-dark);
+  color: var(--white);
   font-weight: 500;
 }
 .view-section { display: none; }
@@ -1455,7 +1455,7 @@ function renderDynamicCatalogSections() {
       let filterHtml = "";
       if (index === 0) {
         filterHtml = `
-          <div class="dropdown">
+          <div class="global-filter-container">
             <button class="dropbtn">Filter Categories ▼</button>
             <div class="dropdown-content" id="globalFilterMenu"></div>
           </div>`;

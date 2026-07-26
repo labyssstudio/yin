@@ -53,5 +53,18 @@
         "gallery": [
             "product uploads/1785085256_6a663d4858e8f.png"
         ]
+    },
+    {
+        "id": 1785086845280,
+        "name": "Octoblepharum albidum",
+        "series": "Living Moss",
+        "category": "Living Moss",
+        "price": 10,
+        "date": "JUL 2026",
+        "description": "(10cm x 10cm)",
+        "mainImg": "product uploads/1785086892_6a6643acc9ce1.png",
+        "gallery": [
+            "product uploads/1785086892_6a6643acca461.png"
+        ]
     }
 ]
