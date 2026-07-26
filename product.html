@@ -1144,15 +1144,6 @@ body.admin-editing [contenteditable="true"] {
   
   <!-- SECTION 3: Dynamic Product Showcase Sections -->
   <section class="showcase-section" id="catalog">
-    <div class="global-filter-container">
-      <div class="dropdown">
-        <button class="dropbtn">Filter Categories ▼</button>
-        <div class="dropdown-content" id="globalFilterMenu">
-            <!-- Dynamically Rendered Categories -->
-        </div>
-      </div>
-    </div>
-
     <div id="catalogSectionsWrapper"></div>
     <div id="adminAddSeriesBtnWrapper" style="display:none; margin-top:40px; text-align:center;">
       <button class="admin-action-btn save" onclick="promptAddSeriesSection()">+ Add New Series Section</button>
@@ -1356,6 +1347,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('adminGalleryControls').style.display = 'flex';
     document.getElementById('detailsSaveReturnBtn').style.display = 'inline-block';
     document.getElementById('adminProductEditControls').style.display = 'flex';
+    document.getElementById('adminAddSeriesBtnWrapper').style.display = 'block';
   }
   loadProductsFromJSON();
 });
@@ -1436,7 +1428,7 @@ function renderDynamicCatalogSections() {
   const wrapper = document.getElementById('catalogSectionsWrapper');
   wrapper.innerHTML = "";
   
-  storeSeriesList.forEach(seriesName => {
+  storeSeriesList.forEach((seriesName, index) => {
     let itemsToRender = products.filter(p => p.series === seriesName);
     
     if(activeGlobalFilter !== 'all') {
@@ -1458,7 +1450,18 @@ function renderDynamicCatalogSections() {
                       <button class="admin-action-btn danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteSeriesSection('${seriesName}')">Delete Series</button>
                     </div>`;
       }
-      headerDiv.innerHTML = titleHtml;
+
+      // Attach Filter Button to the right side of the 1st Series Header
+      let filterHtml = "";
+      if (index === 0) {
+        filterHtml = `
+          <div class="dropdown">
+            <button class="dropbtn">Filter Categories ▼</button>
+            <div class="dropdown-content" id="globalFilterMenu"></div>
+          </div>`;
+      }
+      
+      headerDiv.innerHTML = titleHtml + filterHtml;
       
       const gridDiv = document.createElement('div');
       gridDiv.className = "product-grid";
@@ -1500,6 +1503,9 @@ function renderDynamicCatalogSections() {
       wrapper.appendChild(sectionBlock);
     }
   });
+
+  // Re-populate category items inside dropdown after DOM creation
+  renderGlobalFilterDropdown();
 }
 
 function openDetailsPage(id) {
