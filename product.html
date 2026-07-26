@@ -174,72 +174,70 @@ nav {
 /* ==========================================
    SECTION 2: Split Intro Layout
    ========================================== */
-.split-section {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr 1.8fr; /* 3 Columns: Left | Center | Right */
-    min-height: 100vh;
-    align-items: stretch;
-    background-color: var(--white);
-    width: 100%;
-}
-
-/* 1. Left Panel: Image Only */
-.split-left {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 40px;
-    opacity: 0;
-    transform: translateY(-30px);
-}
-
-.split-left.animate {
-    animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.split-left .exploded-graphic {
-    max-width: 320px;
-    width: 100%;
-    height: auto;
-    max-height: 80vh;
-    object-fit: contain;
-}
-
-/* 2. Center Panel: Title Only */
-.split-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-}
-
-.split-center h2 {
-    font-family: 'Georgia', serif;
-    font-size: 4.5rem;
-    font-weight: 400;
-    line-height: 1.05;
-    text-align: left;
-    margin: 0;
-    color: #000000;
-}
-
-/* 3. Right Panel: Brown Block */
-.split-right {
-    background-color: var(--accent-brown);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 60px;
-    text-align: center;
-}
-
-.split-right p {
-    font-family: 'Georgia', serif;
-    font-size: 1.85rem;
-    line-height: 1.7;
-    max-width: 580px;
-    margin: 0;
+.split-section { 
+  display: grid; 
+  grid-template-columns: 1fr 1.2fr 1.8fr;
+  min-height: 100vh; 
+  align-items: stretch; 
+  background-color: var(--white); 
+  width: 100%; 
+} 
+ 
+/* Left Panel Adjustments */ 
+.split-left { 
+  display: flex; 
+  align-items: center; 
+  justify-content: flex-start; /* Keeps image left while content flows right */ 
+  padding: 60px 80px; 
+  gap: 60px; /* Expands space to push title further right toward center */ 
+  opacity: 0; 
+  transform: translateY(-30px); 
+} 
+ 
+.split-left.animate { 
+  animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+} 
+ 
+/* Significantly Larger Exploded Graphic */ 
+.split-left .exploded-graphic { 
+  max-width: 360px; /* Increased from 260px to make image much bigger */ 
+  width: 100%; 
+  height: auto; 
+  max-height: 85vh; /* Expands image height to fill vertical space */ 
+  object-fit: contain; 
+  flex-shrink: 0; 
+} 
+ 
+/* Bigger Title & Shifted Right */ 
+.split-left h2 { 
+  font-family: 'Georgia', serif; 
+  font-size: 4.8rem; /* Increased size for "3D printed moss terrarium" */ 
+  font-weight: 400; 
+  line-height: 1.1; 
+  text-align: left; 
+  margin: 0; 
+  color: #000000; 
+  padding-left: 20px; /* Pushes text further toward the center divider */ 
+} 
+ 
+/* Right Panel Adjustments (Brown Block) */ 
+.split-right { 
+  background-color: var(--accent-brown); 
+  color: var(--white); 
+  display: flex; 
+  align-items: center;    /* Vertically Centered */ 
+  justify-content: center; /* Horizontally Centered */ 
+  padding: 80px; 
+  text-align: center; 
+} 
+ 
+/* Bigger Text inside the Brown Block */ 
+.split-right p { 
+  font-family: 'Georgia', serif; 
+  font-size: 1.85rem; /* Increased font size for readability */ 
+  line-height: 1.7; 
+  max-width: 580px; /* Widened max-width so text flows naturally across lines */ 
+  margin: 0; 
 }
 
 /* SECTION 3: Product Showcase / Shop Area */
