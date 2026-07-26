@@ -1,1082 +1,1324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Labyss Studio | Sustainable 3D-Printed Moss Terrarium</title>
-    <style>
-        :root {
-            --bg-color: #F7F5F0;
-            --card-bg: #EAE5DC;
-            --text-dark: #1A1A1A;
-            --accent-brown: #3E3631;
-            --white: #FFFFFF;
-            --transition-speed: 0.4s;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* Navigation Bar */
-        nav {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 20px 50px;
-            background-color: transparent;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-            font-weight: 400;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-brown);
-        }
-
-        .cart-icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-
-        /* === SECTION 1: Main Banner === */
-        .hero-section {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 8%;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        .hero-image-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0;
-            animation: fadeIn 1.2s ease forwards 0.3s;
-        }
-
-        .hero-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0;
-            animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .hero-left { transform: translateY(-160px); }
-
-        .hero-left h1 {
-            font-family: 'Georgia', serif;
-            font-size: 5.8rem;
-            line-height: 0.95;
-            font-weight: 400;
-            margin: 0;
-            color: #000000;
-            letter-spacing: -1px;
-        }
-
-        .hero-left h1 span.small-title {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 400;
-            font-family: 'Georgia', serif;
-            letter-spacing: 0px;
-            margin-bottom: 12px;
-        }
-
-        .hero-right {
-            max-width: 380px;
-            transform: translateY(190px);
-        }
-
-        .hero-right p {
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            font-size: 1.8rem;
-            color: #000000;
-            line-height: 1.25;
-            margin: 0;
-            text-align: right;
-        }
-
-        /* === SECTION 2: Split Intro Layout === */
-        .split-section {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr 1.8fr;
-            min-height: 100vh;
-            align-items: center;
-            background-color: var(--white);
-            width: 100%;
-        }
-
-        .split-left {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 40px;
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-
-        .split-left.animate {
-            animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .split-left .exploded-graphic {
-            max-width: 500px;
-            width: 100%;
-            height: auto;
-            max-height: 80vh;
-            object-fit: contain;
-        }
-
-        .split-center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-        }
-
-        .split-center h2 {
-            font-family: 'Georgia', serif;
-            font-size: 4.5rem;
-            font-weight: 400;
-            line-height: 1.05;
-            text-align: left;
-            margin: 0;
-            color: #000000;
-        }
-
-        .split-right {
-            background-color: var(--accent-brown);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px;
-            text-align: center;
-            border-radius: 40px;
-            aspect-ratio: 1 / 1;
-            margin-right: 60px;
-        }
-
-        .split-right p {
-            font-family: 'Georgia', serif;
-            font-size: 1.85rem;
-            line-height: 1.7;
-            max-width: 580px;
-            margin: 0;
-        }
-
-        /* === SECTION 3: Product Showcase === */
-        .showcase-section {
-            padding: 80px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .showcase-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 50px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .showcase-header h2 {
-            font-family: 'Georgia', serif;
-            font-size: 2.8rem;
-            font-weight: 400;
-            font-style: italic;
-        }
-
-        .filter-container {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background-color: transparent;
-            border: 1px solid var(--accent-brown);
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            background-color: var(--accent-brown);
-            color: var(--white);
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 40px;
-        }
-
-        .product-card {
-            background-color: transparent;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover { transform: translateY(-5px); }
-
-        /* PORTRAIT RECTANGLE WITH CURVED CORNERS FOR PRODUCTS */
-        .product-img-wrapper {
-            background-color: var(--card-bg);
-            border-radius: 24px;
-            overflow: hidden;
-            aspect-ratio: 3 / 4; /* Portrait fix */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .product-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Fully fills the rectangle */
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-img-wrapper img {
-            transform: scale(1.04);
-        }
-
-        .product-badge {
-            display: none;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--accent-brown);
-            color: var(--white);
-            padding: 5px 12px;
-            font-size: 0.75rem;
-            border-radius: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        /* Admin logic for cards */
-        .product-card .admin-card-actions { display: none !important; }
-        body.admin-editing .product-card .admin-card-actions { display: flex !important; }
-
-        .product-info .date {
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .product-info h3 {
-            font-family: 'Georgia', serif;
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-
-        .product-info .price {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        /* === SECTION 4: Product Details Page === */
-        .details-page {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 50px 80px 50px;
-        }
-
-        .details-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-        }
-
-        .details-gallery-col {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* DETAILS PAGE PORTRAIT RECTANGLE */
-        .main-display-box {
-            background-color: var(--card-bg);
-            border-radius: 24px;
-            aspect-ratio: 3 / 4; /* Portrait fix */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .main-display-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Fully fills the rectangle */
-            transition: opacity 0.3s ease;
-        }
-
-        .sub-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .sub-thumb {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            aspect-ratio: 3 / 4; /* Portrait fix */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            overflow: hidden;
-        }
-
-        .sub-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .sub-thumb.active-thumb { border-color: var(--accent-brown); }
-
-        .details-info-box {
-            background-color: var(--card-bg);
-            border-radius: 24px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .details-meta .date {
-            font-size: 0.85rem;
-            color: #666;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .details-meta h1 {
-            font-family: 'Georgia', serif;
-            font-size: 2.2rem;
-            font-weight: 400;
-            margin-bottom: 15px;
-        }
-
-        .details-meta .price {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .details-description {
-            font-family: 'Georgia', serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #4A4540;
-            margin-bottom: 30px;
-            border-top: 1px solid rgba(0,0,0,0.08);
-            padding-top: 20px;
-        }
-
-        .quantity-action-row {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .qty-selector-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding: 15px 0;
-        }
-
-        .qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .qty-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .qty-btn:hover { background-color: rgba(0,0,0,0.12); }
-
-        .add-to-cart-btn {
-            background-color: var(--accent-brown);
-            color: var(--white);
-            border: none;
-            padding: 18px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .add-to-cart-btn:hover { opacity: 0.9; }
-
-        /* === ADMIN EDIT PANEL CONTROLS === */
-        .admin-banner {
-            background-color: #2C3E50;
-            color: #ECF0F1;
-            padding: 12px 40px;
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            position: sticky;
-            top: 0;
-            z-index: 1500;
-            border-bottom: 2px solid #1ABC9C;
-        }
-
-        .admin-banner.active { display: flex; }
-
-        .admin-controls-group {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .admin-action-btn {
-            background-color: #1ABC9C;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
-
-        .admin-action-btn.save { background-color: #F39C12; }
-        .admin-action-btn.save:hover { background-color: #D68910; }
-
-        .admin-action-btn:hover { background-color: #16A085; }
-        .admin-action-btn.danger { background-color: #E74C3C; }
-        .admin-action-btn.danger:hover { background-color: #C0392B; }
-
-        body.admin-editing [contenteditable="true"] {
-            outline: 2px dashed #1ABC9C;
-            outline-offset: 4px;
-            background-color: rgba(26, 188, 156, 0.05);
-            border-radius: 4px;
-        }
-
-        .admin-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-        }
-
-        .admin-modal.active { display: flex; }
-
-        .admin-modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            width: 500px;
-            max-width: 90%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .admin-modal-content h3 {
-            font-family: 'Georgia', serif;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .admin-form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .admin-form-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .admin-form-group input, .admin-form-group select, .admin-form-group textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .admin-modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        @keyframes moveDownFromTop {
-            0% { opacity: 0; transform: translateY(-50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Labyss Studio | Sustainable 3D-Printed Moss Terrarium</title>
+<style>
+:root {
+  --bg-color: #F7F5F0;
+  --card-bg: #EAE5DC;
+  --text-dark: #1A1A1A;
+  --accent-brown: #3E3631;
+  --white: #FFFFFF;
+  --transition-speed: 0.4s;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+body {
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+/* Navigation Bar */
+nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  align-items: center;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+.nav-links a:hover {
+  color: var(--accent-brown);
+}
+.cart-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+.view-section { display: none; }
+.view-section.active { display: block; }
+
+/* === SECTION 1: Main Banner === */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 8%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.hero-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards 0.3s;
+}
+.hero-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-left { transform: translateY(-160px); }
+.hero-left h1 {
+  font-family: 'Georgia', serif;
+  font-size: 5.8rem;
+  line-height: 0.95;
+  font-weight: 400;
+  margin: 0;
+  color: #000000;
+  letter-spacing: -1px;
+}
+.hero-left h1 span.small-title {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 400;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0px;
+  margin-bottom: 12px;
+}
+.hero-right {
+  transform: translateY(190px);
+  max-width: 380px;
+}
+.hero-right p {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 1.8rem;
+  color: #000000;
+  line-height: 1.25;
+  margin: 0;
+  text-align: right;
+}
+
+/* === SECTION 2: Split Intro Layout === */
+.split-section {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1.8fr;
+  min-height: 100vh;
+  align-items: center;
+  background-color: var(--white);
+  width: 100%;
+}
+.split-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.split-left.animate {
+  animation: moveDownFromTop 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.split-left .exploded-graphic {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+}
+.split-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+.split-center h2 {
+  font-family: 'Georgia', serif;
+  font-size: 4.5rem;
+  font-weight: 400;
+  line-height: 1.05;
+  text-align: left;
+  margin: 0;
+  color: #000000;
+}
+.split-right {
+  background-color: var(--accent-brown);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  text-align: center;
+  border-radius: 40px;
+  aspect-ratio: 1/1;
+  margin-right: 60px;
+}
+.split-right p {
+  font-family: 'Georgia', serif;
+  font-size: 1.85rem;
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0;
+}
+
+/* === SECTION 3: Product Showcase === */
+.showcase-section {
+  padding: 80px 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.showcase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.showcase-header h2 {
+  font-family: 'Georgia', serif;
+  font-size: 2.8rem;
+  font-weight: 400;
+  font-style: italic;
+}
+.filter-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  background-color: transparent;
+  border: 1px solid var(--accent-brown);
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: all 0.3s ease;
+}
+.filter-btn.active, .filter-btn:hover {
+  background-color: var(--accent-brown);
+  color: var(--white);
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px;
+}
+.product-card {
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+.product-card:hover { transform: translateY(-5px); }
+.product-img-wrapper {
+  background-color: var(--card-bg);
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 16px;
+}
+.product-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  transition: transform 0.5s ease;
+}
+.product-card:hover .product-img-wrapper img {
+  transform: scale(1.04);
+}
+.product-badge {
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: var(--accent-brown);
+  color: var(--white);
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+.product-info .date {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.product-info h3 {
+  font-family: 'Georgia', serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.product-info .price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* === SECTION 4: Product Details Page === */
+.details-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 50px 80px 50px;
+}
+.details-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+.details-gallery-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.main-display-box {
+  background-color: var(--card-bg);
+  border-radius: 24px;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.main-display-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+.sub-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+.sub-thumb {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  overflow: hidden;
+}
+.sub-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sub-thumb.active-thumb { border-color: var(--accent-brown); }
+.details-info-box {
+  background-color: var(--card-bg);
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.details-meta .date {
+  font-size: 0.85rem;
+  color: #666;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.details-meta h1 {
+  font-family: 'Georgia', serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+.details-meta .price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.details-description {
+  font-family: 'Georgia', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #4A4540;
+  margin-bottom: 30px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding-top: 20px;
+}
+.quantity-action-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.qty-selector-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 15px 0;
+}
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.qty-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.qty-btn:hover { background-color: rgba(0,0,0,0.12); }
+.add-to-cart-btn {
+  background-color: var(--accent-brown);
+  color: var(--white);
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.add-to-cart-btn:hover { opacity: 0.9; }
+
+/* === SECTION 5: Policy Modal === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.policy-modal-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  width: 900px;
+  max-width: 100%;
+  max-height: 90vh;
+  background-color: var(--bg-color);
+  border-radius: 24px;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+.policy-left {
+  background-color: var(--bg-color);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid rgba(0,0,0,0.08);
+}
+.policy-left h2 {
+  font-family: 'Georgia', serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.policy-right {
+  background-color: var(--accent-brown);
+  color: var(--white);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
+}
+.policy-item h4 {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-family: 'Georgia', serif;
+}
+.policy-item p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #E0DDD8;
+}
+.modal-proceed-btn {
+  background-color: var(--white);
+  color: var(--accent-brown);
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+.modal-proceed-btn:hover {
+  background-color: #F0F0F0;
+}
+
+/* === SECTION 6: Cart & Checkout Page === */
+.cart-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 40px 100px 40px;
+}
+.cart-page h1 {
+  font-family: 'Georgia', serif;
+  font-size: 2.8rem;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+.cart-table-wrapper {
+  background-color: var(--accent-brown);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  color: var(--white);
+}
+.cart-header-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 18px 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.cart-item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  background-color: var(--card-bg);
+  color: var(--text-dark);
+  padding: 20px 30px;
+  margin: 8px;
+  border-radius: 12px;
+}
+.cart-product-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.cart-product-thumb {
+  width: 60px;
+  height: 60px;
+  background-color: var(--white);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.cart-product-thumb img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+.cart-product-name {
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.delete-btn {
+  background: none;
+  border: none;
+  color: #C0392B;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+}
+.delete-btn:hover {
+  text-decoration: underline;
+}
+.delivery-container {
+  background-color: var(--accent-brown);
+  border-radius: 16px;
+  padding: 30px;
+  color: var(--white);
+  margin-bottom: 30px;
+}
+.delivery-header {
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 15px;
+}
+.delivery-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 30px;
+  align-items: start;
+}
+.form-fields-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-field-group {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  gap: 15px;
+}
+.form-field-group label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.form-field-group input, .form-field-group select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  color: var(--white);
+  padding: 8px 4px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-field-group input:focus, .form-field-group select:focus {
+  border-color: var(--white);
+}
+.form-field-group select option {
+  background-color: var(--accent-brown);
+  color: var(--white);
+}
+.shipping-fee-display {
+  background-color: var(--card-bg);
+  color: var(--text-dark);
+  padding: 25px;
+  border-radius: 12px;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 180px;
+}
+.shipping-fee-display span.label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+.shipping-fee-display span.amount {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.cart-checkout-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+.order-total-display {
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.order-total-display span.total-val {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.preorder-action-btn {
+  background-color: var(--accent-brown);
+  color: var(--white);
+  border: none;
+  padding: 16px 35px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.preorder-action-btn:hover {
+  opacity: 0.9;
+}
+
+/* ADMIN CONTROLS */
+.admin-banner {
+  background-color: #2C3E50;
+  color: #ECF0F1;
+  padding: 12px 40px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  position: sticky;
+  top: 0;
+  z-index: 1500;
+  border-bottom: 2px solid #1ABC9C;
+}
+.admin-banner.active { display: flex; }
+.admin-controls-group {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.admin-action-btn {
+  background-color: #1ABC9C;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+.admin-action-btn.save { background-color: #F39C12; }
+.admin-action-btn.save:hover { background-color: #D68910; }
+.admin-action-btn:hover { background-color: #16A085; }
+.admin-action-btn.danger { background-color: #E74C3C; }
+.admin-action-btn.danger:hover { background-color: #C0392B; }
+body.admin-editing [contenteditable="true"] {
+  outline: 2px dashed #1ABC9C;
+  outline-offset: 4px;
+  background-color: rgba(26, 188, 156, 0.05);
+  border-radius: 4px;
+}
+.admin-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+.admin-modal.active { display: flex; }
+.admin-modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 500px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.admin-modal-content h3 {
+  font-family: 'Georgia', serif;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.admin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.admin-form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+}
+.admin-form-group input, .admin-form-group select, .admin-form-group textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+}
+.admin-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+@keyframes moveDownFromTop {
+  0% { opacity: 0; transform: translateY(-50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media screen and (max-width: 900px) {
+  .details-container,
+  .policy-modal-card,
+  .delivery-form-grid { grid-template-columns: 1fr; }
+  .cart-header-row, .cart-item-row { grid-template-columns: 2fr 1fr 1fr; }
+  .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
+  .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) { display: none; }
+}
+</style>
 </head>
 <body>
 
-<!-- ADMIN EDIT BAR (Visible via URL parameter ?token=labyss-secure-edit-2026) -->
+<!-- ADMIN EDIT BAR -->
 <div id="adminBanner" class="admin-banner">
-    <div><strong>Labyss Admin Mode:</strong> Managing Section 3 & 4</div>
-    <div class="admin-controls-group">
-        <button class="admin-action-btn" onclick="openAddProductModal()">+ Add Product</button>
-        <!-- Save button creates a downloadable JSON file for your local Git repository -->
-        <button class="admin-action-btn save" onclick="downloadProductJSON()">💾 Save to JSON</button>
-    </div>
+  <div><strong>Labyss Admin Mode:</strong> Managing Section 3 & 4</div>
+  <div class="admin-controls-group">
+    <button class="admin-action-btn" onclick="openAddProductModal()">+ Add Product</button>
+    <button class="admin-action-btn save" onclick="downloadProductJSON()"> Save to JSON</button>
+  </div>
 </div>
 
 <!-- Navigation Bar -->
 <nav>
-    <ul class="nav-links">
-        <li><a href="#" onclick="switchView('home-view')">Main</a></li>
-        <li><a href="#catalog" onclick="switchView('home-view'); scrollToCatalog();">Shop</a></li>
-        <li>
-            <button class="cart-icon-btn" onclick="switchView('cart-view')">
-                Cart (<span id="cartItemCount">0</span>)
-            </button>
-        </li>
-    </ul>
+  <ul class="nav-links">
+    <li><a href="#" onclick="switchView('home-view')">Main</a></li>
+    <li><a href="#catalog" onclick="switchView('home-view'); scrollToCatalog();">Shop</a></li>
+    <li>
+      <button class="cart-icon-btn" onclick="switchView('cart-view')">
+        Cart (<span id="cartItemCount">0</span>)
+      </button>
+    </li>
+  </ul>
 </nav>
 
 <div id="home-view" class="view-section active">
-    <!-- SECTION 1: Main Banner -->
-    <section class="hero-section">
-        <div class="hero-image-container">
-            <img src="icon/Labyss Studio Moss Terrarium Banner.png" alt="Labyss Studio Moss Terrarium Banner">
-        </div>
-        <div class="hero-content">
-            <div class="hero-left">
-                <h1>
-                    <span class="small-title">Bring</span>
-                    <span>Nature In</span>
-                </h1>
-            </div>
-            <div class="hero-right">
-                <p>Sustainable 3D-printed moss terrarium designed for spaces that breathe.</p>
-            </div>
-        </div>
-    </section>
+  <!-- SECTION 1: Main Banner -->
+  <section class="hero-section">
+    <div class="hero-image-container">
+      <img src="icon/Labyss Studio Moss Terrarium Banner.png" alt="Labyss Studio Moss Terrarium Banner">
+    </div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <h1>
+          <span class="small-title">Bring</span>
+          <span>Nature In</span>
+        </h1>
+      </div>
+      <div class="hero-right">
+        <p>Sustainable 3D-printed moss terrarium designed for spaces that breathe.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- SECTION 2: Split Intro Layout -->
-    <section class="split-section">
-        <div class="split-left" id="splitLeftAnim">
-            <img src="icon/Exploded View Graphic.png" alt="Exploded View Graphic" class="exploded-graphic">
-        </div>
-        <div class="split-center">
-            <h2>3D<br>printed<br>moss<br>terrarium</h2>
-        </div>
-        <div class="split-right">
-            <p>
-                Measures 15 cm tall by 7 cm wide, featuring a 3D-printed base with a water reservoir and a
-                moisture-locking glass dome that creates an ideal microclimate that helps the moss thrive with
-                minimal maintenance for any desk or shelf.
-            </p>
-        </div>
-    </section>
+  <!-- SECTION 2: Split Intro Layout -->
+  <section class="split-section">
+    <div class="split-left" id="splitLeftAnim">
+      <img src="icon/Exploded View Graphic.png" alt="Exploded View Graphic" class="exploded-graphic">
+    </div>
+    <div class="split-center">
+      <h2>3D<br>printed<br>moss<br>terrarium</h2>
+    </div>
+    <div class="split-right">
+      <p>Measures 15 cm tall by 7 cm wide, featuring a 3D-printed base with a water reservoir and a moisture-locking glass dome that creates an ideal microclimate that helps the moss thrive with minimal maintenance for any desk or shelf.</p>
+    </div>
+  </section>
 
-    <!-- SECTION 3: Product Showcase / Shop Area -->
-    <section class="showcase-section" id="catalog">
-        <div class="showcase-header">
-            <h2>Para Series Terrarium</h2>
-            <div class="filter-container" id="filterContainer">
-                <button class="filter-btn active" onclick="filterProducts('all', this)">All Series</button>
-                <button class="filter-btn" onclick="filterProducts('Complete', this)">Complete</button>
-                <button class="filter-btn" onclick="filterProducts('Structure', this)">Structure</button>
-                <button class="filter-btn" onclick="filterProducts('Living Moss', this)">Living Moss</button>
-            </div>
-        </div>
-        <!-- Dynamic Product Grid -->
-        <div class="product-grid" id="productGrid"></div>
-    </section>
+  <!-- SECTION 3: Product Showcase / Shop Area -->
+  <section class="showcase-section" id="catalog">
+    <div class="showcase-header">
+      <h2>Para Series Terrarium</h2>
+      <div class="filter-container" id="filterContainer">
+        <button class="filter-btn active" onclick="filterProducts('all', this)">All Series</button>
+        <button class="filter-btn" onclick="filterProducts('Complete', this)">Complete</button>
+        <button class="filter-btn" onclick="filterProducts('Structure', this)">Structure</button>
+        <button class="filter-btn" onclick="filterProducts('Living Moss', this)">Living Moss</button>
+      </div>
+    </div>
+    <!-- Dynamic Product Grid -->
+    <div class="product-grid" id="productGrid"></div>
+  </section>
 </div>
 
 <!-- DETAILS PAGE VIEW (Section 4) -->
 <div id="details-view" class="view-section">
-    <div class="details-page">
-        <div class="details-container">
-            <div class="details-gallery-col">
-                <div class="main-display-box">
-                    <img id="detailsMainImage" src="" alt="Selected Product View">
-                </div>
-                <div class="sub-gallery-grid" id="subGalleryGrid"></div>
-                
-                <!-- Admin Image Controls for Details Page -->
-                <div id="adminGalleryControls" style="display:none; gap: 10px; margin-top:10px;">
-                    <input type="file" id="detailFileInput" accept="image/*" style="display: none;" onchange="handleDetailFileUpload(event)">
-                    <button class="admin-action-btn" onclick="triggerDetailFileUpload()">Upload Photo</button>
-                    <button class="admin-action-btn danger" onclick="clearDetailImages()">Clear Photos</button>
-                </div>
-            </div>
-            
-            <div class="details-info-box">
-                <div class="details-meta">
-                    <div class="date" id="detailsDate" contenteditable="false">JUL 2026</div>
-                    <h1 id="detailsName" contenteditable="false">Para 01 Moss Terrarium</h1>
-                    <div class="price" id="detailsPrice" contenteditable="false">RM 99</div>
-                    <div class="details-description" id="detailsDescription" contenteditable="false">
-                        Handcrafted with precision 3D-printed structures designed for optimal moisture retention.
-                    </div>
-                    
-                    <!-- Admin Control Button for Product Details -->
-                    <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px;">
-                        <button class="admin-action-btn" onclick="toggleDetailsEditMode()" id="detailsEditToggleBtn">Edit Text Details</button>
-                    </div>
-                </div>
-                <div class="quantity-action-row">
-                    <div class="qty-selector-group">
-                        <span>Quantity</span>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="adjustDetailQty(-1)">-</button>
-                            <span id="detailQtyVal">1</span>
-                            <button class="qty-btn" onclick="adjustDetailQty(1)">+</button>
-                        </div>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="alert('Cart triggered')">Add to Cart</button>
-                </div>
-            </div>
+  <div class="details-page">
+    <div class="details-container">
+      <div class="details-gallery-col">
+        <div class="main-display-box">
+          <img id="detailsMainImage" src="" alt="Selected Product View">
         </div>
+        <div class="sub-gallery-grid" id="subGalleryGrid"></div>
+        <div id="adminGalleryControls" style="display:none; gap: 10px; margin-top:10px;">
+          <input type="file" id="detailFileInput" accept="image/*" style="display: none;" onchange="handleDetailFileUpload(event)">
+          <button class="admin-action-btn" onclick="triggerDetailFileUpload()">Upload Photo</button>
+          <button class="admin-action-btn danger" onclick="clearDetailImages()">Clear Photos</button>
+        </div>
+      </div>
+      <div class="details-info-box">
+        <div class="details-meta">
+          <div class="date" id="detailsDate" contenteditable="false">JUL 2026</div>
+          <h1 id="detailsName" contenteditable="false">Para 01 Moss Terrarium</h1>
+          <div class="price" id="detailsPrice" contenteditable="false">RM 99</div>
+          <div class="details-description" id="detailsDescription" contenteditable="false">
+            Handcrafted with precision 3D-printed structures designed for optimal moisture retention.
+          </div>
+          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px;">
+            <button class="admin-action-btn" onclick="toggleDetailsEditMode()" id="detailsEditToggleBtn">Edit Text Details</button>
+          </div>
+        </div>
+        <div class="quantity-action-row">
+          <div class="qty-selector-group">
+            <span>Quantity</span>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="adjustDetailQty(-1)">-</button>
+              <span id="detailQtyVal">1</span>
+              <button class="qty-btn" onclick="adjustDetailQty(1)">+</button>
+            </div>
+          </div>
+          <button class="add-to-cart-btn" onclick="switchView('cart-view')">Add to Cart</button>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- SECTION 5: Policy Modal -->
+<div class="modal-overlay" id="policyModal">
+  <div class="policy-modal-card">
+    <div class="policy-left">
+      <h2>Store Policy & Shipping Terms</h2>
+    </div>
+    <div class="policy-right">
+      <div class="policy-item">
+        <h4>Fulfillment & Lead Time</h4>
+        <p>All items are custom-made or hand-assembled. Please allow 1 month pre-order processing time prior to shipping. If you have an urgent request or deadline, please contact us directly via WhatsApp before placing your order.</p>
+      </div>
+      <div class="policy-item">
+        <h4>Damaged Items Policy</h4>
+        <p>If your item arrives broken or defective due to transit or studio error, please notify us within 24 hours of delivery with clear photos.</p>
+      </div>
+      <button class="modal-proceed-btn" onclick="closePolicyModal()">I Understand, Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: Cart & Checkout Page -->
+<div id="cart-view" class="view-section">
+  <div class="cart-page">
+    <h1>Your Cart</h1>
+    <div class="cart-table-wrapper">
+      <div class="cart-header-row">
+        <div>Product</div>
+        <div>Price</div>
+        <div>Quantity</div>
+        <div>Total</div>
+        <div>Action</div>
+      </div>
+      <div class="cart-item-row">
+        <div class="cart-product-info">
+          <div class="cart-product-thumb"><img src="icon/placeholder.png" alt="Product"></div>
+          <div class="cart-product-name">Para 01 Moss Terrarium</div>
+        </div>
+        <div>RM 99</div>
+        <div>1</div>
+        <div>RM 99</div>
+        <div><button class="delete-btn">Remove</button></div>
+      </div>
+    </div>
+    
+    <div class="delivery-container">
+      <div class="delivery-header">Shipping Details</div>
+      <div class="delivery-form-grid">
+        <div class="form-fields-stack">
+          <div class="form-field-group"><label>Name</label><input type="text"></div>
+          <div class="form-field-group"><label>Phone</label><input type="text"></div>
+        </div>
+        <div class="form-fields-stack">
+          <div class="form-field-group"><label>Address</label><input type="text"></div>
+          <div class="form-field-group"><label>Postcode</label><input type="text"></div>
+        </div>
+        <div class="shipping-fee-display">
+          <span class="label">Total Shipping Fee</span>
+          <span class="amount">RM 15.00</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cart-checkout-footer">
+      <div class="order-total-display">
+        <span>Order Total:</span>
+        <span class="total-val">RM 114.00</span>
+      </div>
+      <button class="preorder-action-btn" onclick="showPolicyModal()">Review Policy & Pre-order</button>
+    </div>
+  </div>
 </div>
 
 <!-- ADMIN MODAL: Add New Product -->
 <div class="admin-modal" id="adminProductModal">
-    <div class="admin-modal-content">
-        <h3 id="adminModalTitle">Add New Product</h3>
-        <div class="admin-form-group">
-            <label>Product Name</label>
-            <input type="text" id="admName" placeholder="e.g. Para 03 Moss Terrarium">
-        </div>
-        <div class="admin-form-group">
-            <label>Category</label>
-            <select id="admCategory">
-                <option value="Complete">Complete</option>
-                <option value="Structure">Structure</option>
-                <option value="Living Moss">Living Moss</option>
-            </select>
-        </div>
-        <div class="admin-form-group">
-            <label>Price (RM)</label>
-            <input type="number" id="admPrice" placeholder="99">
-        </div>
-        <div class="admin-form-group">
-            <label>Creation Date Text</label>
-            <input type="text" id="admDate" value="JUL 2026">
-        </div>
-        <div class="admin-form-group">
-            <label>Description Text</label>
-            <textarea id="admDesc" placeholder="Enter product description..."></textarea>
-        </div>
-        <div class="admin-modal-actions">
-            <button class="admin-action-btn danger" onclick="closeAdminProductModal()">Cancel</button>
-            <button class="admin-action-btn" onclick="saveNewProduct()">Save Product</button>
-        </div>
+  <div class="admin-modal-content">
+    <h3 id="adminModalTitle">Add New Product</h3>
+    <div class="admin-form-group">
+      <label>Product Name</label>
+      <input type="text" id="admName" placeholder="e.g. Para 03 Moss Terrarium">
     </div>
+    <div class="admin-form-group">
+      <label>Category</label>
+      <select id="admCategory">
+        <option value="Complete">Complete</option>
+        <option value="Structure">Structure</option>
+        <option value="Living Moss">Living Moss</option>
+      </select>
+    </div>
+    <div class="admin-form-group">
+      <label>Price (RM)</label>
+      <input type="number" id="admPrice" placeholder="99">
+    </div>
+    <div class="admin-form-group">
+      <label>Creation Date Text</label>
+      <input type="text" id="admDate" value="JUL 2026">
+    </div>
+    <div class="admin-form-group">
+      <label>Description Text</label>
+      <textarea id="admDesc" placeholder="Enter product description..."></textarea>
+    </div>
+    <div class="admin-modal-actions">
+      <button class="admin-action-btn danger" onclick="closeAdminProductModal()">Cancel</button>
+      <button class="admin-action-btn" onclick="saveNewProduct()">Save Product</button>
+    </div>
+  </div>
 </div>
 
 <script>
-    let products = [
-        {
-            id: 1,
-            name: "Para 01 Moss Terrarium",
-            category: "Complete",
-            price: 99,
-            date: "JUL 2026",
-            badge: "",
-            description: "Handcrafted with precision 3D-printed structures designed for optimal moisture retention and minimalist aesthetics.",
-            mainImg: "1.jpg",
-            gallery: ["1.jpg", "3.jpg", "1.jpg", "3.jpg"]
-        },
-        {
-            id: 2,
-            name: "Para 01 Structures + Glass Dome",
-            category: "Structure",
-            price: 60,
-            date: "JUL 2026",
-            badge: "",
-            description: "Standalone 3D printed base with integrated reservoir and locking glass dome.",
-            mainImg: "3.jpg",
-            gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
-        },
-        {
-            id: 3,
-            name: "Para 02 Moss Terrarium",
-            category: "Complete",
-            price: 99,
-            date: "JUL 2026",
-            badge: "Coming Soon",
-            description: "Second generation terrarium microclimate unit.",
-            mainImg: "1.jpg",
-            gallery: ["1.jpg", "3.jpg", "1.jpg", "3.jpg"]
-        },
-        {
-            id: 4,
-            name: "Para 02 Structures + Glass Dome",
-            category: "Structure",
-            price: 60,
-            date: "JUL 2026",
-            badge: "Out of Stock",
-            description: "High durability structural terrarium framework without living media.",
-            mainImg: "3.jpg",
-            gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
-        }
-    ];
+let products = [
+  {
+    id: 1,
+    name: "Para 01 Moss Terrarium",
+    category: "Complete",
+    price: 99,
+    date: "JUL 2026",
+    badge: "",
+    description: "Handcrafted with precision 3D-printed structures designed for optimal moisture retention and minimalist aesthetics.",
+    mainImg: "1.jpg",
+    gallery: ["1.jpg", "3.jpg", "1.jpg", "3.jpg"]
+  },
+  {
+    id: 2,
+    name: "Para 01 Structures + Glass Dome",
+    category: "Structure",
+    price: 60,
+    date: "JUL 2026",
+    badge: "",
+    description: "Standalone 3D printed base with integrated reservoir and locking glass dome.",
+    mainImg: "3.jpg",
+    gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
+  },
+  {
+    id: 3,
+    name: "Para 02 Moss Terrarium",
+    category: "Complete",
+    price: 99,
+    date: "JUL 2026",
+    badge: "Coming Soon",
+    description: "Second generation terrarium microclimate unit.",
+    mainImg: "1.jpg",
+    gallery: ["1.jpg", "3.jpg", "1.jpg", "3.jpg"]
+  },
+  {
+    id: 4,
+    name: "Para 02 Structures + Glass Dome",
+    category: "Structure",
+    price: 60,
+    date: "JUL 2026",
+    badge: "Out of Stock",
+    description: "High durability structural terrarium framework without living media.",
+    mainImg: "3.jpg",
+    gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
+  }
+];
 
-    let currentSelectedProduct = null;
-    let currentDetailQty = 1;
-    let currentFilter = 'all';
+let currentSelectedProduct = null;
+let currentDetailQty = 1;
+let currentFilter = 'all';
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const currentUrl = window.location.href;
-        if (currentUrl.includes('token=labyss-secure-edit-2026')) {
-            document.body.classList.add('admin-editing');
-            document.getElementById('adminBanner').classList.add('active');
-            document.getElementById('adminGalleryControls').style.display = 'flex';
-            document.getElementById('adminProductEditControls').style.display = 'block';
-        }
-        renderCatalog(products);
-        initScrollAnimations();
+window.addEventListener('DOMContentLoaded', () => {
+  const currentUrl = window.location.href;
+  if (currentUrl.includes('token=labyss-secure-edit-2026')) {
+    document.body.classList.add('admin-editing');
+    document.getElementById('adminBanner').classList.add('active');
+    document.getElementById('adminGalleryControls').style.display = 'flex';
+    document.getElementById('adminProductEditControls').style.display = 'block';
+  }
+  renderCatalog(products);
+  initScrollAnimations();
+});
+
+function switchView(viewId) {
+  document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function scrollToCatalog() {
+  const catalogElement = document.getElementById('catalog');
+  if (catalogElement) catalogElement.scrollIntoView({behavior: 'smooth'});
+}
+
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('animate');
     });
+  }, { threshold: 0.2 });
+  const splitLeft = document.getElementById('splitLeftAnim');
+  if (splitLeft) observer.observe(splitLeft);
+}
 
-    function switchView(viewId) {
-        document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        window.scrollTo(0, 0);
-    }
+function renderCatalog(itemsToRender) {
+  const grid = document.getElementById('productGrid');
+  if (!grid) return;
+  grid.innerHTML = "";
+  itemsToRender.forEach((prod) => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.onclick = () => openDetailsPage(prod.id);
+    let adminControlsHtml = `
+      <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
+        <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
+      </div>`;
+    card.innerHTML = `
+      <div class="product-img-wrapper">
+        <img src="${prod.mainImg}" alt="${prod.name}">
+        ${adminControlsHtml}
+      </div>
+      <div class="product-info">
+        <div class="date">${prod.date}</div>
+        <h3>${prod.name}</h3>
+        <div class="price">RM ${prod.price}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
 
-    function scrollToCatalog() {
-        const catalogElement = document.getElementById('catalog');
-        if (catalogElement) catalogElement.scrollIntoView({behavior: 'smooth'});
-    }
+function filterProducts(category, btnElement) {
+  currentFilter = category;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btnElement.classList.add('active');
+  if (category === 'all') {
+    renderCatalog(products);
+  } else {
+    renderCatalog(products.filter(p => p.category === category));
+  }
+}
 
-    function initScrollAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('animate');
-            });
-        }, { threshold: 0.2 });
-        const splitLeft = document.getElementById('splitLeftAnim');
-        if (splitLeft) observer.observe(splitLeft);
-    }
+function openDetailsPage(id) {
+  currentSelectedProduct = products.find(p => p.id === id);
+  if (!currentSelectedProduct) return;
+  currentDetailQty = 1;
+  document.getElementById('detailQtyVal').innerText = currentDetailQty;
+  document.getElementById('detailsDate').innerText = currentSelectedProduct.date;
+  document.getElementById('detailsName').innerText = currentSelectedProduct.name;
+  document.getElementById('detailsPrice').innerText = `RM ${currentSelectedProduct.price}`;
+  document.getElementById('detailsDescription').innerText = currentSelectedProduct.description || "";
+  renderDetailsGallery();
+  switchView('details-view');
+}
 
-    function renderCatalog(itemsToRender) {
-        const grid = document.getElementById('productGrid');
-        if (!grid) return;
-        grid.innerHTML = '';
+function renderDetailsGallery() {
+  const mainImgEl = document.getElementById('detailsMainImage');
+  mainImgEl.src = currentSelectedProduct.mainImg || "";
+  const subGrid = document.getElementById('subGalleryGrid');
+  subGrid.innerHTML = "";
+  if(currentSelectedProduct.gallery) {
+    currentSelectedProduct.gallery.forEach((imgSrc, idx) => {
+      const thumb = document.createElement('div');
+      thumb.className = `sub-thumb ${idx === 0 ? 'active-thumb' : ''}`;
+      thumb.innerHTML = `<img src="${imgSrc}" alt="Thumbnail">`;
+      thumb.onclick = () => {
+        document.querySelectorAll('.sub-thumb').forEach(t => t.classList.remove('active-thumb'));
+        thumb.classList.add('active-thumb');
+        mainImgEl.style.opacity = '0';
+        setTimeout(() => {
+          mainImgEl.src = imgSrc;
+          mainImgEl.style.opacity = '1';
+        }, 150);
+      };
+      subGrid.appendChild(thumb);
+    });
+  }
+}
 
-        itemsToRender.forEach((prod) => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.onclick = () => openDetailsPage(prod.id);
+function adjustDetailQty(amount) {
+  currentDetailQty += amount;
+  if (currentDetailQty < 1) currentDetailQty = 1;
+  document.getElementById('detailQtyVal').innerText = currentDetailQty;
+}
 
-            let adminControlsHtml = `
-                <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
-                    <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
-                </div>`;
+/* SECTION 5 & 6 MODAL TOGGLE */
+function showPolicyModal() {
+  document.getElementById('policyModal').classList.add('active');
+}
+function closePolicyModal() {
+  document.getElementById('policyModal').classList.remove('active');
+}
 
-            card.innerHTML = `
-                <div class="product-img-wrapper">
-                    <img src="${prod.mainImg}" alt="${prod.name}">
-                    ${adminControlsHtml}
-                </div>
-                <div class="product-info">
-                    <div class="date">${prod.date}</div>
-                    <h3>${prod.name}</h3>
-                    <div class="price">RM ${prod.price}</div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
+/* === ADMIN LOGIC SCOPED ONLY TO SECTIONS 3 & 4 === */
+function downloadProductJSON() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 4));
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute("href", dataStr);
+  downloadAnchorNode.setAttribute("download", "product_catalog.json");
+  document.body.appendChild(downloadAnchorNode);
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
+}
 
-    function filterProducts(category, btnElement) {
-        currentFilter = category;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
-        if (category === 'all') {
-            renderCatalog(products);
-        } else {
-            renderCatalog(products.filter(p => p.category === category));
-        }
-    }
+function openAddProductModal() {
+  document.getElementById('adminProductModal').classList.add('active');
+}
 
-    function openDetailsPage(id) {
-        currentSelectedProduct = products.find(p => p.id === id);
-        if (!currentSelectedProduct) return;
+function closeAdminProductModal() {
+  document.getElementById('adminProductModal').classList.remove('active');
+}
 
-        currentDetailQty = 1;
-        document.getElementById('detailQtyVal').innerText = currentDetailQty;
-        document.getElementById('detailsDate').innerText = currentSelectedProduct.date;
-        document.getElementById('detailsName').innerText = currentSelectedProduct.name;
-        document.getElementById('detailsPrice').innerText = `RM ${currentSelectedProduct.price}`;
-        document.getElementById('detailsDescription').innerText = currentSelectedProduct.description || "";
-        
-        renderDetailsGallery();
-        switchView('details-view');
-    }
+function saveNewProduct() {
+  const name = document.getElementById('admName').value.trim();
+  const category = document.getElementById('admCategory').value;
+  const price = parseFloat(document.getElementById('admPrice').value) || 99;
+  const date = document.getElementById('admDate').value.trim() || 'JUL 2026';
+  const description = document.getElementById('admDesc').value.trim();
+  if (!name) return alert('Please enter a product name.');
+  
+  const newProduct = {
+    id: Date.now(),
+    name,
+    category,
+    price,
+    date,
+    badge: "",
+    description,
+    mainImg: "icon/placeholder.png", 
+    gallery: ["icon/placeholder.png"]
+  };
+  
+  products.push(newProduct);
+  closeAdminProductModal();
+  renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
+  alert('New product added! Click into it to upload real photos.');
+}
 
-    function renderDetailsGallery() {
-        const mainImgEl = document.getElementById('detailsMainImage');
-        mainImgEl.src = currentSelectedProduct.mainImg || '';
-        
-        const subGrid = document.getElementById('subGalleryGrid');
-        subGrid.innerHTML = '';
-        
-        if(currentSelectedProduct.gallery) {
-            currentSelectedProduct.gallery.forEach((imgSrc, idx) => {
-                const thumb = document.createElement('div');
-                thumb.className = `sub-thumb ${idx === 0 ? 'active-thumb' : ''}`;
-                thumb.innerHTML = `<img src="${imgSrc}" alt="Thumbnail">`;
-                thumb.onclick = () => {
-                    document.querySelectorAll('.sub-thumb').forEach(t => t.classList.remove('active-thumb'));
-                    thumb.classList.add('active-thumb');
-                    mainImgEl.style.opacity = '0';
-                    setTimeout(() => {
-                        mainImgEl.src = imgSrc;
-                        mainImgEl.style.opacity = '1';
-                    }, 150);
-                };
-                subGrid.appendChild(thumb);
-            });
-        }
-    }
+function deleteProduct(id) {
+  if (confirm('Delete this product?')) {
+    products = products.filter(p => p.id !== id);
+    renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
+  }
+}
 
-    function adjustDetailQty(amount) {
-        currentDetailQty += amount;
-        if (currentDetailQty < 1) currentDetailQty = 1;
-        document.getElementById('detailQtyVal').innerText = currentDetailQty;
-    }
+function triggerDetailFileUpload() {
+  document.getElementById('detailFileInput').click();
+}
 
-    /* === ADMIN LOGIC SCOPED ONLY TO SECTIONS 3 & 4 === */
-
-    // 1. Download JSON Logic
-    function downloadProductJSON() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 4));
-        const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "product_catalog.json");
-        document.body.appendChild(downloadAnchorNode); 
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
-    }
-
-    function openAddProductModal() {
-        document.getElementById('adminProductModal').classList.add('active');
-    }
-    
-    function closeAdminProductModal() {
-        document.getElementById('adminProductModal').classList.remove('active');
-    }
-
-    function saveNewProduct() {
-        const name = document.getElementById('admName').value.trim();
-        const category = document.getElementById('admCategory').value;
-        const price = parseFloat(document.getElementById('admPrice').value) || 99;
-        const date = document.getElementById('admDate').value.trim() || 'JUL 2026';
-        const description = document.getElementById('admDesc').value.trim();
-        
-        if (!name) return alert('Please enter a product name.');
-
-        const newProduct = {
-            id: Date.now(),
-            name,
-            category,
-            price,
-            date,
-            badge: "",
-            description,
-            mainImg: "icon/placeholder.png", // Will use a placeholder until uploaded
-            gallery: ["icon/placeholder.png"]
-        };
-
-        products.push(newProduct);
-        closeAdminProductModal();
+function handleDetailFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imageUrl = e.target.result;
+    if (currentSelectedProduct) {
+      if (!currentSelectedProduct.gallery) currentSelectedProduct.gallery = [];
+      currentSelectedProduct.gallery.push(imageUrl);
+      if (currentSelectedProduct.gallery.length === 1 || currentSelectedProduct.mainImg.includes('placeholder')) {
+        currentSelectedProduct.mainImg = imageUrl;
         renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
-        alert('New product added! Click into it to upload real photos.');
+      }
+      renderDetailsGallery();
     }
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
+}
 
-    function deleteProduct(id) {
-        if (confirm('Delete this product?')) {
-            products = products.filter(p => p.id !== id);
-            renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
-        }
-    }
+function clearDetailImages() {
+  if (confirm("Clear all photos for this product?") && currentSelectedProduct) {
+    currentSelectedProduct.gallery = [];
+    currentSelectedProduct.mainImg = "";
+    renderDetailsGallery();
+    renderCatalog(products); 
+  }
+}
 
-    // Details Page (Section 4) Admin Image Edit
-    function triggerDetailFileUpload() {
-        document.getElementById('detailFileInput').click();
-    }
-
-    function handleDetailFileUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imageUrl = e.target.result; 
-            if (currentSelectedProduct) {
-                if (!currentSelectedProduct.gallery) currentSelectedProduct.gallery = [];
-                currentSelectedProduct.gallery.push(imageUrl);
-                
-                // Set as main image if it's the first upload
-                if (currentSelectedProduct.gallery.length === 1 || currentSelectedProduct.mainImg.includes('placeholder')) {
-                    currentSelectedProduct.mainImg = imageUrl;
-                    renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
-                }
-                renderDetailsGallery(); 
-            }
-        };
-        reader.readAsDataURL(file);
-        event.target.value = '';
-    }
-
-    function clearDetailImages() {
-        if (confirm("Clear all photos for this product?") && currentSelectedProduct) {
-            currentSelectedProduct.gallery = [];
-            currentSelectedProduct.mainImg = "";
-            renderDetailsGallery();
-            renderCatalog(products); // Refresh section 3 catalog
-        }
-    }
-
-    // Details Page (Section 4) Admin Text Edit
-    function toggleDetailsEditMode() {
-        const nameEl = document.getElementById('detailsName');
-        const descEl = document.getElementById('detailsDescription');
-        const priceEl = document.getElementById('detailsPrice');
-        const dateEl = document.getElementById('detailsDate');
-        const editBtn = document.getElementById('detailsEditToggleBtn');
-
-        const isEditable = nameEl.isContentEditable;
-        
-        nameEl.contentEditable = !isEditable;
-        descEl.contentEditable = !isEditable;
-        priceEl.contentEditable = !isEditable;
-        dateEl.contentEditable = !isEditable;
-
-        if (isEditable) {
-            editBtn.innerText = "Edit Text Details";
-            // Save data back to JS Object
-            currentSelectedProduct.name = nameEl.innerText;
-            currentSelectedProduct.description = descEl.innerText;
-            currentSelectedProduct.price = parseFloat(priceEl.innerText.replace(/[^\d.-]/g, '')) || 0;
-            currentSelectedProduct.date = dateEl.innerText;
-            
-            alert("Details updated temporarily! Click 'Save to JSON' in the top banner to keep permanent changes.");
-            renderCatalog(products); // Refresh section 3
-        } else {
-            editBtn.innerText = "Save Text Details";
-            nameEl.focus();
-        }
-    }
+function toggleDetailsEditMode() {
+  const nameEl = document.getElementById('detailsName');
+  const descEl = document.getElementById('detailsDescription');
+  const priceEl = document.getElementById('detailsPrice');
+  const dateEl = document.getElementById('detailsDate');
+  const editBtn = document.getElementById('detailsEditToggleBtn');
+  const isEditable = nameEl.isContentEditable;
+  
+  nameEl.contentEditable = !isEditable;
+  descEl.contentEditable = !isEditable;
+  priceEl.contentEditable = !isEditable;
+  dateEl.contentEditable = !isEditable;
+  
+  if (isEditable) {
+    editBtn.innerText = "Edit Text Details";
+    currentSelectedProduct.name = nameEl.innerText;
+    currentSelectedProduct.description = descEl.innerText;
+    currentSelectedProduct.price = parseFloat(priceEl.innerText.replace(/[^\d.-]/g, '')) || 0;
+    currentSelectedProduct.date = dateEl.innerText;
+    alert("Details updated temporarily! Click 'Save to JSON' in the top banner to keep permanent changes.");
+    renderCatalog(products);
+  } else {
+    editBtn.innerText = "Save Text Details";
+    nameEl.focus();
+  }
+}
 </script>
 </body>
 </html>
