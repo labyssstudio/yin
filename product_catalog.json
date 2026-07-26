@@ -1,0 +1,31 @@
+[
+    {
+        "id": 1,
+        "name": "Para 01 Moss Terrarium",
+        "series": "Para Series Terrarium",
+        "category": "Complete",
+        "price": 99,
+        "date": "JUL 2026",
+        "description": "The Para 01 Moss Terrarium is a self-contained ecosystem featuring living Octoblepharum albidum moss growing on a custom-designed 3D-printed structure.\n\n\nA built-in water reservoir and fitted glass dome work together to maintain humidity, creating the ideal environment for healthy moss growth with very little maintenance.\n\n\nMaterials Included\n3D-printed structure\nGlass dome\nLiving Octoblepharum albidum moss",
+        "mainImg": "product uploads/1785074703_6a66140fe613d.jpg",
+        "gallery": [
+            "product uploads/1785074703_6a66140fe628e.jpg",
+            "product uploads/1785074703_6a66140fe6361.jpg",
+            "product uploads/1785074703_6a66140fe648a.jpg",
+            "product uploads/1785074703_6a66140fe655e.jpg"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Para 01 Structures + Glass Dome",
+        "series": "Para Series Terrarium",
+        "category": "Structure",
+        "price": 60,
+        "date": "JUL 2026",
+        "description": "Standalone 3D printed base with integrated reservoir and locking glass dome.",
+        "mainImg": "product uploads/1785074703_6a66140fe70cb.png",
+        "gallery": [
+            "product uploads/1785074703_6a66140fe7b7f.png"
+        ]
+    }
+]
