@@ -1183,7 +1183,7 @@ body.admin-editing [contenteditable="true"] {
           <div class="details-description" id="detailsDescription" contenteditable="false">
             Handcrafted with precision 3D-printed structures designed for optimal moisture retention.
           </div>
-          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px; flex; gap:10px;">
+          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px; gap:10px;">
             <button class="admin-action-btn" onclick="toggleDetailsEditMode()" id="detailsEditToggleBtn">Edit Text Details</button>
             <button class="admin-action-btn save" onclick="saveDetailsAndReturn()" id="detailsSaveReturnBtn" style="display:none;">Save and Return</button>
           </div>
@@ -1355,6 +1355,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('adminBanner').classList.add('active');
     document.getElementById('adminGalleryControls').style.display = 'flex';
     document.getElementById('detailsSaveReturnBtn').style.display = 'inline-block';
+    document.getElementById('adminProductEditControls').style.display = 'flex';
   }
   loadProductsFromJSON();
 });
