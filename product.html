@@ -223,6 +223,7 @@ nav {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
 }
 .filter-btn {
   background-color: transparent;
@@ -516,6 +517,20 @@ nav {
 .modal-proceed-btn:hover {
   background-color: #F0F0F0;
 }
+.modal-close-btn {
+  background: none;
+  border: 1px solid var(--white);
+  color: var(--white);
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 5px;
+}
+.modal-close-btn:hover {
+  background-color: rgba(255,255,255,0.1);
+}
 
 /* === SECTION 6: Cart & Checkout Page === */
 .cart-page {
@@ -640,10 +655,6 @@ nav {
 .form-field-group input:focus, .form-field-group select:focus {
   border-color: var(--white);
 }
-.form-field-group select option {
-  background-color: var(--accent-brown);
-  color: var(--white);
-}
 .shipping-fee-display {
   background-color: var(--card-bg);
   color: var(--text-dark);
@@ -671,6 +682,25 @@ nav {
   gap: 30px;
   margin-top: 30px;
 }
+.checkout-actions-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.small-policy-btn {
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.small-policy-btn:hover {
+  opacity: 1;
+}
 .order-total-display {
   font-size: 1.2rem;
   font-weight: 500;
@@ -686,7 +716,7 @@ nav {
   background-color: var(--accent-brown);
   color: var(--white);
   border: none;
-  padding: 16px 35px;
+  padding: 16px 45px;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
@@ -820,7 +850,7 @@ body.admin-editing [contenteditable="true"] {
   <div><strong>Labyss Admin Mode:</strong> Managing Section 3 & 4</div>
   <div class="admin-controls-group">
     <button class="admin-action-btn" onclick="openAddProductModal()">+ Add Product</button>
-    <button class="admin-action-btn save" onclick="downloadProductJSON()"> Save to JSON</button>
+    <button class="admin-action-btn save" onclick="saveProductJSON()"> Save to JSON</button>
   </div>
 </div>
 
@@ -878,6 +908,8 @@ body.admin-editing [contenteditable="true"] {
         <button class="filter-btn" onclick="filterProducts('Complete', this)">Complete</button>
         <button class="filter-btn" onclick="filterProducts('Structure', this)">Structure</button>
         <button class="filter-btn" onclick="filterProducts('Living Moss', this)">Living Moss</button>
+        <!-- ADMIN ADD SERIES BUTTON -->
+        <button class="admin-action-btn" onclick="promptAddSeries()" id="adminAddSeriesBtn" style="display:none; margin-left: 10px;">+ Add Series</button>
       </div>
     </div>
     <!-- Dynamic Product Grid -->
@@ -908,8 +940,9 @@ body.admin-editing [contenteditable="true"] {
           <div class="details-description" id="detailsDescription" contenteditable="false">
             Handcrafted with precision 3D-printed structures designed for optimal moisture retention.
           </div>
-          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px;">
+          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px; display:flex; gap:10px;">
             <button class="admin-action-btn" onclick="toggleDetailsEditMode()" id="detailsEditToggleBtn">Edit Text Details</button>
+            <button class="admin-action-btn save" onclick="saveDetailsAndReturn()" id="detailsSaveReturnBtn" style="display:none;">Save and Return</button>
           </div>
         </div>
         <div class="quantity-action-row">
@@ -928,7 +961,7 @@ body.admin-editing [contenteditable="true"] {
   </div>
 </div>
 
-<!-- SECTION 5: Policy Modal -->
+<!-- SECTION 5: Policy Modal (Updated Content) -->
 <div class="modal-overlay" id="policyModal">
   <div class="policy-modal-card">
     <div class="policy-left">
@@ -937,13 +970,18 @@ body.admin-editing [contenteditable="true"] {
     <div class="policy-right">
       <div class="policy-item">
         <h4>Fulfillment & Lead Time</h4>
-        <p>All items are custom-made or hand-assembled. Please allow 1 month pre-order processing time prior to shipping. If you have an urgent request or deadline, please contact us directly via WhatsApp before placing your order.</p>
+        <p>All items are custom-made or hand-assembled. Please allow 2 week pre-order processing time prior to shipping. If you have an urgent request or deadline, please contact us directly via WhatsApp before placing your order.</p>
       </div>
       <div class="policy-item">
         <h4>Damaged Items Policy</h4>
-        <p>If your item arrives broken or defective due to transit or studio error, please notify us within 24 hours of delivery with clear photos.</p>
+        <p>If your item arrives broken or defective due to transit or studio error, please notify us within 24 hours of delivery with clear photos so we can promptly arrange a replacement or redelivery.</p>
       </div>
-      <button class="modal-proceed-btn" onclick="proceedToWhatsAppCheckout()">I Understand, Proceed to WhatsApp</button>
+      <div class="policy-item">
+        <h4>International Shipping Restrictions</h4>
+        <p>Products containing live or preserved moss are strictly restricted to domestic shipping within Malaysia and are unavailable for overseas delivery. Standalone 3D-printed terrarium structures are available for international shipping upon request.</p>
+      </div>
+      <button class="modal-proceed-btn" onclick="proceedToWhatsAppCheckout()">I Agree, Proceed to WhatsApp</button>
+      <button class="modal-close-btn" onclick="closePolicyModal()">Go Back</button>
     </div>
   </div>
 </div>
@@ -966,7 +1004,7 @@ body.admin-editing [contenteditable="true"] {
     </div>
     
     <div class="delivery-container">
-      <div class="delivery-header">Shipping Details (J&T Express Rates)</div>
+      <div class="delivery-header">Shipping Details</div>
       <div class="delivery-form-grid">
         <div class="form-fields-stack">
           <div class="form-field-group"><label>Name</label><input type="text" id="shipName" placeholder="Full Name"></div>
@@ -977,8 +1015,8 @@ body.admin-editing [contenteditable="true"] {
           <div class="form-field-group"><label>Postcode</label><input type="text" id="shipPostcode" placeholder="e.g. 47500" oninput="calculateJTAndTotals()"></div>
         </div>
         <div class="shipping-fee-display">
-          <span class="label">J&T Shipping Fee</span>
-          <span class="amount" id="shippingFeeDisplay">RM 8.00</span>
+          <span class="label">Shipping Fee</span>
+          <span class="amount" id="shippingFeeDisplay">RM 0.00</span>
         </div>
       </div>
     </div>
@@ -988,7 +1026,10 @@ body.admin-editing [contenteditable="true"] {
         <span>Order Total:</span>
         <span class="total-val" id="cartGrandTotal">RM 0.00</span>
       </div>
-      <button class="preorder-action-btn" onclick="triggerPreorderProcess()">Review Policy & Pre-order</button>
+      <div class="checkout-actions-col">
+        <button class="small-policy-btn" onclick="document.getElementById('policyModal').classList.add('active');">Store Policy & Shipping Terms</button>
+        <button class="preorder-action-btn" onclick="triggerPreorderProcess()">Pre-order</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1002,7 +1043,7 @@ body.admin-editing [contenteditable="true"] {
       <input type="text" id="admName" placeholder="e.g. Para 03 Moss Terrarium">
     </div>
     <div class="admin-form-group">
-      <label>Category</label>
+      <label>Category (Series)</label>
       <select id="admCategory">
         <option value="Complete">Complete</option>
         <option value="Structure">Structure</option>
@@ -1080,7 +1121,7 @@ let cart = [];
 let currentSelectedProduct = null;
 let currentDetailQty = 1;
 let currentFilter = 'all';
-let currentCalculatedShipping = 8.00;
+let currentCalculatedShipping = 0.00;
 
 window.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.href;
@@ -1088,7 +1129,9 @@ window.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('admin-editing');
     document.getElementById('adminBanner').classList.add('active');
     document.getElementById('adminGalleryControls').style.display = 'flex';
-    document.getElementById('adminProductEditControls').style.display = 'block';
+    document.getElementById('adminProductEditControls').style.display = 'flex';
+    document.getElementById('detailsSaveReturnBtn').style.display = 'inline-block';
+    document.getElementById('adminAddSeriesBtn').style.display = 'inline-block';
   }
   renderCatalog(products);
   initScrollAnimations();
@@ -1198,7 +1241,7 @@ function adjustDetailQty(amount) {
   document.getElementById('detailQtyVal').innerText = currentDetailQty;
 }
 
-/* CART & DYNAMIC J&T SHIPPING LOGIC */
+/* CART & DYNAMIC SHIPPING LOGIC */
 function addCurrentProductToCart() {
   if (!currentSelectedProduct) return;
   const existing = cart.find(item => item.product.id === currentSelectedProduct.id);
@@ -1209,7 +1252,10 @@ function addCurrentProductToCart() {
   }
   updateCartBadgeCount();
   alert(`${currentSelectedProduct.name} successfully added to your cart!`);
-  switchView('cart-view');
+  
+  // Requirement 2: Redirect back to shop area instead of cart
+  switchView('home-view');
+  scrollToCatalog();
 }
 
 function updateCartBadgeCount() {
@@ -1253,21 +1299,31 @@ function renderCartView() {
 
 function calculateJTAndTotals() {
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const postcodeVal = document.getElementById('shipPostcode').value.trim();
   
-  // Standard J&T Courier Fee Matrix implementation based on Malaysian postcode prefixes
-  if (subtotal >= 150.00 && subtotal > 0) {
-    currentCalculatedShipping = 0.00; // Free shipping promotion for orders above RM 150
-  } else if (postcodeVal.length >= 2) {
-    const prefix = parseInt(postcodeVal.substring(0, 2), 10);
-    // East Malaysia postcodes (Sabah: 88-91, Sarawak: 93-98, Labuan: 87) generally start from 80 upwards
-    if (prefix >= 80 && prefix <= 99) {
-      currentCalculatedShipping = 15.00; // J&T East Malaysia base rate
-    } else {
-      currentCalculatedShipping = 8.00;  // J&T West Malaysia base rate
+  currentCalculatedShipping = 0.00;
+  
+  // Requirement 4: Calculate simulated rates from Origin 51100 based on weight (0.5kg/item) + Hidden RM3 packing fee
+  if (totalQty > 0) {
+    const totalWeightKg = totalQty * 0.5;
+    let baseRate = 6.00; // West Malaysia Base Rate for first 1kg
+    let extraKgRate = 1.50; // West Malaysia Rate per subsequent 1kg
+    const packingFee = 3.00; // Hidden packing fee
+
+    if (postcodeVal.length >= 2) {
+      const prefix = parseInt(postcodeVal.substring(0, 2), 10);
+      // East Malaysia postcodes (80-99)
+      if (prefix >= 80 && prefix <= 99) {
+        baseRate = 15.00; 
+        extraKgRate = 10.00;
+      }
     }
-  } else {
-    currentCalculatedShipping = cart.length > 0 ? 8.00 : 0.00;
+    
+    let extraWeight = Math.max(0, totalWeightKg - 1);
+    let courierCost = baseRate + (Math.ceil(extraWeight) * extraKgRate);
+    
+    currentCalculatedShipping = courierCost + packingFee;
   }
   
   document.getElementById('shippingFeeDisplay').innerText = `RM ${currentCalculatedShipping.toFixed(2)}`;
@@ -1289,6 +1345,7 @@ function triggerPreorderProcess() {
     alert("Please fill in all shipping details before proceeding.");
     return;
   }
+  // Pops up the terms modal first
   document.getElementById('policyModal').classList.add('active');
 }
 
@@ -1304,7 +1361,7 @@ function proceedToWhatsAppCheckout() {
   const address = document.getElementById('shipAddress').value.trim();
   const postcode = document.getElementById('shipPostcode').value.trim();
   
-  let orderMsg = `*New Labyss Studio Pre-order (J&T Delivery)*\n\n`;
+  let orderMsg = `*New Labyss Studio Pre-order*\n\n`;
   orderMsg += `*Customer Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Address: ${address}, ${postcode}\n\n`;
   orderMsg += `*Order Items:*\n`;
   
@@ -1317,24 +1374,64 @@ function proceedToWhatsAppCheckout() {
   
   let grandTotal = subtotal + currentCalculatedShipping;
   orderMsg += `\n- Subtotal: RM ${subtotal.toFixed(2)}`;
-  orderMsg += `\n- J&T Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
+  orderMsg += `\n- Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
   orderMsg += `\n- *Grand Total: RM ${grandTotal.toFixed(2)}*\n\n`;
   orderMsg += `I have read and agreed to the Store Policy and Shipping Terms.`;
   
-  const targetWhatsAppNumber = "60123456789"; // Replace with your studio's WhatsApp number
+  // Requirement 1: Set correct target WhatsApp number
+  const targetWhatsAppNumber = "601165375621"; 
   const encodedUrl = `https://wa.me/${targetWhatsAppNumber}?text=` + encodeURIComponent(orderMsg);
   window.open(encodedUrl, '_blank');
 }
 
-/* === ADMIN LOGIC SCOPED ONLY TO SECTIONS 3 & 4 === */
-function downloadProductJSON() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 4));
-  const downloadAnchorNode = document.createElement('a');
-  downloadAnchorNode.setAttribute("href", dataStr);
-  downloadAnchorNode.setAttribute("download", "product_catalog.json");
-  document.body.appendChild(downloadAnchorNode);
-  downloadAnchorNode.click();
-  downloadAnchorNode.remove();
+/* === ADMIN LOGIC === */
+function saveProductJSON() {
+  // Requirement 8: Local JSON saving via PHP file on local XAMPP
+  fetch('save_json.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(products)
+  })
+  .then(response => {
+    if(response.ok) {
+      alert("Changes saved directly to JSON file successfully!");
+    } else {
+      alert("Error saving JSON file. Ensure your local server is running and save_json.php is configured properly.");
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert("Network error: Could not reach save_json.php.");
+  });
+}
+
+// Requirement 7: Add Series Feature
+function promptAddSeries() {
+  const newSeriesName = prompt("Enter the name for the new Product Series:");
+  if (newSeriesName && newSeriesName.trim() !== "") {
+    const safeName = newSeriesName.trim();
+    
+    // Add to dropdown in Add Product Modal
+    const categorySelect = document.getElementById('admCategory');
+    const newOption = document.createElement('option');
+    newOption.value = safeName;
+    newOption.innerText = safeName;
+    categorySelect.appendChild(newOption);
+    
+    // Add filter button to Section 3
+    const filterContainer = document.getElementById('filterContainer');
+    const adminAddBtn = document.getElementById('adminAddSeriesBtn');
+    
+    const newFilterBtn = document.createElement('button');
+    newFilterBtn.className = 'filter-btn';
+    newFilterBtn.innerText = safeName;
+    newFilterBtn.onclick = function() { filterProducts(safeName, this); };
+    
+    filterContainer.insertBefore(newFilterBtn, adminAddBtn);
+    alert(`Series '${safeName}' created successfully! You can now select it when adding a new product.`);
+  }
 }
 
 function openAddProductModal() {
@@ -1436,6 +1533,19 @@ function toggleDetailsEditMode() {
     editBtn.innerText = "Save Text Details";
     nameEl.focus();
   }
+}
+
+// Requirement 6: Admin Save and Return
+function saveDetailsAndReturn() {
+  const nameEl = document.getElementById('detailsName');
+  
+  // If still in edit mode, simulate closing edit mode first to lock in variables
+  if (nameEl.isContentEditable) {
+    toggleDetailsEditMode();
+  }
+  
+  switchView('home-view');
+  scrollToCatalog();
 }
 </script>
 </body>
