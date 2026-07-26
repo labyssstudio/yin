@@ -176,7 +176,7 @@ nav {
     display: grid;
     grid-template-columns: 1fr 1.2fr 1.8fr; /* 3 Columns: Left | Center | Right */
     min-height: 100vh;
-    align-items: stretch;
+    align-items: center;
     background-color: var(--white);
     width: 100%;
 }
@@ -196,7 +196,7 @@ nav {
 }
 
 .split-left .exploded-graphic {
-    max-width: 320px;
+    max-width: 500px;
     width: 100%;
     height: auto;
     max-height: 80vh;
@@ -228,8 +228,11 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 80px 60px;
+    padding: 60px;
     text-align: center;
+    border-radius: 40px; /* <-- Adds the curved corners */
+    aspect-ratio: 1 / 1; /* <-- Forces a perfect square */
+    margin-right: 60px; /* <-- Adds breathing room on the right side */
 }
 
 .split-right p {
