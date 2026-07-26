@@ -25,18 +25,20 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
-/* Navigation Bar */
+/* Navigation Bar - Made Sticky/Fixed (Point 4) */
 nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 20px 50px;
-  background-color: transparent;
-  position: absolute;
+  background-color: rgba(247, 245, 240, 0.9); /* Slight background to hide scrolled content */
+  backdrop-filter: blur(8px);
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 .nav-links {
   display: flex;
@@ -234,6 +236,9 @@ nav {
   font-size: 0.9rem;
   color: var(--text-dark);
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .filter-btn.active, .filter-btn:hover {
   background-color: var(--accent-brown);
@@ -272,18 +277,6 @@ nav {
 .product-card:hover .product-img-wrapper img {
   transform: scale(1.04);
 }
-.product-badge {
-  display: none;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: var(--accent-brown);
-  color: var(--white);
-  padding: 5px 12px;
-  font-size: 0.75rem;
-  border-radius: 12px;
-  letter-spacing: 0.5px;
-}
 .product-info .date {
   font-size: 0.8rem;
   color: #666;
@@ -306,7 +299,7 @@ nav {
 /* === SECTION 4: Product Details Page === */
 .details-page {
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 100px auto 40px auto; /* Added top margin for sticky nav */
   padding: 0 50px 80px 50px;
 }
 .details-container {
@@ -440,7 +433,7 @@ nav {
 }
 .add-to-cart-btn:hover { opacity: 0.9; }
 
-/* === SECTION 5: Policy Modal === */
+/* === SECTION 5: Policy Modal (Updated) === */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -459,6 +452,7 @@ nav {
   display: flex;
 }
 .policy-modal-card {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   width: 900px;
@@ -469,6 +463,19 @@ nav {
   overflow-y: auto;
   box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
+.modal-close-top {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--white);
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s;
+}
+.modal-close-top:hover { transform: scale(1.1); }
 .policy-left {
   background-color: var(--bg-color);
   padding: 50px;
@@ -503,39 +510,30 @@ nav {
   line-height: 1.6;
   color: #E0DDD8;
 }
-.modal-proceed-btn {
-  background-color: var(--white);
-  color: var(--accent-brown);
-  border: none;
-  padding: 14px;
-  border-radius: 8px;
-  font-weight: 600;
+.policy-checkbox-container {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(0,0,0,0.2);
+  padding: 15px;
+  border-radius: 12px;
+}
+.policy-checkbox-container input {
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.2s;
 }
-.modal-proceed-btn:hover {
-  background-color: #F0F0F0;
-}
-.modal-close-btn {
-  background: none;
-  border: 1px solid var(--white);
-  color: var(--white);
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 600;
+.policy-checkbox-container label {
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 5px;
-}
-.modal-close-btn:hover {
-  background-color: rgba(255,255,255,0.1);
 }
 
 /* === SECTION 6: Cart & Checkout Page === */
 .cart-page {
   max-width: 1100px;
-  margin: 40px auto;
+  margin: 100px auto 40px auto; /* Margin for sticky nav */
   padding: 0 40px 100px 40px;
 }
 .cart-page h1 {
@@ -735,16 +733,18 @@ nav {
   background-color: #2C3E50;
   color: #ECF0F1;
   padding: 12px 40px;
-  display: none;
+  display: none; /* Point 7: strictly hidden by default */
   justify-content: space-between;
   align-items: center;
   font-size: 0.9rem;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 1500;
+  width: 100%;
+  z-index: 2000;
   border-bottom: 2px solid #1ABC9C;
 }
 .admin-banner.active { display: flex; }
+body.admin-editing nav { top: 45px; } /* Adjust nav if admin banner is active */
 .admin-controls-group {
   display: flex;
   gap: 15px;
@@ -845,7 +845,7 @@ body.admin-editing [contenteditable="true"] {
 </head>
 <body>
 
-<!-- ADMIN EDIT BAR -->
+<!-- ADMIN EDIT BAR (Strictly Hidden by Default) -->
 <div id="adminBanner" class="admin-banner">
   <div><strong>Labyss Admin Mode:</strong> Managing Section 3 & 4</div>
   <div class="admin-controls-group">
@@ -899,21 +899,14 @@ body.admin-editing [contenteditable="true"] {
     </div>
   </section>
 
-  <!-- SECTION 3: Product Showcase / Shop Area -->
+  <!-- SECTION 3: Dynamic Product Showcase Sections -->
   <section class="showcase-section" id="catalog">
-    <div class="showcase-header">
-      <h2>Para Series Terrarium</h2>
-      <div class="filter-container" id="filterContainer">
-        <button class="filter-btn active" onclick="filterProducts('all', this)">All Series</button>
-        <button class="filter-btn" onclick="filterProducts('Complete', this)">Complete</button>
-        <button class="filter-btn" onclick="filterProducts('Structure', this)">Structure</button>
-        <button class="filter-btn" onclick="filterProducts('Living Moss', this)">Living Moss</button>
-        <!-- ADMIN ADD SERIES BUTTON -->
-        <button class="admin-action-btn" onclick="promptAddSeries()" id="adminAddSeriesBtn" style="display:none; margin-left: 10px;">+ Add Series</button>
+      <div id="catalogSectionsWrapper"></div>
+      
+      <!-- Point 5: Admin Button to add an entire new Series Section -->
+      <div id="adminAddSeriesBtnWrapper" style="display:none; margin-top:40px; text-align:center;">
+          <button class="admin-action-btn save" onclick="promptAddSeriesSection()">+ Add New Series Section</button>
       </div>
-    </div>
-    <!-- Dynamic Product Grid -->
-    <div class="product-grid" id="productGrid"></div>
   </section>
 </div>
 
@@ -926,12 +919,15 @@ body.admin-editing [contenteditable="true"] {
           <img id="detailsMainImage" src="" alt="Selected Product View">
         </div>
         <div class="sub-gallery-grid" id="subGalleryGrid"></div>
+        
+        <!-- Hidden from public by default -->
         <div id="adminGalleryControls" style="display:none; gap: 10px; margin-top:10px;">
           <input type="file" id="detailFileInput" accept="image/*" style="display: none;" onchange="handleDetailFileUpload(event)">
           <button class="admin-action-btn" onclick="triggerDetailFileUpload()">Upload Photo</button>
           <button class="admin-action-btn danger" onclick="clearDetailImages()">Clear Photos</button>
         </div>
       </div>
+      
       <div class="details-info-box">
         <div class="details-meta">
           <div class="date" id="detailsDate" contenteditable="false">JUL 2026</div>
@@ -940,11 +936,14 @@ body.admin-editing [contenteditable="true"] {
           <div class="details-description" id="detailsDescription" contenteditable="false">
             Handcrafted with precision 3D-printed structures designed for optimal moisture retention.
           </div>
+          
+          <!-- Point 7: Edit Text Details Button strictly hidden from public by default -->
           <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px; display:flex; gap:10px;">
             <button class="admin-action-btn" onclick="toggleDetailsEditMode()" id="detailsEditToggleBtn">Edit Text Details</button>
             <button class="admin-action-btn save" onclick="saveDetailsAndReturn()" id="detailsSaveReturnBtn" style="display:none;">Save and Return</button>
           </div>
         </div>
+        
         <div class="quantity-action-row">
           <div class="qty-selector-group">
             <span>Quantity</span>
@@ -961,9 +960,11 @@ body.admin-editing [contenteditable="true"] {
   </div>
 </div>
 
-<!-- SECTION 5: Policy Modal (Updated Content) -->
+<!-- SECTION 5: Policy Modal -->
 <div class="modal-overlay" id="policyModal">
   <div class="policy-modal-card">
+    <!-- Point 1: Added explicit X close button top right -->
+    <button class="modal-close-top" onclick="closePolicyModal()">✖</button>
     <div class="policy-left">
       <h2>Store Policy & Shipping Terms</h2>
     </div>
@@ -980,8 +981,11 @@ body.admin-editing [contenteditable="true"] {
         <h4>International Shipping Restrictions</h4>
         <p>Products containing live or preserved moss are strictly restricted to domestic shipping within Malaysia and are unavailable for overseas delivery. Standalone 3D-printed terrarium structures are available for international shipping upon request.</p>
       </div>
-      <button class="modal-proceed-btn" onclick="proceedToWhatsAppCheckout()">I Agree, Proceed to WhatsApp</button>
-      <button class="modal-close-btn" onclick="closePolicyModal()">Go Back</button>
+      <!-- Point 1: Checkbox to auto-close & save agreement -->
+      <div class="policy-checkbox-container">
+        <input type="checkbox" id="policyAgreeCheckbox" onchange="handlePolicyCheck()">
+        <label for="policyAgreeCheckbox">I understood the policy and terms.</label>
+      </div>
     </div>
   </div>
 </div>
@@ -1028,6 +1032,7 @@ body.admin-editing [contenteditable="true"] {
       </div>
       <div class="checkout-actions-col">
         <button class="small-policy-btn" onclick="document.getElementById('policyModal').classList.add('active');">Store Policy & Shipping Terms</button>
+        <!-- Pre-order button checks logic before whatsapp -->
         <button class="preorder-action-btn" onclick="triggerPreorderProcess()">Pre-order</button>
       </div>
     </div>
@@ -1042,12 +1047,16 @@ body.admin-editing [contenteditable="true"] {
       <label>Product Name</label>
       <input type="text" id="admName" placeholder="e.g. Para 03 Moss Terrarium">
     </div>
+    
     <div class="admin-form-group">
-      <label>Category (Series)</label>
+      <label>Assign to Series</label>
+      <select id="admSeriesSelect"></select>
+    </div>
+    
+    <div class="admin-form-group">
+      <label>Category Filter</label>
       <select id="admCategory">
-        <option value="Complete">Complete</option>
-        <option value="Structure">Structure</option>
-        <option value="Living Moss">Living Moss</option>
+         <!-- Populated Dynamically based on current categories -->
       </select>
     </div>
     <div class="admin-form-group">
@@ -1070,14 +1079,19 @@ body.admin-editing [contenteditable="true"] {
 </div>
 
 <script>
+// State Management for Series and Categories
+let storeSeriesList = ["Para Series Terrarium"];
+let storeCategoryList = ["Complete", "Structure", "Living Moss"];
+let activeFilters = { "Para Series Terrarium": "all" }; 
+
 let products = [
   {
     id: 1,
     name: "Para 01 Moss Terrarium",
+    series: "Para Series Terrarium",
     category: "Complete",
     price: 99,
     date: "JUL 2026",
-    badge: "",
     description: "Handcrafted with precision 3D-printed structures designed for optimal moisture retention and minimalist aesthetics.",
     mainImg: "1.jpg",
     gallery: ["1.jpg", "3.jpg", "1.jpg", "3.jpg"]
@@ -1085,33 +1099,11 @@ let products = [
   {
     id: 2,
     name: "Para 01 Structures + Glass Dome",
+    series: "Para Series Terrarium",
     category: "Structure",
     price: 60,
     date: "JUL 2026",
-    badge: "",
     description: "Standalone 3D printed base with integrated reservoir and locking glass dome.",
-    mainImg: "3.jpg",
-    gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
-  },
-  {
-    id: 3,
-    name: "Para 02 Moss Terrarium",
-    category: "Complete",
-    price: 99,
-    date: "JUL 2026",
-    badge: "Coming Soon",
-    description: "Second generation terrarium microclimate unit.",
-    mainImg: "1.jpg",
-    gallery: ["1.jpg", "3.jpg", "1.jpg", "3.jpg"]
-  },
-  {
-    id: 4,
-    name: "Para 02 Structures + Glass Dome",
-    category: "Structure",
-    price: 60,
-    date: "JUL 2026",
-    badge: "Out of Stock",
-    description: "High durability structural terrarium framework without living media.",
     mainImg: "3.jpg",
     gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
   }
@@ -1120,20 +1112,23 @@ let products = [
 let cart = [];
 let currentSelectedProduct = null;
 let currentDetailQty = 1;
-let currentFilter = 'all';
 let currentCalculatedShipping = 0.00;
+let isPolicyAccepted = false; // Point 1 tracking variable
 
 window.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.href;
+  
+  // Point 7 logic: Unhide sensitive controls only if securely logged in via URL token
   if (currentUrl.includes('token=labyss-secure-edit-2026')) {
     document.body.classList.add('admin-editing');
     document.getElementById('adminBanner').classList.add('active');
     document.getElementById('adminGalleryControls').style.display = 'flex';
     document.getElementById('adminProductEditControls').style.display = 'flex';
     document.getElementById('detailsSaveReturnBtn').style.display = 'inline-block';
-    document.getElementById('adminAddSeriesBtn').style.display = 'inline-block';
+    document.getElementById('adminAddSeriesBtnWrapper').style.display = 'block';
   }
-  renderCatalog(products);
+  
+  renderDynamicCatalogSections();
   initScrollAnimations();
 });
 
@@ -1161,41 +1156,87 @@ function initScrollAnimations() {
   if (splitLeft) observer.observe(splitLeft);
 }
 
-function renderCatalog(itemsToRender) {
-  const grid = document.getElementById('productGrid');
-  if (!grid) return;
-  grid.innerHTML = "";
-  itemsToRender.forEach((prod) => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.onclick = () => openDetailsPage(prod.id);
-    let adminControlsHtml = document.body.classList.contains('admin-editing') ? `
-      <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
-        <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
-      </div>` : '';
-    card.innerHTML = `
-      <div class="product-img-wrapper">
-        <img src="${prod.mainImg}" alt="${prod.name}">
-        ${adminControlsHtml}
-      </div>
-      <div class="product-info">
-        <div class="date">${prod.date}</div>
-        <h3>${prod.name}</h3>
-        <div class="price">RM ${prod.price}</div>
-      </div>`;
-    grid.appendChild(card);
+// Points 5 & 6: Rendering distinct Sections and Categories dynamically
+function renderDynamicCatalogSections() {
+  const wrapper = document.getElementById('catalogSectionsWrapper');
+  wrapper.innerHTML = "";
+  
+  storeSeriesList.forEach(seriesName => {
+     const sectionBlock = document.createElement('div');
+     sectionBlock.style.marginBottom = "80px";
+     
+     // 1. Render Header and Title
+     const headerDiv = document.createElement('div');
+     headerDiv.className = "showcase-header";
+     
+     let titleHtml = `<h2>${seriesName}</h2>`;
+     // Admin: Delete whole Series
+     if (document.body.classList.contains('admin-editing')) {
+       titleHtml = `<div style="display:flex; align-items:center; gap: 15px;">
+                      <h2>${seriesName}</h2>
+                      <button class="admin-action-btn danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteSeriesSection('${seriesName}')">✖ Delete Series</button>
+                    </div>`;
+     }
+     
+     // 2. Render Filters (Categories)
+     let filterHtml = `<button class="filter-btn ${activeFilters[seriesName] === 'all' ? 'active' : ''}" onclick="applyFilter('${seriesName}', 'all')">All Series</button>`;
+     storeCategoryList.forEach(cat => {
+        let isActive = activeFilters[seriesName] === cat ? 'active' : '';
+        // Admin: Delete Category Filter Point 6
+        let delBtn = document.body.classList.contains('admin-editing') ? `<span style="color:red; cursor:pointer;" onclick="event.stopPropagation(); deleteCategoryFilter('${cat}')">✖</span>` : '';
+        filterHtml += `<button class="filter-btn ${isActive}" onclick="applyFilter('${seriesName}', '${cat}')">${cat} ${delBtn}</button>`;
+     });
+     
+     if (document.body.classList.contains('admin-editing')) {
+        filterHtml += `<button class="admin-action-btn" onclick="promptAddCategoryFilter()">+ Add Category</button>`;
+     }
+     
+     headerDiv.innerHTML = `
+        ${titleHtml}
+        <div class="filter-container">
+           ${filterHtml}
+        </div>
+     `;
+     
+     // 3. Render Product Grid for this Series
+     const gridDiv = document.createElement('div');
+     gridDiv.className = "product-grid";
+     
+     let itemsToRender = products.filter(p => p.series === seriesName);
+     if(activeFilters[seriesName] !== 'all') {
+         itemsToRender = itemsToRender.filter(p => p.category === activeFilters[seriesName]);
+     }
+     
+     itemsToRender.forEach((prod) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openDetailsPage(prod.id);
+        let adminControlsHtml = document.body.classList.contains('admin-editing') ? `
+          <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
+            <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
+          </div>` : '';
+        card.innerHTML = `
+          <div class="product-img-wrapper">
+            <img src="${prod.mainImg}" alt="${prod.name}">
+            ${adminControlsHtml}
+          </div>
+          <div class="product-info">
+            <div class="date">${prod.date}</div>
+            <h3>${prod.name}</h3>
+            <div class="price">RM ${prod.price}</div>
+          </div>`;
+        gridDiv.appendChild(card);
+     });
+     
+     sectionBlock.appendChild(headerDiv);
+     sectionBlock.appendChild(gridDiv);
+     wrapper.appendChild(sectionBlock);
   });
 }
 
-function filterProducts(category, btnElement) {
-  currentFilter = category;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btnElement.classList.add('active');
-  if (category === 'all') {
-    renderCatalog(products);
-  } else {
-    renderCatalog(products.filter(p => p.category === category));
-  }
+function applyFilter(seriesName, categoryName) {
+   activeFilters[seriesName] = categoryName;
+   renderDynamicCatalogSections();
 }
 
 function openDetailsPage(id) {
@@ -1252,8 +1293,6 @@ function addCurrentProductToCart() {
   }
   updateCartBadgeCount();
   alert(`${currentSelectedProduct.name} successfully added to your cart!`);
-  
-  // Requirement 2: Redirect back to shop area instead of cart
   switchView('home-view');
   scrollToCatalog();
 }
@@ -1267,6 +1306,17 @@ function removeFromCart(productId) {
   cart = cart.filter(item => item.product.id !== productId);
   updateCartBadgeCount();
   renderCartView();
+}
+
+// Point 3: Update Quantity specifically from within Cart UI
+function updateCartItemQty(productId, delta) {
+  const item = cart.find(i => i.product.id === productId);
+  if (item) {
+      item.qty += delta;
+      if (item.qty < 1) item.qty = 1;
+      updateCartBadgeCount();
+      renderCartView();
+  }
 }
 
 function renderCartView() {
@@ -1288,7 +1338,14 @@ function renderCartView() {
         <div class="cart-product-name">${item.product.name}</div>
       </div>
       <div>RM ${item.product.price}</div>
-      <div>${item.qty}</div>
+      
+      <!-- Point 3 Added inline + and - buttons for Cart View -->
+      <div style="display:flex; align-items:center; gap: 12px; font-weight:600;">
+         <button class="qty-btn" style="width:24px; height:24px; font-size:1rem;" onclick="updateCartItemQty(${item.product.id}, -1)">-</button>
+         <span>${item.qty}</span>
+         <button class="qty-btn" style="width:24px; height:24px; font-size:1rem;" onclick="updateCartItemQty(${item.product.id}, 1)">+</button>
+      </div>
+      
       <div>RM ${itemTotal}</div>
       <div><button class="delete-btn" onclick="removeFromCart(${item.product.id})">Remove</button></div>
     `;
@@ -1303,35 +1360,75 @@ function calculateJTAndTotals() {
   const postcodeVal = document.getElementById('shipPostcode').value.trim();
   
   currentCalculatedShipping = 0.00;
+  let shippingDisplay = "RM 0.00"; 
+  let grandTotalDisplay = `RM ${subtotal.toFixed(2)}`;
   
-  // Requirement 4: Calculate simulated rates from Origin 51100 based on weight (0.5kg/item) + Hidden RM3 packing fee
-  if (totalQty > 0) {
-    const totalWeightKg = totalQty * 0.5;
-    let baseRate = 6.00; // West Malaysia Base Rate for first 1kg
-    let extraKgRate = 1.50; // West Malaysia Rate per subsequent 1kg
-    const packingFee = 3.00; // Hidden packing fee
+  // Only process if there are items and the user has typed something
+  if (totalQty > 0 && postcodeVal.length > 0) {
+    
+    // Check if it is a standard 5-digit Malaysian postcode
+    const isMalaysian = postcodeVal.length === 5 && !isNaN(postcodeVal);
 
-    if (postcodeVal.length >= 2) {
+    if (isMalaysian) {
+      // --- MALAYSIA SHIPPING CALCULATION ---
+      const totalWeightKg = totalQty * 0.5;
+      let baseRate = 6.00; 
+      let extraKgRate = 1.50; 
+      const packingFee = 3.00;
+
       const prefix = parseInt(postcodeVal.substring(0, 2), 10);
-      // East Malaysia postcodes (80-99)
       if (prefix >= 80 && prefix <= 99) {
         baseRate = 15.00; 
         extraKgRate = 10.00;
       }
+      
+      let extraWeight = Math.max(0, totalWeightKg - 1);
+      let courierCost = baseRate + (Math.ceil(extraWeight) * extraKgRate);
+      
+      currentCalculatedShipping = courierCost + packingFee;
+      shippingDisplay = `RM ${currentCalculatedShipping.toFixed(2)}`;
+      grandTotalDisplay = `RM ${(subtotal + currentCalculatedShipping).toFixed(2)}`;
+      
+    } else if (postcodeVal.length >= 3) {
+      // --- INTERNATIONAL SHIPPING (TBC) ---
+      // If it is at least 3 characters but not a 5-digit number, treat it as International
+      shippingDisplay = "TBC (International)";
+      grandTotalDisplay = `RM ${subtotal.toFixed(2)} + Shipping (TBC)`;
+      currentCalculatedShipping = "TBC"; // Flag for WhatsApp message
+    } else {
+      shippingDisplay = "Enter Postcode";
     }
     
-    let extraWeight = Math.max(0, totalWeightKg - 1);
-    let courierCost = baseRate + (Math.ceil(extraWeight) * extraKgRate);
-    
-    currentCalculatedShipping = courierCost + packingFee;
+  } else if (totalQty > 0 && postcodeVal.length === 0) {
+    shippingDisplay = "Enter Postcode";
   }
   
-  document.getElementById('shippingFeeDisplay').innerText = `RM ${currentCalculatedShipping.toFixed(2)}`;
-  const grandTotal = subtotal + currentCalculatedShipping;
-  document.getElementById('cartGrandTotal').innerText = `RM ${grandTotal.toFixed(2)}`;
+  // Update the UI
+  document.getElementById('shippingFeeDisplay').innerText = shippingDisplay;
+  document.getElementById('cartGrandTotal').innerText = grandTotalDisplay;
 }
 
-/* SECTION 5 & 6 MODAL TOGGLE */
+/* === SECTION 5 & 6 MODAL & CHECKOUT LOGIC === */
+
+function closePolicyModal() {
+  document.getElementById('policyModal').classList.remove('active');
+}
+
+// Point 1: Handle Checkbox logic in Modal
+function handlePolicyCheck() {
+   const cb = document.getElementById('policyAgreeCheckbox');
+   if (cb.checked) {
+       isPolicyAccepted = true;
+       // Automatically close after a small delay to confirm action visually
+       setTimeout(() => {
+           closePolicyModal();
+       }, 300);
+   } else {
+       isPolicyAccepted = false;
+   }
+}
+
+// Point 1: Main verification before triggering WhatsApp
 function triggerPreorderProcess() {
   if (cart.length === 0) {
     alert("Your cart is empty!");
@@ -1341,27 +1438,32 @@ function triggerPreorderProcess() {
   const phone = document.getElementById('shipPhone').value.trim();
   const address = document.getElementById('shipAddress').value.trim();
   const postcode = document.getElementById('shipPostcode').value.trim();
+  
+  // 1. Validation check for Shipping details
   if(!name || !phone || !address || !postcode) {
     alert("Please fill in all shipping details before proceeding.");
     return;
   }
-  // Pops up the terms modal first
-  document.getElementById('policyModal').classList.add('active');
-}
-
-function closePolicyModal() {
-  document.getElementById('policyModal').classList.remove('active');
+  
+  // 2. Validation check for Policy Agreement
+  if(!isPolicyAccepted) {
+    alert("Please read and tick the Store Policy agreement before placing the pre-order.");
+    document.getElementById('policyModal').classList.add('active');
+    return;
+  }
+  
+  // 3. If passed both checks, proceed
+  proceedToWhatsAppCheckout();
 }
 
 function proceedToWhatsAppCheckout() {
-  closePolicyModal();
-  
   const name = document.getElementById('shipName').value.trim();
   const phone = document.getElementById('shipPhone').value.trim();
   const address = document.getElementById('shipAddress').value.trim();
   const postcode = document.getElementById('shipPostcode').value.trim();
   
-  let orderMsg = `*New Labyss Studio Pre-order*\n\n`;
+  // Point 2: Custom WhatsApp message modification
+  let orderMsg = `*Hello Labyss Studio, I would like to place a Pre-Order:*\n\n`;
   orderMsg += `*Customer Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Address: ${address}, ${postcode}\n\n`;
   orderMsg += `*Order Items:*\n`;
   
@@ -1372,69 +1474,99 @@ function proceedToWhatsAppCheckout() {
     orderMsg += `• ${item.qty}x ${item.product.name} - RM ${t}\n`;
   });
   
-  let grandTotal = subtotal + currentCalculatedShipping;
   orderMsg += `\n- Subtotal: RM ${subtotal.toFixed(2)}`;
-  orderMsg += `\n- Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
-  orderMsg += `\n- *Grand Total: RM ${grandTotal.toFixed(2)}*\n\n`;
+  
+  // Handled the TBC shipping fallback for WhatsApp
+  if (currentCalculatedShipping === "TBC") {
+      orderMsg += `\n- Shipping Fee: TBC (International Delivery)`;
+      orderMsg += `\n- *Grand Total: RM ${subtotal.toFixed(2)} + Shipping (TBC)*\n\n`;
+  } else {
+      let grandTotal = subtotal + currentCalculatedShipping;
+      orderMsg += `\n- Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
+      orderMsg += `\n- *Grand Total: RM ${grandTotal.toFixed(2)}*\n\n`;
+  }
+  
   orderMsg += `I have read and agreed to the Store Policy and Shipping Terms.`;
   
-  // Requirement 1: Set correct target WhatsApp number
   const targetWhatsAppNumber = "601165375621"; 
   const encodedUrl = `https://wa.me/${targetWhatsAppNumber}?text=` + encodeURIComponent(orderMsg);
   window.open(encodedUrl, '_blank');
 }
 
 /* === ADMIN LOGIC === */
+
 function saveProductJSON() {
-  // Requirement 8: Local JSON saving via PHP file on local XAMPP
   fetch('save_json.php', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(products)
   })
   .then(response => {
-    if(response.ok) {
-      alert("Changes saved directly to JSON file successfully!");
-    } else {
-      alert("Error saving JSON file. Ensure your local server is running and save_json.php is configured properly.");
-    }
+    if(response.ok) alert("Changes saved directly to JSON file successfully!");
+    else alert("Error saving JSON file.");
   })
-  .catch(error => {
-    console.error('Error:', error);
-    alert("Network error: Could not reach save_json.php.");
-  });
+  .catch(error => { console.error('Error:', error); alert("Network error: Could not reach save_json.php."); });
 }
 
-// Requirement 7: Add Series Feature
-function promptAddSeries() {
-  const newSeriesName = prompt("Enter the name for the new Product Series:");
+// Point 5: Add an entirely new Section (Series) to the document 
+function promptAddSeriesSection() {
+  const newSeriesName = prompt("Enter the Name/Title for the new Series Block:");
   if (newSeriesName && newSeriesName.trim() !== "") {
     const safeName = newSeriesName.trim();
-    
-    // Add to dropdown in Add Product Modal
-    const categorySelect = document.getElementById('admCategory');
-    const newOption = document.createElement('option');
-    newOption.value = safeName;
-    newOption.innerText = safeName;
-    categorySelect.appendChild(newOption);
-    
-    // Add filter button to Section 3
-    const filterContainer = document.getElementById('filterContainer');
-    const adminAddBtn = document.getElementById('adminAddSeriesBtn');
-    
-    const newFilterBtn = document.createElement('button');
-    newFilterBtn.className = 'filter-btn';
-    newFilterBtn.innerText = safeName;
-    newFilterBtn.onclick = function() { filterProducts(safeName, this); };
-    
-    filterContainer.insertBefore(newFilterBtn, adminAddBtn);
-    alert(`Series '${safeName}' created successfully! You can now select it when adding a new product.`);
+    if (!storeSeriesList.includes(safeName)) {
+        storeSeriesList.push(safeName);
+        activeFilters[safeName] = 'all';
+        renderDynamicCatalogSections();
+    } else {
+        alert("Series section already exists.");
+    }
   }
 }
 
+// Point 6: Delete a Series block
+function deleteSeriesSection(seriesName) {
+  if (confirm(`Are you sure you want to delete the entire '${seriesName}' section?`)) {
+      storeSeriesList = storeSeriesList.filter(s => s !== seriesName);
+      // Clean up products tied to it if desired (optional)
+      // products = products.filter(p => p.series !== seriesName);
+      renderDynamicCatalogSections();
+  }
+}
+
+// Admin Category filters 
+function promptAddCategoryFilter() {
+   const newCat = prompt("Enter new category filter name:");
+   if (newCat && newCat.trim() !== "") {
+      const safe = newCat.trim();
+      if(!storeCategoryList.includes(safe)) {
+          storeCategoryList.push(safe);
+          renderDynamicCatalogSections();
+      }
+   }
+}
+
+// Point 6: Allow deleting Category filters
+function deleteCategoryFilter(catName) {
+   if (confirm(`Delete the '${catName}' filter button?`)) {
+       storeCategoryList = storeCategoryList.filter(c => c !== catName);
+       renderDynamicCatalogSections();
+   }
+}
+
 function openAddProductModal() {
+  // Populate dropdowns dynamically
+  const seriesSelect = document.getElementById('admSeriesSelect');
+  seriesSelect.innerHTML = "";
+  storeSeriesList.forEach(s => {
+      seriesSelect.innerHTML += `<option value="${s}">${s}</option>`;
+  });
+  
+  const catSelect = document.getElementById('admCategory');
+  catSelect.innerHTML = "";
+  storeCategoryList.forEach(c => {
+      catSelect.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+
   document.getElementById('adminProductModal').classList.add('active');
 }
 
@@ -1444,19 +1576,21 @@ function closeAdminProductModal() {
 
 function saveNewProduct() {
   const name = document.getElementById('admName').value.trim();
+  const series = document.getElementById('admSeriesSelect').value;
   const category = document.getElementById('admCategory').value;
   const price = parseFloat(document.getElementById('admPrice').value) || 99;
   const date = document.getElementById('admDate').value.trim() || 'JUL 2026';
   const description = document.getElementById('admDesc').value.trim();
+  
   if (!name) return alert('Please enter a product name.');
   
   const newProduct = {
     id: Date.now(),
     name,
+    series,
     category,
     price,
     date,
-    badge: "",
     description,
     mainImg: "icon/placeholder.png", 
     gallery: ["icon/placeholder.png"]
@@ -1464,20 +1598,17 @@ function saveNewProduct() {
   
   products.push(newProduct);
   closeAdminProductModal();
-  renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
-  alert('New product added! Click into it to upload real photos.');
+  renderDynamicCatalogSections();
 }
 
 function deleteProduct(id) {
   if (confirm('Delete this product?')) {
     products = products.filter(p => p.id !== id);
-    renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
+    renderDynamicCatalogSections();
   }
 }
 
-function triggerDetailFileUpload() {
-  document.getElementById('detailFileInput').click();
-}
+function triggerDetailFileUpload() { document.getElementById('detailFileInput').click(); }
 
 function handleDetailFileUpload(event) {
   const file = event.target.files[0];
@@ -1490,7 +1621,7 @@ function handleDetailFileUpload(event) {
       currentSelectedProduct.gallery.push(imageUrl);
       if (currentSelectedProduct.gallery.length === 1 || currentSelectedProduct.mainImg.includes('placeholder')) {
         currentSelectedProduct.mainImg = imageUrl;
-        renderCatalog(currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter));
+        renderDynamicCatalogSections();
       }
       renderDetailsGallery();
     }
@@ -1504,7 +1635,7 @@ function clearDetailImages() {
     currentSelectedProduct.gallery = [];
     currentSelectedProduct.mainImg = "";
     renderDetailsGallery();
-    renderCatalog(products); 
+    renderDynamicCatalogSections(); 
   }
 }
 
@@ -1528,22 +1659,16 @@ function toggleDetailsEditMode() {
     currentSelectedProduct.price = parseFloat(priceEl.innerText.replace(/[^\d.-]/g, '')) || 0;
     currentSelectedProduct.date = dateEl.innerText;
     alert("Details updated temporarily! Click 'Save to JSON' in the top banner to keep permanent changes.");
-    renderCatalog(products);
+    renderDynamicCatalogSections();
   } else {
     editBtn.innerText = "Save Text Details";
     nameEl.focus();
   }
 }
 
-// Requirement 6: Admin Save and Return
 function saveDetailsAndReturn() {
   const nameEl = document.getElementById('detailsName');
-  
-  // If still in edit mode, simulate closing edit mode first to lock in variables
-  if (nameEl.isContentEditable) {
-    toggleDetailsEditMode();
-  }
-  
+  if (nameEl.isContentEditable) toggleDetailsEditMode();
   switchView('home-view');
   scrollToCatalog();
 }
