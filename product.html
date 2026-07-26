@@ -921,7 +921,7 @@ body.admin-editing [contenteditable="true"] {
               <button class="qty-btn" onclick="adjustDetailQty(1)">+</button>
             </div>
           </div>
-          <button class="add-to-cart-btn" onclick="switchView('cart-view')">Add to Cart</button>
+          <button class="add-to-cart-btn" onclick="addCurrentProductToCart()">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -943,7 +943,7 @@ body.admin-editing [contenteditable="true"] {
         <h4>Damaged Items Policy</h4>
         <p>If your item arrives broken or defective due to transit or studio error, please notify us within 24 hours of delivery with clear photos.</p>
       </div>
-      <button class="modal-proceed-btn" onclick="closePolicyModal()">I Understand, Close</button>
+      <button class="modal-proceed-btn" onclick="proceedToWhatsAppCheckout()">I Understand, Proceed to WhatsApp</button>
     </div>
   </div>
 </div>
@@ -960,32 +960,25 @@ body.admin-editing [contenteditable="true"] {
         <div>Total</div>
         <div>Action</div>
       </div>
-      <div class="cart-item-row">
-        <div class="cart-product-info">
-          <div class="cart-product-thumb"><img src="icon/placeholder.png" alt="Product"></div>
-          <div class="cart-product-name">Para 01 Moss Terrarium</div>
-        </div>
-        <div>RM 99</div>
-        <div>1</div>
-        <div>RM 99</div>
-        <div><button class="delete-btn">Remove</button></div>
+      <div id="cartItemsContainer">
+        <!-- Dynamic Cart Items Rendered Here -->
       </div>
     </div>
     
     <div class="delivery-container">
-      <div class="delivery-header">Shipping Details</div>
+      <div class="delivery-header">Shipping Details (J&T Express Rates)</div>
       <div class="delivery-form-grid">
         <div class="form-fields-stack">
-          <div class="form-field-group"><label>Name</label><input type="text"></div>
-          <div class="form-field-group"><label>Phone</label><input type="text"></div>
+          <div class="form-field-group"><label>Name</label><input type="text" id="shipName" placeholder="Full Name"></div>
+          <div class="form-field-group"><label>Phone</label><input type="text" id="shipPhone" placeholder="01X-XXXXXXX"></div>
         </div>
         <div class="form-fields-stack">
-          <div class="form-field-group"><label>Address</label><input type="text"></div>
-          <div class="form-field-group"><label>Postcode</label><input type="text"></div>
+          <div class="form-field-group"><label>Address</label><input type="text" id="shipAddress" placeholder="Street Address"></div>
+          <div class="form-field-group"><label>Postcode</label><input type="text" id="shipPostcode" placeholder="e.g. 47500" oninput="calculateJTAndTotals()"></div>
         </div>
         <div class="shipping-fee-display">
-          <span class="label">Total Shipping Fee</span>
-          <span class="amount">RM 15.00</span>
+          <span class="label">J&T Shipping Fee</span>
+          <span class="amount" id="shippingFeeDisplay">RM 8.00</span>
         </div>
       </div>
     </div>
@@ -993,9 +986,9 @@ body.admin-editing [contenteditable="true"] {
     <div class="cart-checkout-footer">
       <div class="order-total-display">
         <span>Order Total:</span>
-        <span class="total-val">RM 114.00</span>
+        <span class="total-val" id="cartGrandTotal">RM 0.00</span>
       </div>
-      <button class="preorder-action-btn" onclick="showPolicyModal()">Review Policy & Pre-order</button>
+      <button class="preorder-action-btn" onclick="triggerPreorderProcess()">Review Policy & Pre-order</button>
     </div>
   </div>
 </div>
@@ -1083,9 +1076,11 @@ let products = [
   }
 ];
 
+let cart = [];
 let currentSelectedProduct = null;
 let currentDetailQty = 1;
 let currentFilter = 'all';
+let currentCalculatedShipping = 8.00;
 
 window.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.href;
@@ -1103,6 +1098,9 @@ function switchView(viewId) {
   document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
   window.scrollTo(0, 0);
+  if(viewId === 'cart-view') {
+    renderCartView();
+  }
 }
 
 function scrollToCatalog() {
@@ -1128,10 +1126,10 @@ function renderCatalog(itemsToRender) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.onclick = () => openDetailsPage(prod.id);
-    let adminControlsHtml = `
+    let adminControlsHtml = document.body.classList.contains('admin-editing') ? `
       <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
         <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
-      </div>`;
+      </div>` : '';
     card.innerHTML = `
       <div class="product-img-wrapper">
         <img src="${prod.mainImg}" alt="${prod.name}">
@@ -1200,12 +1198,132 @@ function adjustDetailQty(amount) {
   document.getElementById('detailQtyVal').innerText = currentDetailQty;
 }
 
+/* CART & DYNAMIC J&T SHIPPING LOGIC */
+function addCurrentProductToCart() {
+  if (!currentSelectedProduct) return;
+  const existing = cart.find(item => item.product.id === currentSelectedProduct.id);
+  if (existing) {
+    existing.qty += currentDetailQty;
+  } else {
+    cart.push({ product: currentSelectedProduct, qty: currentDetailQty });
+  }
+  updateCartBadgeCount();
+  alert(`${currentSelectedProduct.name} successfully added to your cart!`);
+  switchView('cart-view');
+}
+
+function updateCartBadgeCount() {
+  const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cartItemCount').innerText = totalCount;
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.product.id !== productId);
+  updateCartBadgeCount();
+  renderCartView();
+}
+
+function renderCartView() {
+  const container = document.getElementById('cartItemsContainer');
+  container.innerHTML = "";
+  if (cart.length === 0) {
+    container.innerHTML = `<div style="padding: 30px; text-align: center; color: var(--text-dark);">Your cart is currently empty.</div>`;
+    calculateJTAndTotals();
+    return;
+  }
+  
+  cart.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cart-item-row';
+    const itemTotal = item.product.price * item.qty;
+    row.innerHTML = `
+      <div class="cart-product-info">
+        <div class="cart-product-thumb"><img src="${item.product.mainImg}" alt="Thumbnail"></div>
+        <div class="cart-product-name">${item.product.name}</div>
+      </div>
+      <div>RM ${item.product.price}</div>
+      <div>${item.qty}</div>
+      <div>RM ${itemTotal}</div>
+      <div><button class="delete-btn" onclick="removeFromCart(${item.product.id})">Remove</button></div>
+    `;
+    container.appendChild(row);
+  });
+  calculateJTAndTotals();
+}
+
+function calculateJTAndTotals() {
+  const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
+  const postcodeVal = document.getElementById('shipPostcode').value.trim();
+  
+  // Standard J&T Courier Fee Matrix implementation based on Malaysian postcode prefixes
+  if (subtotal >= 150.00 && subtotal > 0) {
+    currentCalculatedShipping = 0.00; // Free shipping promotion for orders above RM 150
+  } else if (postcodeVal.length >= 2) {
+    const prefix = parseInt(postcodeVal.substring(0, 2), 10);
+    // East Malaysia postcodes (Sabah: 88-91, Sarawak: 93-98, Labuan: 87) generally start from 80 upwards
+    if (prefix >= 80 && prefix <= 99) {
+      currentCalculatedShipping = 15.00; // J&T East Malaysia base rate
+    } else {
+      currentCalculatedShipping = 8.00;  // J&T West Malaysia base rate
+    }
+  } else {
+    currentCalculatedShipping = cart.length > 0 ? 8.00 : 0.00;
+  }
+  
+  document.getElementById('shippingFeeDisplay').innerText = `RM ${currentCalculatedShipping.toFixed(2)}`;
+  const grandTotal = subtotal + currentCalculatedShipping;
+  document.getElementById('cartGrandTotal').innerText = `RM ${grandTotal.toFixed(2)}`;
+}
+
 /* SECTION 5 & 6 MODAL TOGGLE */
-function showPolicyModal() {
+function triggerPreorderProcess() {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+  const name = document.getElementById('shipName').value.trim();
+  const phone = document.getElementById('shipPhone').value.trim();
+  const address = document.getElementById('shipAddress').value.trim();
+  const postcode = document.getElementById('shipPostcode').value.trim();
+  if(!name || !phone || !address || !postcode) {
+    alert("Please fill in all shipping details before proceeding.");
+    return;
+  }
   document.getElementById('policyModal').classList.add('active');
 }
+
 function closePolicyModal() {
   document.getElementById('policyModal').classList.remove('active');
+}
+
+function proceedToWhatsAppCheckout() {
+  closePolicyModal();
+  
+  const name = document.getElementById('shipName').value.trim();
+  const phone = document.getElementById('shipPhone').value.trim();
+  const address = document.getElementById('shipAddress').value.trim();
+  const postcode = document.getElementById('shipPostcode').value.trim();
+  
+  let orderMsg = `*New Labyss Studio Pre-order (J&T Delivery)*\n\n`;
+  orderMsg += `*Customer Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Address: ${address}, ${postcode}\n\n`;
+  orderMsg += `*Order Items:*\n`;
+  
+  let subtotal = 0;
+  cart.forEach(item => {
+    let t = item.product.price * item.qty;
+    subtotal += t;
+    orderMsg += `• ${item.qty}x ${item.product.name} - RM ${t}\n`;
+  });
+  
+  let grandTotal = subtotal + currentCalculatedShipping;
+  orderMsg += `\n- Subtotal: RM ${subtotal.toFixed(2)}`;
+  orderMsg += `\n- J&T Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
+  orderMsg += `\n- *Grand Total: RM ${grandTotal.toFixed(2)}*\n\n`;
+  orderMsg += `I have read and agreed to the Store Policy and Shipping Terms.`;
+  
+  const targetWhatsAppNumber = "60123456789"; // Replace with your studio's WhatsApp number
+  const encodedUrl = `https://wa.me/${targetWhatsAppNumber}?text=` + encodeURIComponent(orderMsg);
+  window.open(encodedUrl, '_blank');
 }
 
 /* === ADMIN LOGIC SCOPED ONLY TO SECTIONS 3 & 4 === */
