@@ -25,20 +25,20 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
-/* Navigation Bar - Updated to Transparent & Absolute */
+/* Navigation Bar */
 nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 20px 50px;
-  background-color: transparent; 
-  position: absolute;
+  background-color: rgba(247, 245, 240, 0.95);
+  backdrop-filter: blur(5px);
+  position: fixed; /* Fixes navigation to top right always */
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  box-shadow: none;
-  border-bottom: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 .nav-links {
   display: flex;
@@ -203,7 +203,7 @@ nav {
 
 /* === SECTION 3: Product Showcase === */
 .showcase-section {
-  padding: 80px 50px;
+  padding: 100px 50px 80px 50px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -211,7 +211,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -221,29 +221,68 @@ nav {
   font-weight: 400;
   font-style: italic;
 }
-.filter-container {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
+
+/* GLOBAL FILTER STYLES */
+.global-filter-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 50px;
+  width: 100%;
+  text-align: right;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 15px;
 }
-.filter-btn {
+.dropbtn {
   background-color: transparent;
   border: 1px solid var(--accent-brown);
-  padding: 8px 18px;
+  padding: 8px 24px;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-dark);
   transition: all 0.3s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
-.filter-btn.active, .filter-btn:hover {
+.dropbtn:hover {
   background-color: var(--accent-brown);
   color: var(--white);
 }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: var(--white);
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
+  z-index: 10;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 8px;
+  text-align: left;
+}
+.dropdown-content button {
+  color: var(--text-dark);
+  padding: 14px 20px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.dropdown-content button:hover, .dropdown-content button.active {
+  background-color: rgba(62, 54, 49, 0.1);
+  font-weight: 600;
+}
+.global-filter-container:hover .dropdown-content {
+  display: block;
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -271,7 +310,7 @@ nav {
 .product-img-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   transition: transform 0.5s ease;
 }
 .product-card:hover .product-img-wrapper img {
@@ -432,6 +471,15 @@ nav {
   transition: opacity 0.2s;
 }
 .add-to-cart-btn:hover { opacity: 0.9; }
+
+/* STRICT ADMIN CONTROLS ENFORCEMENT */
+body:not(.admin-editing) #adminProductEditControls {
+  display: none !important;
+}
+body:not(.admin-editing) #adminAddSeriesBtnWrapper,
+body:not(.admin-editing) #adminGalleryControls {
+  display: none !important;
+}
 
 /* === SECTION 5: Policy Modal === */
 .modal-overlay {
@@ -733,7 +781,7 @@ nav {
   background-color: #2C3E50;
   color: #ECF0F1;
   padding: 12px 40px;
-  display: none; 
+  display: none;
   justify-content: space-between;
   align-items: center;
   font-size: 0.9rem;
@@ -744,7 +792,7 @@ nav {
   border-bottom: 2px solid #1ABC9C;
 }
 .admin-banner.active { display: flex; }
-body.admin-editing nav { top: 45px; } 
+body.admin-editing nav { top: 45px; }
 .admin-controls-group {
   display: flex;
   gap: 15px;
@@ -823,7 +871,6 @@ body.admin-editing [contenteditable="true"] {
   gap: 12px;
   margin-top: 15px;
 }
-
 @keyframes moveDownFromTop {
   0% { opacity: 0; transform: translateY(-50px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -833,19 +880,162 @@ body.admin-editing [contenteditable="true"] {
   100% { opacity: 1; }
 }
 
-@media screen and (max-width: 900px) {
-  .details-container,
-  .policy-modal-card,
-  .delivery-form-grid { grid-template-columns: 1fr; }
-  .cart-header-row, .cart-item-row { grid-template-columns: 2fr 1fr 1fr; }
-  .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5),
-  .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) { display: none; }
+/* ========================================== 
+   MOBILE HERO & OVERALL RESPONSIVE OVERRIDE 
+   ========================================== */ 
+@media screen and (max-width: 900px) { 
+  nav { 
+    padding: 15px 20px; 
+  } 
+ 
+  /* 1. SECTION CONTAINER */ 
+  .hero-section { 
+    position: relative; 
+    min-height: 90vh; 
+    height: 90vh; 
+    padding: 90px 15px 10px 15px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    align-items: center; 
+    overflow: hidden; 
+    box-sizing: border-box; 
+  } 
+ 
+  /* 2. BACKGROUND IMAGE */ 
+  .hero-section .hero-image-container { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 1; 
+    margin: 0; 
+    opacity: 1; 
+  } 
+ 
+  .hero-section .hero-image-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    object-position: 50% 35%; 
+  } 
+ 
+  /* 3. FOREGROUND CONTENT WRAPPER */ 
+  .hero-section .hero-content { 
+    position: relative; 
+    z-index: 2; 
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    flex-grow: 1; 
+    transform: none; 
+    pointer-events: none; 
+  } 
+ 
+  /* 4. TOP TITLE */ 
+  .hero-section .hero-left { 
+    transform: none; 
+    text-align: left; 
+    max-width: 170px; 
+    padding: 0 0 0 5px; 
+    margin-right: auto; 
+    pointer-events: auto; 
+    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; 
+  } 
+ 
+  .hero-section .hero-left h1 { 
+    font-size: 3rem; 
+    line-height: 0.95; 
+    letter-spacing: -1px; 
+    color: #000000; 
+    white-space: normal; 
+    word-break: normal; 
+  } 
+ 
+  .hero-section .hero-left h1 span.small-title { 
+    font-size: 1.5rem; 
+    margin-bottom: 4px; 
+    display: block; 
+  } 
+ 
+  /* 5. BOTTOM DESCRIPTION */ 
+  .hero-section .hero-right { 
+    transform: none; 
+    width: 100%; 
+    padding: 0 10px 0 10px; 
+    margin-top: auto; 
+    pointer-events: auto; 
+    animation: moveDownFromTop 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; 
+  } 
+ 
+  .hero-section .hero-right p { 
+    font-family: 'Georgia', serif; 
+    font-style: italic; 
+    font-size: 1.15rem; 
+    line-height: 1.35; 
+    text-align: center; 
+    color: var(--text-dark); 
+    text-shadow: none; 
+  } 
+ 
+  /* --- SECTION 2 (Split Mobile - Stacked Layout) --- */ 
+  .split-section { 
+    grid-template-columns: 1fr; 
+  } 
+ 
+  .split-left { 
+    padding: 40px 20px 10px 20px; 
+  } 
+ 
+  .split-left .exploded-graphic { 
+    max-width: 180px; 
+    max-height: 250px; 
+  } 
+ 
+  .split-center { 
+    padding: 0 20px 30px 20px; 
+    text-align: center; 
+  } 
+ 
+  .split-center h2 { 
+    font-size: 2.5rem; 
+    text-align: center; 
+  } 
+ 
+  .split-right { 
+    padding: 40px 25px; 
+    margin-right: 0;
+    border-radius: 24px;
+  } 
+ 
+  .split-right p { 
+    font-size: 1.1rem; 
+    line-height: 1.6; 
+  } 
+ 
+  /* --- OTHER MOBILE LAYOUT FIXES --- */ 
+  .details-container, 
+  .policy-modal-card, 
+  .delivery-form-grid { 
+    grid-template-columns: 1fr; 
+  } 
+ 
+  .cart-header-row, .cart-item-row { 
+    grid-template-columns: 2fr 1fr 1fr; 
+  } 
+ 
+  .cart-header-row div:nth-child(4), .cart-header-row div:nth-child(5), 
+  .cart-item-row div:nth-child(4), .cart-item-row div:nth-child(5) { 
+    display: none; 
+  } 
 }
 </style>
 </head>
 <body>
-
-<!-- ADMIN EDIT BAR (Strictly Hidden by Default) -->
+<!-- ADMIN EDIT BAR -->
 <div id="adminBanner" class="admin-banner">
   <div><strong>Labyss Admin Mode:</strong> Managing Section 3 & 4</div>
   <div class="admin-controls-group">
@@ -885,7 +1075,7 @@ body.admin-editing [contenteditable="true"] {
       </div>
     </div>
   </section>
-
+  
   <!-- SECTION 2: Split Intro Layout -->
   <section class="split-section">
     <div class="split-left" id="splitLeftAnim">
@@ -898,14 +1088,22 @@ body.admin-editing [contenteditable="true"] {
       <p>Measures 15 cm tall by 7 cm wide, featuring a 3D-printed base with a water reservoir and a moisture-locking glass dome that creates an ideal microclimate that helps the moss thrive with minimal maintenance for any desk or shelf.</p>
     </div>
   </section>
-
+  
   <!-- SECTION 3: Dynamic Product Showcase Sections -->
   <section class="showcase-section" id="catalog">
-      <div id="catalogSectionsWrapper"></div>
-      
-      <div id="adminAddSeriesBtnWrapper" style="display:none; margin-top:40px; text-align:center;">
-          <button class="admin-action-btn save" onclick="promptAddSeriesSection()">+ Add New Series Section</button>
+    <div class="global-filter-container">
+      <div class="dropdown">
+        <button class="dropbtn">Filter Categories ▼</button>
+        <div class="dropdown-content" id="globalFilterMenu">
+            <!-- Dynamically Rendered Categories -->
+        </div>
       </div>
+    </div>
+
+    <div id="catalogSectionsWrapper"></div>
+    <div id="adminAddSeriesBtnWrapper" style="display:none; margin-top:40px; text-align:center;">
+      <button class="admin-action-btn save" onclick="promptAddSeriesSection()">+ Add New Series Section</button>
+    </div>
   </section>
 </div>
 
@@ -918,14 +1116,12 @@ body.admin-editing [contenteditable="true"] {
           <img id="detailsMainImage" src="" alt="Selected Product View">
         </div>
         <div class="sub-gallery-grid" id="subGalleryGrid"></div>
-        
         <div id="adminGalleryControls" style="display:none; gap: 10px; margin-top:10px;">
           <input type="file" id="detailFileInput" accept="image/*" style="display: none;" onchange="handleDetailFileUpload(event)">
           <button class="admin-action-btn" onclick="triggerDetailFileUpload()">Upload Photo</button>
           <button class="admin-action-btn danger" onclick="clearDetailImages()">Clear Photos</button>
         </div>
       </div>
-      
       <div class="details-info-box">
         <div class="details-meta">
           <div class="date" id="detailsDate" contenteditable="false">JUL 2026</div>
@@ -934,13 +1130,11 @@ body.admin-editing [contenteditable="true"] {
           <div class="details-description" id="detailsDescription" contenteditable="false">
             Handcrafted with precision 3D-printed structures designed for optimal moisture retention.
           </div>
-          
-          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px; display:flex; gap:10px;">
+          <div id="adminProductEditControls" style="display:none; margin-bottom:15px; margin-top:20px; flex; gap:10px;">
             <button class="admin-action-btn" onclick="toggleDetailsEditMode()" id="detailsEditToggleBtn">Edit Text Details</button>
             <button class="admin-action-btn save" onclick="saveDetailsAndReturn()" id="detailsSaveReturnBtn" style="display:none;">Save and Return</button>
           </div>
         </div>
-        
         <div class="quantity-action-row">
           <div class="qty-selector-group">
             <span>Quantity</span>
@@ -960,7 +1154,7 @@ body.admin-editing [contenteditable="true"] {
 <!-- SECTION 5: Policy Modal -->
 <div class="modal-overlay" id="policyModal">
   <div class="policy-modal-card">
-    <button class="modal-close-top" onclick="closePolicyModal()">✖</button>
+    <button class="modal-close-top" onclick="closePolicyModal()">×</button>
     <div class="policy-left">
       <h2>Store Policy & Shipping Terms</h2>
     </div>
@@ -1001,7 +1195,6 @@ body.admin-editing [contenteditable="true"] {
         <!-- Dynamic Cart Items Rendered Here -->
       </div>
     </div>
-    
     <div class="delivery-container">
       <div class="delivery-header">Shipping Details</div>
       <div class="delivery-form-grid">
@@ -1019,7 +1212,6 @@ body.admin-editing [contenteditable="true"] {
         </div>
       </div>
     </div>
-    
     <div class="cart-checkout-footer">
       <div class="order-total-display">
         <span>Order Total:</span>
@@ -1041,16 +1233,13 @@ body.admin-editing [contenteditable="true"] {
       <label>Product Name</label>
       <input type="text" id="admName" placeholder="e.g. Para 03 Moss Terrarium">
     </div>
-    
     <div class="admin-form-group">
       <label>Assign to Series</label>
       <select id="admSeriesSelect"></select>
     </div>
-    
     <div class="admin-form-group">
       <label>Category Filter</label>
-      <select id="admCategory">
-      </select>
+      <select id="admCategory"></select>
     </div>
     <div class="admin-form-group">
       <label>Price (RM)</label>
@@ -1074,9 +1263,8 @@ body.admin-editing [contenteditable="true"] {
 <script>
 let storeSeriesList = ["Para Series Terrarium"];
 let storeCategoryList = ["Complete", "Structure", "Living Moss"];
-let activeFilters = { "Para Series Terrarium": "all" }; 
+let activeGlobalFilter = "all";
 
-// Fallback products array in case product_catalog.json is empty
 let products = [
   {
     id: 1,
@@ -1101,33 +1289,26 @@ let products = [
     gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
   }
 ];
-
 let cart = [];
 let currentSelectedProduct = null;
 let currentDetailQty = 1;
 let currentCalculatedShipping = 0.00;
-let isPolicyAccepted = false; 
+let isPolicyAccepted = false;
 
 window.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.href;
-  
   if (currentUrl.includes('token=labyss-secure-edit-2026')) {
     document.body.classList.add('admin-editing');
     document.getElementById('adminBanner').classList.add('active');
     document.getElementById('adminGalleryControls').style.display = 'flex';
-    document.getElementById('adminProductEditControls').style.display = 'flex';
     document.getElementById('detailsSaveReturnBtn').style.display = 'inline-block';
-    document.getElementById('adminAddSeriesBtnWrapper').style.display = 'block';
   }
-  
-  // FETCH LATEST CATALOG DATA FROM JSON BEFORE RENDERING
   loadProductsFromJSON();
-  initScrollAnimations();
 });
 
-// NEW FUNCTION: Reads product_catalog.json on page load
+initScrollAnimations();
+
 function loadProductsFromJSON() {
-  // Use timestamp query string to prevent browser caching
   fetch('product_catalog.json?t=' + new Date().getTime())
     .then(response => {
       if (!response.ok) throw new Error("Catalog JSON file not found.");
@@ -1136,11 +1317,13 @@ function loadProductsFromJSON() {
     .then(data => {
       if (Array.isArray(data) && data.length > 0) {
         products = data;
+        renderGlobalFilterDropdown();
+        renderDynamicCatalogSections();
       }
-      renderDynamicCatalogSections();
     })
     .catch(error => {
       console.warn("Could not load product_catalog.json, falling back to default array:", error);
+      renderGlobalFilterDropdown();
       renderDynamicCatalogSections();
     });
 }
@@ -1169,59 +1352,73 @@ function initScrollAnimations() {
   if (splitLeft) observer.observe(splitLeft);
 }
 
+function renderGlobalFilterDropdown() {
+  const menu = document.getElementById('globalFilterMenu');
+  if (!menu) return;
+
+  let html = `<button class="${activeGlobalFilter === 'all' ? 'active' : ''}" onclick="applyGlobalFilter('all')">All Products</button>`;
+  
+  storeCategoryList.forEach(cat => {
+    let isActive = activeGlobalFilter === cat ? 'active' : '';
+    let delBtn = document.body.classList.contains('admin-editing') ? 
+      `<span style="color:red; float:right; cursor:pointer;" onclick="event.stopPropagation(); deleteCategoryFilter('${cat}')">Delete</span>` : '';
+    html += `<button class="${isActive}" onclick="applyGlobalFilter('${cat}')">${cat} ${delBtn}</button>`;
+  });
+
+  if (document.body.classList.contains('admin-editing')) {
+    html += `<button onclick="promptAddCategoryFilter()" style="color: #1ABC9C; font-weight: bold;">+ Add Category</button>`;
+  }
+  
+  menu.innerHTML = html;
+}
+
+function applyGlobalFilter(categoryName) {
+  activeGlobalFilter = categoryName;
+  renderGlobalFilterDropdown();
+  renderDynamicCatalogSections();
+}
+
 function renderDynamicCatalogSections() {
   const wrapper = document.getElementById('catalogSectionsWrapper');
   wrapper.innerHTML = "";
   
   storeSeriesList.forEach(seriesName => {
-     const sectionBlock = document.createElement('div');
-     sectionBlock.style.marginBottom = "80px";
-     
-     const headerDiv = document.createElement('div');
-     headerDiv.className = "showcase-header";
-     
-     let titleHtml = `<h2>${seriesName}</h2>`;
-     if (document.body.classList.contains('admin-editing')) {
-       titleHtml = `<div style="display:flex; align-items:center; gap: 15px;">
+    let itemsToRender = products.filter(p => p.series === seriesName);
+    
+    if(activeGlobalFilter !== 'all') {
+      itemsToRender = itemsToRender.filter(p => p.category === activeGlobalFilter);
+    }
+    
+    if (itemsToRender.length > 0 || document.body.classList.contains('admin-editing')) {
+      const sectionBlock = document.createElement('div');
+      sectionBlock.style.marginBottom = "80px";
+      
+      const headerDiv = document.createElement('div');
+      headerDiv.className = "showcase-header";
+      headerDiv.style.marginBottom = "20px";
+      
+      let titleHtml = `<h2>${seriesName}</h2>`;
+      if (document.body.classList.contains('admin-editing')) {
+        titleHtml = `<div style="display: flex; align-items:center; gap: 15px;">
                       <h2>${seriesName}</h2>
-                      <button class="admin-action-btn danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteSeriesSection('${seriesName}')">✖ Delete Series</button>
+                      <button class="admin-action-btn danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteSeriesSection('${seriesName}')">Delete Series</button>
                     </div>`;
-     }
-     
-     let filterHtml = `<button class="filter-btn ${activeFilters[seriesName] === 'all' ? 'active' : ''}" onclick="applyFilter('${seriesName}', 'all')">All Series</button>`;
-     storeCategoryList.forEach(cat => {
-        let isActive = activeFilters[seriesName] === cat ? 'active' : '';
-        let delBtn = document.body.classList.contains('admin-editing') ? `<span style="color:red; cursor:pointer;" onclick="event.stopPropagation(); deleteCategoryFilter('${cat}')">✖</span>` : '';
-        filterHtml += `<button class="filter-btn ${isActive}" onclick="applyFilter('${seriesName}', '${cat}')">${cat} ${delBtn}</button>`;
-     });
-     
-     if (document.body.classList.contains('admin-editing')) {
-        filterHtml += `<button class="admin-action-btn" onclick="promptAddCategoryFilter()">+ Add Category</button>`;
-     }
-     
-     headerDiv.innerHTML = `
-        ${titleHtml}
-        <div class="filter-container">
-           ${filterHtml}
-        </div>
-     `;
-     
-     const gridDiv = document.createElement('div');
-     gridDiv.className = "product-grid";
-     
-     let itemsToRender = products.filter(p => p.series === seriesName);
-     if(activeFilters[seriesName] !== 'all') {
-         itemsToRender = itemsToRender.filter(p => p.category === activeFilters[seriesName]);
-     }
-     
-     itemsToRender.forEach((prod) => {
+      }
+      headerDiv.innerHTML = titleHtml;
+      
+      const gridDiv = document.createElement('div');
+      gridDiv.className = "product-grid";
+      
+      itemsToRender.forEach((prod) => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => openDetailsPage(prod.id);
-        let adminControlsHtml = document.body.classList.contains('admin-editing') ? `
-          <div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
+        
+        let adminControlsHtml = document.body.classList.contains('admin-editing') ? 
+          `<div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
             <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
-          </div>` : '';
+          </div>` : "";
+          
         card.innerHTML = `
           <div class="product-img-wrapper">
             <img src="${prod.mainImg}" alt="${prod.name}">
@@ -1233,26 +1430,22 @@ function renderDynamicCatalogSections() {
             <div class="price">RM ${prod.price}</div>
           </div>`;
         gridDiv.appendChild(card);
-     });
-     
-     if (document.body.classList.contains('admin-editing')) {
+      });
+      
+      if (document.body.classList.contains('admin-editing')) {
         const addCard = document.createElement('div');
         addCard.className = 'product-card';
-        addCard.style = 'border: 2px dashed var(--accent-brown); border-radius: 24px; display: flex; align-items: center; justify-content: center; min-height: 320px; opacity: 0.7; cursor: pointer;';
+        addCard.style = "border: 2px dashed var(--accent-brown); border-radius: 24px; display: flex; align-items: center; justify-content: center; min-height: 320px; opacity: 0.7; cursor: pointer;";
         addCard.innerHTML = `<h3 style="font-family: 'Georgia', serif; font-size: 1.5rem; color: var(--accent-brown);">+ New Product</h3>`;
         addCard.onclick = () => openAddProductModal();
         gridDiv.appendChild(addCard);
-     }
-     
-     sectionBlock.appendChild(headerDiv);
-     sectionBlock.appendChild(gridDiv);
-     wrapper.appendChild(sectionBlock);
+      }
+      
+      sectionBlock.appendChild(headerDiv);
+      sectionBlock.appendChild(gridDiv);
+      wrapper.appendChild(sectionBlock);
+    }
   });
-}
-
-function applyFilter(seriesName, categoryName) {
-   activeFilters[seriesName] = categoryName;
-   renderDynamicCatalogSections();
 }
 
 function openDetailsPage(id) {
@@ -1326,10 +1519,10 @@ function removeFromCart(productId) {
 function updateCartItemQty(productId, delta) {
   const item = cart.find(i => i.product.id === productId);
   if (item) {
-      item.qty += delta;
-      if (item.qty < 1) item.qty = 1;
-      updateCartBadgeCount();
-      renderCartView();
+    item.qty += delta;
+    if (item.qty < 1) item.qty = 1;
+    updateCartBadgeCount();
+    renderCartView();
   }
 }
 
@@ -1341,7 +1534,6 @@ function renderCartView() {
     calculateJTAndTotals();
     return;
   }
-  
   cart.forEach(item => {
     const row = document.createElement('div');
     row.className = 'cart-item-row';
@@ -1352,13 +1544,11 @@ function renderCartView() {
         <div class="cart-product-name">${item.product.name}</div>
       </div>
       <div>RM ${item.product.price}</div>
-      
-      <div style="display:flex; align-items:center; gap: 12px; font-weight:600;">
-         <button class="qty-btn" style="width:24px; height:24px; font-size:1rem;" onclick="updateCartItemQty(${item.product.id}, -1)">-</button>
-         <span>${item.qty}</span>
-         <button class="qty-btn" style="width:24px; height:24px; font-size:1rem;" onclick="updateCartItemQty(${item.product.id}, 1)">+</button>
+      <div style="display: flex; align-items:center; gap: 12px; font-weight:600;">
+        <button class="qty-btn" style="width:24px; height:24px; font-size: 1rem;" onclick="updateCartItemQty(${item.product.id}, -1)">-</button>
+        <span>${item.qty}</span>
+        <button class="qty-btn" style="width: 24px; height:24px; font-size: 1rem;" onclick="updateCartItemQty(${item.product.id}, 1)">+</button>
       </div>
-      
       <div>RM ${itemTotal}</div>
       <div><button class="delete-btn" onclick="removeFromCart(${item.product.id})">Remove</button></div>
     `;
@@ -1371,45 +1561,33 @@ function calculateJTAndTotals() {
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const postcodeVal = document.getElementById('shipPostcode').value.trim();
-  
   currentCalculatedShipping = 0.00;
-  let shippingDisplay = "RM 0.00"; 
+  let shippingDisplay = "RM 0.00";
   let grandTotalDisplay = `RM ${subtotal.toFixed(2)}`;
-  
+
   if (totalQty > 0 && postcodeVal.length > 0) {
     const isMalaysian = postcodeVal.length === 5 && !isNaN(postcodeVal);
-
     if (isMalaysian) {
       const totalWeightKg = totalQty * 0.5;
-      let baseRate = 6.00; 
-      let extraKgRate = 1.50; 
+      let baseRate = 6.00;
+      let extraKgRate = 1.50;
       const packingFee = 3.00;
-
       const prefix = parseInt(postcodeVal.substring(0, 2), 10);
       if (prefix >= 80 && prefix <= 99) {
-        baseRate = 15.00; 
+        baseRate = 15.00;
         extraKgRate = 10.00;
       }
-      
       let extraWeight = Math.max(0, totalWeightKg - 1);
       let courierCost = baseRate + (Math.ceil(extraWeight) * extraKgRate);
-      
       currentCalculatedShipping = courierCost + packingFee;
       shippingDisplay = `RM ${currentCalculatedShipping.toFixed(2)}`;
       grandTotalDisplay = `RM ${(subtotal + currentCalculatedShipping).toFixed(2)}`;
-      
     } else if (postcodeVal.length >= 3) {
       shippingDisplay = "TBC (International)";
       grandTotalDisplay = `RM ${subtotal.toFixed(2)} + Shipping (TBC)`;
-      currentCalculatedShipping = "TBC"; 
-    } else {
-      shippingDisplay = "RM 0.00";
+      currentCalculatedShipping = "TBC";
     }
-    
-  } else if (totalQty > 0 && postcodeVal.length === 0) {
-    shippingDisplay = "RM 0.00";
   }
-  
   document.getElementById('shippingFeeDisplay').innerText = shippingDisplay;
   document.getElementById('cartGrandTotal').innerText = grandTotalDisplay;
 }
@@ -1419,15 +1597,13 @@ function closePolicyModal() {
 }
 
 function handlePolicyCheck() {
-   const cb = document.getElementById('policyAgreeCheckbox');
-   if (cb.checked) {
-       isPolicyAccepted = true;
-       setTimeout(() => {
-           closePolicyModal();
-       }, 300);
-   } else {
-       isPolicyAccepted = false;
-   }
+  const cb = document.getElementById('policyAgreeCheckbox');
+  if (cb.checked) {
+    isPolicyAccepted = true;
+    setTimeout(() => { closePolicyModal(); }, 300);
+  } else {
+    isPolicyAccepted = false;
+  }
 }
 
 function triggerPreorderProcess() {
@@ -1439,18 +1615,15 @@ function triggerPreorderProcess() {
   const phone = document.getElementById('shipPhone').value.trim();
   const address = document.getElementById('shipAddress').value.trim();
   const postcode = document.getElementById('shipPostcode').value.trim();
-  
   if(!name || !phone || !address || !postcode) {
     alert("Please fill in all shipping details before proceeding.");
     return;
   }
-  
   if(!isPolicyAccepted) {
     alert("Please read and tick the Store Policy agreement before placing the pre-order.");
     document.getElementById('policyModal').classList.add('active');
     return;
   }
-  
   proceedToWhatsAppCheckout();
 }
 
@@ -1468,28 +1641,25 @@ function proceedToWhatsAppCheckout() {
   cart.forEach(item => {
     let t = item.product.price * item.qty;
     subtotal += t;
-    orderMsg += `• ${item.qty}x ${item.product.name} - RM ${t}\n`;
+    orderMsg += `${item.qty}x ${item.product.name} - RM ${t}\n`;
   });
-  
   orderMsg += `\n- Subtotal: RM ${subtotal.toFixed(2)}`;
   
   if (currentCalculatedShipping === "TBC") {
-      orderMsg += `\n- Shipping Fee: TBC (International Delivery)`;
-      orderMsg += `\n- *Grand Total: RM ${subtotal.toFixed(2)} + Shipping (TBC)*\n\n`;
+    orderMsg += `\n- Shipping Fee: TBC (International Delivery)`;
+    orderMsg += `\n- *Grand Total: RM ${subtotal.toFixed(2)} + Shipping (TBC)*\n\n`;
   } else {
-      let grandTotal = subtotal + currentCalculatedShipping;
-      orderMsg += `\n- Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
-      orderMsg += `\n- *Grand Total: RM ${grandTotal.toFixed(2)}*\n\n`;
+    let grandTotal = subtotal + currentCalculatedShipping;
+    orderMsg += `\n- Shipping Fee: RM ${currentCalculatedShipping.toFixed(2)}`;
+    orderMsg += `\n- *Grand Total: RM ${grandTotal.toFixed(2)}*\n\n`;
   }
-  
   orderMsg += `I have read and agreed to the Store Policy and Shipping Terms.`;
   
-  const targetWhatsAppNumber = "601165375621"; 
+  const targetWhatsAppNumber = "601165375621";
   const encodedUrl = `https://wa.me/${targetWhatsAppNumber}?text=` + encodeURIComponent(orderMsg);
   window.open(encodedUrl, '_blank');
 }
 
-// UPDATED: Re-loads fresh JSON data after saving
 function saveProductJSON() {
   fetch('save_json.php', {
     method: 'POST',
@@ -1498,10 +1668,10 @@ function saveProductJSON() {
   })
   .then(response => {
     if(response.ok) {
-        alert("Changes saved directly to JSON file successfully!");
-        loadProductsFromJSON(); // Automatically re-fetches updated file paths from server
+      alert("Changes saved directly to JSON file successfully!");
+      loadProductsFromJSON();
     } else {
-        alert("Error saving JSON file.");
+      alert("Error saving JSON file.");
     }
   })
   .catch(error => { console.error('Error:', error); alert("Network error: Could not reach save_json.php."); });
@@ -1512,53 +1682,54 @@ function promptAddSeriesSection() {
   if (newSeriesName && newSeriesName.trim() !== "") {
     const safeName = newSeriesName.trim();
     if (!storeSeriesList.includes(safeName)) {
-        storeSeriesList.push(safeName);
-        activeFilters[safeName] = 'all';
-        renderDynamicCatalogSections();
+      storeSeriesList.push(safeName);
+      renderDynamicCatalogSections();
     } else {
-        alert("Series section already exists.");
+      alert("Series section already exists.");
     }
   }
 }
 
 function deleteSeriesSection(seriesName) {
   if (confirm(`Are you sure you want to delete the entire '${seriesName}' section?`)) {
-      storeSeriesList = storeSeriesList.filter(s => s !== seriesName);
-      renderDynamicCatalogSections();
+    storeSeriesList = storeSeriesList.filter(s => s !== seriesName);
+    renderDynamicCatalogSections();
   }
 }
 
 function promptAddCategoryFilter() {
-   const newCat = prompt("Enter new category filter name:");
-   if (newCat && newCat.trim() !== "") {
-      const safe = newCat.trim();
-      if(!storeCategoryList.includes(safe)) {
-          storeCategoryList.push(safe);
-          renderDynamicCatalogSections();
-      }
-   }
+  const newCat = prompt("Enter new category filter name:");
+  if (newCat && newCat.trim() !== "") {
+    const safe = newCat.trim();
+    if(!storeCategoryList.includes(safe)) {
+      storeCategoryList.push(safe);
+    }
+  }
+  renderGlobalFilterDropdown();
 }
 
 function deleteCategoryFilter(catName) {
-   if (confirm(`Delete the '${catName}' filter button?`)) {
-       storeCategoryList = storeCategoryList.filter(c => c !== catName);
-       renderDynamicCatalogSections();
-   }
+  if (confirm(`Delete the '${catName}' filter?`)) {
+    storeCategoryList = storeCategoryList.filter(c => c !== catName);
+    if(activeGlobalFilter === catName) activeGlobalFilter = 'all';
+    renderGlobalFilterDropdown();
+    renderDynamicCatalogSections();
+  }
 }
 
 function openAddProductModal() {
   const seriesSelect = document.getElementById('admSeriesSelect');
   seriesSelect.innerHTML = "";
   storeSeriesList.forEach(s => {
-      seriesSelect.innerHTML += `<option value="${s}">${s}</option>`;
+    seriesSelect.innerHTML += `<option value="${s}">${s}</option>`;
   });
   
   const catSelect = document.getElementById('admCategory');
   catSelect.innerHTML = "";
   storeCategoryList.forEach(c => {
-      catSelect.innerHTML += `<option value="${c}">${c}</option>`;
+    catSelect.innerHTML += `<option value="${c}">${c}</option>`;
   });
-
+  
   document.getElementById('adminProductModal').classList.add('active');
 }
 
@@ -1584,7 +1755,7 @@ function saveNewProduct() {
     price,
     date,
     description,
-    mainImg: "icon/placeholder.png", 
+    mainImg: "icon/placeholder.png",
     gallery: ["icon/placeholder.png"]
   };
   
@@ -1614,8 +1785,8 @@ function handleDetailFileUpload(event) {
       if (currentSelectedProduct.gallery.length === 1 || currentSelectedProduct.mainImg.includes('placeholder')) {
         currentSelectedProduct.mainImg = imageUrl;
         renderDynamicCatalogSections();
+        renderDetailsGallery();
       }
-      renderDetailsGallery();
     }
   };
   reader.readAsDataURL(file);
@@ -1626,8 +1797,8 @@ function clearDetailImages() {
   if (confirm("Clear all photos for this product?") && currentSelectedProduct) {
     currentSelectedProduct.gallery = [];
     currentSelectedProduct.mainImg = "";
+    renderDynamicCatalogSections();
     renderDetailsGallery();
-    renderDynamicCatalogSections(); 
   }
 }
 
@@ -1648,7 +1819,7 @@ function toggleDetailsEditMode() {
     editBtn.innerText = "Edit Text Details";
     currentSelectedProduct.name = nameEl.innerText;
     currentSelectedProduct.description = descEl.innerText;
-    currentSelectedProduct.price = parseFloat(priceEl.innerText.replace(/[^\d.-]/g, '')) || 0;
+    currentSelectedProduct.price = parseFloat(priceEl.innerText.replace(/[^\d.-]/g, "")) || 0;
     currentSelectedProduct.date = dateEl.innerText;
     alert("Details updated temporarily! Click 'Save to JSON' in the top banner to keep permanent changes.");
     renderDynamicCatalogSections();
