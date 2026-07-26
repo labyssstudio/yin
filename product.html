@@ -1076,6 +1076,7 @@ let storeSeriesList = ["Para Series Terrarium"];
 let storeCategoryList = ["Complete", "Structure", "Living Moss"];
 let activeFilters = { "Para Series Terrarium": "all" }; 
 
+// Fallback products array in case product_catalog.json is empty
 let products = [
   {
     id: 1,
@@ -1119,9 +1120,30 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('adminAddSeriesBtnWrapper').style.display = 'block';
   }
   
-  renderDynamicCatalogSections();
+  // FETCH LATEST CATALOG DATA FROM JSON BEFORE RENDERING
+  loadProductsFromJSON();
   initScrollAnimations();
 });
+
+// NEW FUNCTION: Reads product_catalog.json on page load
+function loadProductsFromJSON() {
+  // Use timestamp query string to prevent browser caching
+  fetch('product_catalog.json?t=' + new Date().getTime())
+    .then(response => {
+      if (!response.ok) throw new Error("Catalog JSON file not found.");
+      return response.json();
+    })
+    .then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        products = data;
+      }
+      renderDynamicCatalogSections();
+    })
+    .catch(error => {
+      console.warn("Could not load product_catalog.json, falling back to default array:", error);
+      renderDynamicCatalogSections();
+    });
+}
 
 function switchView(viewId) {
   document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
@@ -1213,7 +1235,6 @@ function renderDynamicCatalogSections() {
         gridDiv.appendChild(card);
      });
      
-     /* --- NEW ADD PRODUCT CARD APPENDED DYNAMICALLY (ADMIN ONLY) --- */
      if (document.body.classList.contains('admin-editing')) {
         const addCard = document.createElement('div');
         addCard.className = 'product-card';
@@ -1382,11 +1403,11 @@ function calculateJTAndTotals() {
       grandTotalDisplay = `RM ${subtotal.toFixed(2)} + Shipping (TBC)`;
       currentCalculatedShipping = "TBC"; 
     } else {
-      shippingDisplay = "RM 0.00"; /* Updated from Enter Postcode fallback */
+      shippingDisplay = "RM 0.00";
     }
     
   } else if (totalQty > 0 && postcodeVal.length === 0) {
-    shippingDisplay = "RM 0.00"; /* Updated from Enter Postcode fallback */
+    shippingDisplay = "RM 0.00";
   }
   
   document.getElementById('shippingFeeDisplay').innerText = shippingDisplay;
@@ -1468,6 +1489,7 @@ function proceedToWhatsAppCheckout() {
   window.open(encodedUrl, '_blank');
 }
 
+// UPDATED: Re-loads fresh JSON data after saving
 function saveProductJSON() {
   fetch('save_json.php', {
     method: 'POST',
@@ -1475,8 +1497,12 @@ function saveProductJSON() {
     body: JSON.stringify(products)
   })
   .then(response => {
-    if(response.ok) alert("Changes saved directly to JSON file successfully!");
-    else alert("Error saving JSON file.");
+    if(response.ok) {
+        alert("Changes saved directly to JSON file successfully!");
+        loadProductsFromJSON(); // Automatically re-fetches updated file paths from server
+    } else {
+        alert("Error saving JSON file.");
+    }
   })
   .catch(error => { console.error('Error:', error); alert("Network error: Could not reach save_json.php."); });
 }
