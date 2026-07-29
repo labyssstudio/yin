@@ -1142,12 +1142,19 @@ body.admin-editing [contenteditable="true"] {
     </div>
   </section>
   
-  <!-- SECTION 3: Dynamic Product Showcase Sections -->
+  <!-- SECTION 3: Dynamic Product Showcase -->
   <section class="showcase-section" id="catalog">
-    <div id="catalogSectionsWrapper"></div>
-    <div id="adminAddSeriesBtnWrapper" style="display:none; margin-top:40px; text-align:center;">
-      <button class="admin-action-btn save" onclick="promptAddSeriesSection()">+ Add New Series Section</button>
-    </div>
+  
+  <!-- NEW: Permanent Global Filter Placed Here -->
+  <div class="global-filter-container" style="text-align: right; margin-bottom: 30px;">
+    <button class="dropbtn">Filter Categories ▼</button>
+    <div class="dropdown-content" id="globalFilterMenu"></div>
+  </div>
+
+  <div id="catalogSectionsWrapper"></div>
+  <div id="adminAddSeriesBtnWrapper" style="display:none; margin-top:40px; text-align:center;">
+    <button class="admin-action-btn save" onclick="promptAddSeriesSection()">+ Add New Series Section</button>
+  </div>
   </section>
 </div>
 
@@ -1461,18 +1468,8 @@ function renderDynamicCatalogSections() {
                       <button class="admin-action-btn danger" style="padding:4px 8px; font-size:0.75rem;" onclick="deleteSeriesSection('${seriesName}')">Delete Series</button>
                     </div>`;
       }
-
-      // Attach Filter Button to the right side of the 1st Series Header
-      let filterHtml = "";
-      if (index === 0) {
-        filterHtml = `
-          <div class="global-filter-container">
-            <button class="dropbtn">Filter Categories ▼</button>
-            <div class="dropdown-content" id="globalFilterMenu"></div>
-          </div>`;
-      }
-      
-      headerDiv.innerHTML = titleHtml + filterHtml;
+   
+      headerDiv.innerHTML = titleHtml;
       
       const gridDiv = document.createElement('div');
       gridDiv.className = "product-grid";
