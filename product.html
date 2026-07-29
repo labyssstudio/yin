@@ -1340,6 +1340,7 @@ let products = [
     gallery: ["3.jpg", "1.jpg", "3.jpg", "1.jpg"]
   }
 ];
+let currentEditProductId = null;
 let cart = [];
 let currentSelectedProduct = null;
 let currentDetailQty = 1;
@@ -1481,6 +1482,7 @@ function renderDynamicCatalogSections() {
         
         let adminControlsHtml = document.body.classList.contains('admin-editing') ? 
           `<div class="admin-card-actions" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px;">
+            <button class="admin-action-btn save" onclick="event.stopPropagation(); openEditProductModal(${prod.id})">Edit</button>
             <button class="admin-action-btn danger" onclick="event.stopPropagation(); deleteProduct(${prod.id})">Delete</button>
           </div>` : "";
           
@@ -1813,6 +1815,15 @@ function deleteCategoryFilter(catName) {
 }
 
 function openAddProductModal() {
+  currentEditProductId = null; // Reset tracking variable
+    document.getElementById('adminModalTitle').innerText = "Add New Product";
+    
+    // Clear out text fields
+    document.getElementById('admName').value = "";
+    document.getElementById('admPrice').value = "";
+    document.getElementById('admDate').value = "JUL 2026";
+    document.getElementById('admDesc').value = "";
+
   const seriesSelect = document.getElementById('admSeriesSelect');
   seriesSelect.innerHTML = "";
   storeSeriesList.forEach(s => {
@@ -1832,31 +1843,79 @@ function closeAdminProductModal() {
   document.getElementById('adminProductModal').classList.remove('active');
 }
 
+// --- NEW FUNCTION TO HANDLE EDITING ---
+function openEditProductModal(id) {
+    const prod = products.find(p => p.id === id);
+    if (!prod) return;
+    
+    currentEditProductId = id; // Set the tracking variable
+    document.getElementById('adminModalTitle').innerText = "Edit Product";
+    
+    // Populate Dropdowns First
+    const seriesSelect = document.getElementById('admSeriesSelect');
+    seriesSelect.innerHTML = "";
+    storeSeriesList.forEach(s => {
+        seriesSelect.innerHTML += `<option value="${s}">${s}</option>`;
+    });
+    seriesSelect.value = prod.series;
+
+    const catSelect = document.getElementById('admCategory');
+    catSelect.innerHTML = "";
+    storeCategoryList.forEach(c => {
+        catSelect.innerHTML += `<option value="${c}">${c}</option>`;
+    });
+    catSelect.value = prod.category;
+
+    // Populate Text Fields
+    document.getElementById('admName').value = prod.name;
+    document.getElementById('admPrice').value = prod.price;
+    document.getElementById('admDate').value = prod.date;
+    document.getElementById('admDesc').value = prod.description || "";
+
+    document.getElementById('adminProductModal').classList.add('active');
+}
+
 function saveNewProduct() {
-  const name = document.getElementById('admName').value.trim();
-  const series = document.getElementById('admSeriesSelect').value;
-  const category = document.getElementById('admCategory').value;
-  const price = parseFloat(document.getElementById('admPrice').value) || 99;
-  const date = document.getElementById('admDate').value.trim() || 'JUL 2026';
-  const description = document.getElementById('admDesc').value.trim();
-  
-  if (!name) return alert('Please enter a product name.');
-  
-  const newProduct = {
-    id: Date.now(),
-    name,
-    series,
-    category,
-    price,
-    date,
-    description,
-    mainImg: "icon/placeholder.png",
-    gallery: ["icon/placeholder.png"]
-  };
-  
-  products.push(newProduct);
-  closeAdminProductModal();
-  renderDynamicCatalogSections();
+    const name = document.getElementById('admName').value.trim();
+    const series = document.getElementById('admSeriesSelect').value;
+    const category = document.getElementById('admCategory').value;
+    const price = parseFloat(document.getElementById('admPrice').value) || 99;
+    const date = document.getElementById('admDate').value.trim() || 'JUL 2026';
+    const description = document.getElementById('admDesc').value.trim();
+
+    if (!name) return alert('Please enter a product name.');
+
+    // MISSING LINE WAS HERE:
+    if (currentEditProductId) {
+        // We are editing an existing product
+        let prod = products.find(p => p.id === currentEditProductId);
+        if (prod) {
+            prod.name = name;
+            prod.series = series;
+            prod.category = category;
+            prod.price = price;
+            prod.date = date;
+            prod.description = description;
+        }
+    } else {
+        // We are adding a brand new product
+        const newProduct = {
+            id: Date.now(),
+            name,
+            series,
+            category,
+            price,
+            date,
+            description,
+            mainImg: "icon/placeholder.png",
+            gallery: ["icon/placeholder.png"]
+        };
+        products.push(newProduct);
+    } // End of the if/else block
+
+    // These need to run whether you are editing OR adding
+    closeAdminProductModal();
+    renderDynamicCatalogSections();
 }
 
 function deleteProduct(id) {
