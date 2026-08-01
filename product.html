@@ -1018,6 +1018,16 @@ body.admin-editing [contenteditable="true"] {
     line-height: 1.6; 
   } 
  
+  .details-page {
+    padding: 80px 20px 40px 20px; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .details-gallery-col, .main-display-box {
+    width: 100%;
+    margin: 0 auto; 
+  }
   /* --- MOBILE CART LAYOUT FIXES (RESPONSIVE CARD STACK) --- */ 
   .cart-page {
     padding: 70px 15px 60px 15px;
@@ -1531,16 +1541,48 @@ function openDetailsPage(id) {
   switchView('details-view');
 }
 
+let currentUploadSlot = null; // Tracks which specific slot is being uploaded
+
 function renderDetailsGallery() {
   const mainImgEl = document.getElementById('detailsMainImage');
-  mainImgEl.src = currentSelectedProduct.mainImg || "";
+  const fallbackImg = "icon/placeholder.png";
+  
+  // Set main image
+  let firstValidImg = fallbackImg;
+  if (currentSelectedProduct.gallery && currentSelectedProduct.gallery.length > 0) {
+    const found = currentSelectedProduct.gallery.find(img => img !== null && img !== "");
+    if (found) firstValidImg = found;
+  }
+  mainImgEl.src = (currentSelectedProduct.mainImg && !currentSelectedProduct.mainImg.includes('placeholder')) 
+                  ? currentSelectedProduct.mainImg : firstValidImg;
+  
   const subGrid = document.getElementById('subGalleryGrid');
   subGrid.innerHTML = "";
-  if(currentSelectedProduct.gallery) {
-    currentSelectedProduct.gallery.forEach((imgSrc, idx) => {
-      const thumb = document.createElement('div');
-      thumb.className = `sub-thumb ${idx === 0 ? 'active-thumb' : ''}`;
+  
+  const isAdmin = document.body.classList.contains('admin-editing');
+  const maxSlots = 4;
+  
+  // Ensure the product always has an array of exactly 4 slots
+  if (!currentSelectedProduct.gallery || currentSelectedProduct.gallery.length === 0) {
+     currentSelectedProduct.gallery = [null, null, null, null];
+  }
+  
+  // Render exactly 4 slots
+  for (let i = 0; i < maxSlots; i++) {
+    const imgSrc = currentSelectedProduct.gallery[i];
+    const thumb = document.createElement('div');
+    
+    // Highlight thumbnail if it matches the main displayed image
+    const isActive = (imgSrc === mainImgEl.src) ? 'active-thumb' : '';
+    thumb.className = `sub-thumb ${isActive}`;
+    
+    if (imgSrc && imgSrc !== "") {
+      // Slot HAS an image
       thumb.innerHTML = `<img src="${imgSrc}" alt="Thumbnail">`;
+      if (isAdmin) {
+        // Add the new X button to delete this specific image
+        thumb.innerHTML += `<button class="delete-thumb-btn" title="Remove Photo" onclick="event.stopPropagation(); deleteDetailImage(${i})">×</button>`;
+      }
       thumb.onclick = () => {
         document.querySelectorAll('.sub-thumb').forEach(t => t.classList.remove('active-thumb'));
         thumb.classList.add('active-thumb');
@@ -1550,8 +1592,19 @@ function renderDetailsGallery() {
           mainImgEl.style.opacity = '1';
         }, 150);
       };
-      subGrid.appendChild(thumb);
-    });
+    } else {
+      // Slot is EMPTY
+      if (isAdmin) {
+        // Show "+ Add" button inside the slot for admins
+        thumb.innerHTML = `<div class="empty-slot-add" title="Upload to Slot ${i + 1}" onclick="triggerDetailFileUploadForSlot(${i})">+</div>`;
+      } else {
+        // Regular user view: hide empty slots seamlessly
+        thumb.style.background = 'transparent';
+        thumb.style.border = 'none';
+        thumb.style.cursor = 'default';
+      }
+    }
+    subGrid.appendChild(thumb);
   }
 }
 
@@ -1925,22 +1978,68 @@ function deleteProduct(id) {
   }
 }
 
-function triggerDetailFileUpload() { document.getElementById('detailFileInput').click(); }
+// Target a specific slot for upload
+function triggerDetailFileUploadForSlot(slotIndex) {
+  currentUploadSlot = slotIndex;
+  document.getElementById('detailFileInput').click();
+}
 
+// Fallback for the global 'Upload Photo' button
+function triggerDetailFileUpload() { 
+  currentUploadSlot = null; // No specific slot
+  document.getElementById('detailFileInput').click(); 
+}
+// Delete a specific photo
+function deleteDetailImage(index) {
+  if (confirm("Delete this photo from the gallery?")) {
+    currentSelectedProduct.gallery[index] = null; // Clear the specific slot
+    
+    // If the main image is deleted, update it to the next available thumbnail
+    const firstValidImg = currentSelectedProduct.gallery.find(img => img !== null && img !== "");
+    currentSelectedProduct.mainImg = firstValidImg || "icon/placeholder.png";
+    
+    renderDynamicCatalogSections();
+    renderDetailsGallery();
+  }
+}
 function handleDetailFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = function(e) {
     const imageUrl = e.target.result;
+    
     if (currentSelectedProduct) {
-      if (!currentSelectedProduct.gallery) currentSelectedProduct.gallery = [];
-      currentSelectedProduct.gallery.push(imageUrl);
-      if (currentSelectedProduct.gallery.length === 1 || currentSelectedProduct.mainImg.includes('placeholder')) {
-        currentSelectedProduct.mainImg = imageUrl;
-        renderDynamicCatalogSections();
-        renderDetailsGallery();
+      // Initialize slots if they don't exist
+      if (!currentSelectedProduct.gallery || currentSelectedProduct.gallery.length === 0) {
+         currentSelectedProduct.gallery = [null, null, null, null];
       }
+      
+      if (currentUploadSlot !== null) {
+        // Assign to the clicked slot
+        currentSelectedProduct.gallery[currentUploadSlot] = imageUrl;
+      } else {
+        // Generic "Upload Photo" button clicked: find first empty slot
+        const emptyIndex = currentSelectedProduct.gallery.findIndex(img => img === null || img === "");
+        if (emptyIndex !== -1) {
+          currentSelectedProduct.gallery[emptyIndex] = imageUrl;
+        } else if (currentSelectedProduct.gallery.length < 4) {
+          currentSelectedProduct.gallery.push(imageUrl); // Safety fallback
+        } else {
+          alert("All 4 slots are full! Please delete a photo first.");
+          return;
+        }
+      }
+      
+      // Update main image if none exists
+      if (!currentSelectedProduct.mainImg || currentSelectedProduct.mainImg.includes('placeholder')) {
+        const firstValidImg = currentSelectedProduct.gallery.find(img => img !== null && img !== "");
+        currentSelectedProduct.mainImg = firstValidImg || imageUrl;
+      }
+      
+      renderDynamicCatalogSections();
+      renderDetailsGallery();
+      currentUploadSlot = null; // Reset tracker
     }
   };
   reader.readAsDataURL(file);
