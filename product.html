@@ -427,7 +427,7 @@ nav {
   transition: opacity 0.3s ease;
 }
 .sub-gallery-grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
 }
@@ -1136,6 +1136,24 @@ body.admin-editing [contenteditable="true"] {
   .details-gallery-col, .main-display-box {
     width: 100%;
     margin: 0 auto; 
+  }
+
+  /* --- MOBILE THUMBNAIL CENTERING FIX --- */
+  .sub-gallery-grid {
+    display: flex !important;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .sub-thumb {
+    /* Keeps thumbnails the exact same size as the 4-column grid */
+    width: calc(25% - 11.25px); 
+    flex-shrink: 0;
+  }
+  
+  /* Hides empty slots from the layout so the remaining images can center */
+  body:not(.admin-editing) .sub-thumb:empty {
+    display: none !important;
   }
   /* --- MOBILE CART LAYOUT FIXES (RESPONSIVE CARD STACK) --- */ 
   .cart-page {
