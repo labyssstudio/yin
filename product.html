@@ -42,7 +42,7 @@ nav {
 }
 .nav-links {
   display: flex;
-  gap: 30px;
+  gap: 20px;
   list-style: none;
   align-items: center;
 }
@@ -58,8 +58,8 @@ nav {
 }
 .icon-wrapper {
   position: relative;
-  width: 48px; /* Adjust size based on your actual icon dimensions */
-  height: 48px;
+  width: 50px; /* Adjust size based on your actual icon dimensions */
+  height: 50px;
 }
 
 .icon-wrapper img {
@@ -95,7 +95,7 @@ nav {
   top: 100%;
   margin-top: 6px;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: normal;
   color: var(--accent-brown);
   opacity: 0;
   transform: translateY(-5px);
@@ -113,7 +113,7 @@ nav {
   position: absolute;
   top: -6px;
   right: -8px;
-  background-color: var(--text-dark); /* Same dark color as the icon lines */
+  background-color: #4a3b32; 
   color: var(--white);
   font-size: 0.75rem;
   font-weight: bold;
@@ -1758,7 +1758,7 @@ function addCurrentProductToCart() {
     cart.push({ product: currentSelectedProduct, qty: currentDetailQty });
   }
   updateCartBadgeCount();
-  alert(`${currentSelectedProduct.name} successfully added to your cart!`);
+
   switchView('home-view');
   scrollToCatalog();
 }
