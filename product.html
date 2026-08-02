@@ -427,9 +427,10 @@ nav {
   transition: opacity 0.3s ease;
 }
 .sub-gallery-grid {
-  display: flex;
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+  width: 100%;
 }
 .sub-thumb {
   background-color: var(--card-bg);
@@ -442,6 +443,8 @@ nav {
   border: 2px solid transparent;
   transition: all 0.2s;
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
 }
 .sub-thumb img {
   width: 100%;
