@@ -1138,20 +1138,23 @@ body.admin-editing [contenteditable="true"] {
     margin: 0 auto; 
   }
 
-  /* --- LOCKS EQUAL GAPS FOR THE DESCRIPTION BLOCK --- */
-  .details-info-col {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 20px !important; /* Matches your gallery gaps perfectly */
-    box-sizing: border-box !important;
-    margin: 0 auto !important;
-  }
-
   /* --- FORCES LONG BOTANICAL NAMES TO BREAK INSTEAD OF STRETCHING --- */
   .details-info-col * {
     overflow-wrap: break-word !important;
     word-wrap: break-word !important;
     word-break: break-word !important;
+  }
+
+  /* --- FLUID RESIZING FOR PRODUCT TITLE --- */
+  .details-meta h1 {
+    /* Dynamically shrinks the text between 2.2rem and 1.2rem based on screen width */
+    font-size: clamp(1.2rem, 7vw, 2.2rem) !important; 
+    line-height: 1.1;
+    
+    /* Backup in case the word is still too long for tiny screens */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto; 
   }
 
   /* --- MOBILE CART LAYOUT FIXES (RESPONSIVE CARD STACK) --- */ 
