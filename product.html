@@ -1133,55 +1133,11 @@ body.admin-editing [contenteditable="true"] {
     box-sizing: border-box;
   }
   
-/* --- LOCKS EQUAL LEFT & RIGHT GAPS (<->) FOR ALL PRODUCTS --- */
-  .details-info-col {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 20px !important; /* Matches your gallery gaps perfectly */
-    box-sizing: border-box !important;
-    margin: 0 auto !important;
+  .details-gallery-col, .main-display-box {
+    width: 100%;
+    margin: 0 auto; 
   }
 
-  /* --- FORCES LONG BOTANICAL NAMES TO BREAK INSTEAD OF STRETCHING --- */
-  .details-info-col * {
-    overflow-wrap: break-word !important;
-    word-wrap: break-word !important;
-    word-break: break-word !important;
-  }
-
-  .main-display-box {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin: 0 auto !important;
-  }
-
-  .main-display-box img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
-
-  /* --- CENTERS THUMBNAILS (1, 2, 3, OR 4 IMAGES) --- */
-  .sub-gallery-grid {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center;
-    gap: 12px;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin: 15px auto 0 auto !important;
-  }
-
-  .sub-thumb {
-    width: calc(25% - 10px);
-    flex-shrink: 0;
-  }
-
-  body:not(.admin-editing) .sub-thumb:empty {
-    display: none !important;
-  }
   /* --- MOBILE CART LAYOUT FIXES (RESPONSIVE CARD STACK) --- */ 
   .cart-page {
     padding: 70px 15px 60px 15px;
