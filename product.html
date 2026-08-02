@@ -42,31 +42,90 @@ nav {
 }
 .nav-links {
   display: flex;
-  gap: 30px;
+  gap: 35px;
   list-style: none;
   align-items: center;
 }
-.nav-links a {
+.nav-icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-decoration: none;
-  color: #7a6c5c;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-.nav-links a:hover {
-  color: var(--accent-brown);
-}
-.cart-icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.95rem;
+  position: relative;
+}
+.icon-wrapper {
+  position: relative;
+  width: 32px; /* Adjust size based on your actual icon dimensions */
+  height: 32px;
+}
+
+.icon-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover Transitions */
+.icon-default {
+  opacity: 1;
+}
+
+.icon-hover {
+  opacity: 0;
+}
+
+.nav-icon-link:hover .icon-default {
+  opacity: 0;
+}
+
+.nav-icon-link:hover .icon-hover {
+  opacity: 1;
+}
+
+/* Word appearing below the icon */
+.icon-label {
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-brown);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.nav-icon-link:hover .icon-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cart Number Badge styling */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: var(--text-dark); /* Same dark color as the icon lines */
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #7a6c5c;
-  font-weight: 500;
+  justify-content: center;
+  z-index: 5;
 }
+
 .view-section { display: none; }
 .view-section.active { display: block; }
 
@@ -1164,11 +1223,33 @@ body.admin-editing [contenteditable="true"] {
 <!-- Navigation Bar -->
 <nav>
   <ul class="nav-links">
-    <li><a href="#" onclick="switchView('home-view')">Main</a></li>
-    <li><a href="#catalog" onclick="switchView('home-view'); scrollToCatalog();">Shop</a></li>
     <li>
-      <button class="cart-icon-btn" onclick="switchView('cart-view')">
-        Cart (<span id="cartItemCount">0</span>)
+      <a href="#" class="nav-icon-link" onclick="switchView('home-view')">
+        <div class="icon-wrapper">
+          <img src="icon/main 1.png" class="icon-default" alt="Main">
+          <img src="icon/main 2.png" class="icon-hover" alt="Main Hover">
+        </div>
+        <span class="icon-label">Main</span>
+      </a>
+    </li>
+    <li>
+      <a href="#catalog" class="nav-icon-link" onclick="switchView('home-view'); scrollToCatalog();">
+        <div class="icon-wrapper">
+          <img src="icon/shop 1.png" class="icon-default" alt="Shop">
+          <img src="icon/shop 2.png" class="icon-hover" alt="Shop Hover">
+        </div>
+        <span class="icon-label">Shop</span>
+      </a>
+    </li>
+    <li>
+      <button class="nav-icon-link cart-icon-btn" onclick="switchView('cart-view')">
+        <div class="icon-wrapper">
+          <img src="icon/cart 1.png" class="icon-default" alt="Cart">
+          <img src="icon/cart 2.png" class="icon-hover" alt="Cart Hover">
+          <!-- The badge is hidden by default until an item is added -->
+          <span class="cart-badge" id="cartItemCount" style="display: none;">0</span>
+        </div>
+        <span class="icon-label">Cart</span>
       </button>
     </li>
   </ul>
@@ -1684,7 +1765,16 @@ function addCurrentProductToCart() {
 
 function updateCartBadgeCount() {
   const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-  document.getElementById('cartItemCount').innerText = totalCount;
+  const badge = document.getElementById('cartItemCount');
+  
+  badge.innerText = totalCount;
+  
+  // Show the bubble only if there are items in the cart
+  if (totalCount > 0) {
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
 }
 
 function removeFromCart(productId) {
