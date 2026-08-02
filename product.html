@@ -1133,25 +1133,45 @@ body.admin-editing [contenteditable="true"] {
     box-sizing: border-box;
   }
   
-  .details-gallery-col, .main-display-box {
-    width: 100%;
-    margin: 0 auto; 
+/* --- LOCKS EQUAL LEFT & RIGHT GAPS (<->) FOR ALL PRODUCTS --- */
+  .details-gallery-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 20px !important; /* This creates your exact <-> left and right gap! */
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
   }
 
-  /* --- MOBILE THUMBNAIL CENTERING FIX --- */
+  .main-display-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
+  }
+
+  .main-display-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* --- CENTERS THUMBNAILS (1, 2, 3, OR 4 IMAGES) --- */
   .sub-gallery-grid {
     display: flex !important;
-    justify-content: center;
-    gap: 15px;
+    justify-content: center !important;
+    align-items: center;
+    gap: 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 15px auto 0 auto !important;
   }
-  
+
   .sub-thumb {
-    /* Keeps thumbnails the exact same size as the 4-column grid */
-    width: calc(25% - 11.25px); 
+    width: calc(25% - 10px);
     flex-shrink: 0;
   }
-  
-  /* Hides empty slots from the layout so the remaining images can center */
+
   body:not(.admin-editing) .sub-thumb:empty {
     display: none !important;
   }
