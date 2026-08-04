@@ -366,5 +366,37 @@
             ""
         ],
         "id": "M023"
+    },
+    {
+        "scientificName": "",
+        "commonName": "",
+        "location": "",
+        "substrate": "Rock",
+        "lighting": "1",
+        "humidity": "1",
+        "rarity": "N",
+        "imagePaths": [
+            "",
+            "",
+            "",
+            ""
+        ],
+        "id": "M024"
+    },
+    {
+        "scientificName": "",
+        "commonName": "",
+        "location": "",
+        "substrate": "Rock",
+        "lighting": "1",
+        "humidity": "1",
+        "rarity": "N",
+        "imagePaths": [
+            "uploads/moss_M025_0_1785830086.jpg",
+            "uploads/moss_M025_1_1785830086.jpg",
+            "uploads/moss_M025_2_1785830086.jpg",
+            ""
+        ],
+        "id": "M025"
     }
 ]

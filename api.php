@@ -21,7 +21,7 @@ $uploadDir   = __DIR__ . '/uploads/';
 
 // Ensure uploads directory exists on the target drive
 if (!is_dir($uploadDir)) {
-    @mkdir($uploadDir, 0777, true);
+    mkdir($uploadDir, 0777, true);
 }
 
 // Helper function to extract base64 images and save them as actual files
