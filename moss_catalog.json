@@ -368,35 +368,115 @@
         "id": "M023"
     },
     {
-        "scientificName": "",
-        "commonName": "",
-        "location": "",
-        "substrate": "Rock",
-        "lighting": "1",
-        "humidity": "1",
-        "rarity": "N",
-        "imagePaths": [
-            "",
-            "",
-            "",
-            ""
-        ],
-        "id": "M024"
-    },
-    {
-        "scientificName": "",
-        "commonName": "",
-        "location": "",
-        "substrate": "Rock",
-        "lighting": "1",
-        "humidity": "1",
-        "rarity": "N",
+        "scientificName": "Dicranoloma assimile",
+        "commonName": "Forkmoss",
+        "location": "Cameron Highland",
+        "substrate": "Tree",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "SR",
         "imagePaths": [
             "uploads/moss_M025_0_1785830086.jpg",
             "uploads/moss_M025_1_1785830086.jpg",
             "uploads/moss_M025_2_1785830086.jpg",
             ""
         ],
+        "id": "M024"
+    },
+    {
+        "scientificName": "Atrichum undulatum",
+        "commonName": "Catherine's Moss",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "R",
+        "imagePaths": [
+            "uploads/moss_M025_0_1785830979.jpg",
+            "uploads/moss_M025_1_1785830979.jpg",
+            "",
+            ""
+        ],
         "id": "M025"
+    },
+    {
+        "scientificName": "Plagiomnium integrum",
+        "commonName": "\u5168\u7f18\u530d\u706f\u85d3",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "3",
+        "rarity": "R",
+        "imagePaths": [
+            "uploads/moss_M026_0_1785831415.jpg",
+            "",
+            "uploads/moss_M026_2_1785831415.jpg",
+            ""
+        ],
+        "id": "M026"
+    },
+    {
+        "scientificName": "Bryum billardieri",
+        "commonName": "Billard's bryum moss",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "1",
+        "humidity": "3",
+        "rarity": "R",
+        "imagePaths": [
+            "uploads/moss_M027_0_1785831846.jpg",
+            "uploads/moss_M027_1_1785831846.jpg",
+            "",
+            ""
+        ],
+        "id": "M027"
+    },
+    {
+        "scientificName": "Meteorium polytrichum",
+        "commonName": "\u8513\u85d3",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "SR",
+        "imagePaths": [
+            "uploads/moss_M028_0_1785832183.jpg",
+            "uploads/moss_M028_1_1785832183.jpg",
+            "",
+            ""
+        ],
+        "id": "M028"
+    },
+    {
+        "scientificName": "Hypnum plumaeforme",
+        "commonName": "haigoke \u5927\u7070\u85d3 ",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "R",
+        "imagePaths": [
+            "uploads/moss_M029_0_1785832385.jpg",
+            "uploads/moss_M029_1_1785832385.jpg",
+            "",
+            ""
+        ],
+        "id": "M029"
+    },
+    {
+        "scientificName": "Scleropodium purum",
+        "commonName": "Neat Feather Moss",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "R",
+        "imagePaths": [
+            "uploads/moss_M030_0_1785832461.jpg",
+            "uploads/moss_M030_1_1785832461.jpg",
+            "uploads/moss_M030_2_1785832461.jpg",
+            ""
+        ],
+        "id": "M030"
     }
 ]
