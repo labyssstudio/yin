@@ -240,7 +240,7 @@
         "id": "M015"
     },
     {
-        "scientificName": "Acromastigum sp. (Liverwort)",
+        "scientificName": "Acromastigum sp. (Liverworts)",
         "commonName": "Scale Moss/ Whipwort",
         "location": "Kanching Waterfall",
         "substrate": "Rock",
@@ -304,7 +304,7 @@
         "id": "M019"
     },
     {
-        "scientificName": "Riccardia sp. (Liverwort)",
+        "scientificName": "Riccardia sp. (Liverworts)",
         "commonName": "Coral Moss",
         "location": "Taman Tugu",
         "substrate": "Rock",
@@ -478,5 +478,21 @@
             ""
         ],
         "id": "M030"
+    },
+    {
+        "scientificName": "Marchantia sp. (liverworts)",
+        "commonName": "Umbrella liverworts",
+        "location": "Cameron Highland",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "R",
+        "imagePaths": [
+            "uploads/moss_M031_0_1785839629.jpg",
+            "uploads/moss_M031_1_1785839629.jpg",
+            "",
+            ""
+        ],
+        "id": "M031"
     }
 ]
