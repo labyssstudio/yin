@@ -15,13 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // 1. ABSOLUTE PATH LOCKING USING __DIR__
-// Prevents PHP from looking in the wrong drive/directory when working on D:
 $storageFile = __DIR__ . '/moss_catalog.json';
 $uploadDir   = __DIR__ . '/uploads/';
 
 // Ensure uploads directory exists on the target drive
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
+    @mkdir($uploadDir, 0777, true); // Added @ back to silence warnings
 }
 
 // Helper function to extract base64 images and save them as actual files
@@ -42,7 +41,6 @@ function processItemImages($item, $uploadDir) {
                 if (isset($data[1])) {
                     $decodedData = base64_decode($data[1]);
                     if ($decodedData !== false && @file_put_contents($filePath, $decodedData) !== false) {
-                        // Store clean relative URL path for index.html frontend rendering
                         $item['imagePaths'][$index] = 'uploads/' . $filename;
                     }
                 }
@@ -86,6 +84,9 @@ if ($method === 'POST') {
             $jsonResult = json_encode($catalogList, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             $saved = @file_put_contents($storageFile, $jsonResult);
 
+            // MAGIC FIX: Wipe any hidden warnings or blank spaces before sending JSON
+            if (ob_get_length()) ob_clean(); 
+
             if ($saved === false) {
                 http_response_code(500);
                 echo json_encode([
@@ -99,29 +100,36 @@ if ($method === 'POST') {
                     "item" => $processedItem
                 ]);
             }
+            exit; // Force stop so absolutely nothing else is printed
         } else {
             // Batch fallback save
             $jsonResult = json_encode($decodedInput, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             $saved = @file_put_contents($storageFile, $jsonResult);
 
+            if (ob_get_length()) ob_clean(); 
+
             if ($saved === false) {
                 http_response_code(500);
                 echo json_encode([
                     "status" => "error", 
-                    "message" => "Permission denied: Could not write to moss_catalog.json on D: drive."
+                    "message" => "Permission denied: Could not write to moss_catalog.json."
                 ]);
             } else {
                 echo json_encode(["status" => "success", "message" => "Catalog synced."]);
             }
+            exit;
         }
     } else {
+        if (ob_get_length()) ob_clean(); 
         http_response_code(400);
         echo json_encode(["status" => "error", "message" => "Invalid JSON payload."]);
+        exit;
     }
 } 
 elseif ($method === 'DELETE') {
     $idToDelete = $_GET['id'] ?? null;
     if (!$idToDelete) {
+        if (ob_get_length()) ob_clean(); 
         http_response_code(400);
         echo json_encode(["status" => "error", "message" => "Missing item ID."]);
         exit;
@@ -130,41 +138,47 @@ elseif ($method === 'DELETE') {
     if (file_exists($storageFile)) {
         $catalogList = json_decode(file_get_contents($storageFile), true) ?? [];
         
-        // 1. Filter out deleted item
         $updatedCatalog = array_values(array_filter($catalogList, function($item) use ($idToDelete) {
             return isset($item['id']) && $item['id'] !== $idToDelete;
         }));
 
-        // 2. Sequential ID re-assignment (M001, M002, M003...)
         foreach ($updatedCatalog as $index => &$item) {
             $item['id'] = 'M' . str_pad($index + 1, 3, '0', STR_PAD_LEFT);
         }
         unset($item);
 
-        // 3. Save updated catalog
         $jsonResult = json_encode($updatedCatalog, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         $saved = @file_put_contents($storageFile, $jsonResult);
+
+        if (ob_get_length()) ob_clean(); 
 
         if ($saved === false) {
             http_response_code(500);
             echo json_encode([
                 "status" => "error", 
-                "message" => "Permission denied: Could not write to moss_catalog.json on D: drive."
+                "message" => "Permission denied: Could not write to moss_catalog.json."
             ]);
         } else {
             echo json_encode(["status" => "success", "message" => "Item deleted and IDs sequentially re-assigned."]);
         }
+        exit;
     } else {
+        if (ob_get_length()) ob_clean(); 
         echo json_encode(["status" => "success", "message" => "Database empty."]);
+        exit;
     }
 }
 elseif ($method === 'GET') {
+    if (ob_get_length()) ob_clean(); 
     if (file_exists($storageFile)) {
         echo file_get_contents($storageFile);
     } else {
         echo json_encode([]);
     }
+    exit;
 } else {
+    if (ob_get_length()) ob_clean(); 
     http_response_code(405);
     echo json_encode(["status" => "error", "message" => "Method not allowed."]);
+    exit;
 }
