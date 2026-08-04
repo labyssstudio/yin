@@ -1,26 +1,38 @@
 <?php
-// Prevent PHP warnings/notices from corrupting JSON output
+// 1. START OUTPUT BUFFERING IMMEDIATELY ON LINE 2
+// This creates a trap to catch all HTML warnings/notices before they leak to the browser.
+ob_start();
+
+// Suppress error printing
 error_reporting(0);
 ini_set('display_errors', '0');
 ini_set('html_errors', '0');
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
 
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit(0);
+// Helper function to wipe the buffer trap and send pure JSON
+function sendJsonResponse($data, $statusCode = 200) {
+    if (ob_get_length()) {
+        ob_end_clean(); // Destroys all captured warnings/notices
+    }
+    http_response_code($statusCode);
+    header("Content-Type: application/json; charset=UTF-8");
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
+    echo json_encode($data);
+    exit;
 }
 
-// 1. ABSOLUTE PATH LOCKING USING __DIR__
+// Handle CORS preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    sendJsonResponse(["status" => "ok"], 200);
+}
+
+// 2. PATH DEFINITIONS
 $storageFile = __DIR__ . '/moss_catalog.json';
 $uploadDir   = __DIR__ . '/uploads/';
 
-// Ensure uploads directory exists on the target drive
 if (!is_dir($uploadDir)) {
-    @mkdir($uploadDir, 0777, true); // Added @ back to silence warnings
+    @mkdir($uploadDir, 0777, true);
 }
 
 // Helper function to extract base64 images and save them as actual files
@@ -84,55 +96,40 @@ if ($method === 'POST') {
             $jsonResult = json_encode($catalogList, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             $saved = @file_put_contents($storageFile, $jsonResult);
 
-            // MAGIC FIX: Wipe any hidden warnings or blank spaces before sending JSON
-            if (ob_get_length()) ob_clean(); 
-
             if ($saved === false) {
-                http_response_code(500);
-                echo json_encode([
+                sendJsonResponse([
                     "status" => "error", 
-                    "message" => "Permission denied: Could not write to moss_catalog.json on D: drive."
-                ]);
+                    "message" => "Permission denied: Could not write to moss_catalog.json."
+                ], 500);
             } else {
-                echo json_encode([
+                sendJsonResponse([
                     "status" => "success", 
                     "message" => "Item saved successfully.", 
                     "item" => $processedItem
-                ]);
+                ], 200);
             }
-            exit; // Force stop so absolutely nothing else is printed
         } else {
             // Batch fallback save
             $jsonResult = json_encode($decodedInput, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             $saved = @file_put_contents($storageFile, $jsonResult);
 
-            if (ob_get_length()) ob_clean(); 
-
             if ($saved === false) {
-                http_response_code(500);
-                echo json_encode([
+                sendJsonResponse([
                     "status" => "error", 
                     "message" => "Permission denied: Could not write to moss_catalog.json."
-                ]);
+                ], 500);
             } else {
-                echo json_encode(["status" => "success", "message" => "Catalog synced."]);
+                sendJsonResponse(["status" => "success", "message" => "Catalog synced."], 200);
             }
-            exit;
         }
     } else {
-        if (ob_get_length()) ob_clean(); 
-        http_response_code(400);
-        echo json_encode(["status" => "error", "message" => "Invalid JSON payload."]);
-        exit;
+        sendJsonResponse(["status" => "error", "message" => "Invalid JSON payload."], 400);
     }
 } 
 elseif ($method === 'DELETE') {
     $idToDelete = $_GET['id'] ?? null;
     if (!$idToDelete) {
-        if (ob_get_length()) ob_clean(); 
-        http_response_code(400);
-        echo json_encode(["status" => "error", "message" => "Missing item ID."]);
-        exit;
+        sendJsonResponse(["status" => "error", "message" => "Missing item ID."], 400);
     }
 
     if (file_exists($storageFile)) {
@@ -150,35 +147,28 @@ elseif ($method === 'DELETE') {
         $jsonResult = json_encode($updatedCatalog, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         $saved = @file_put_contents($storageFile, $jsonResult);
 
-        if (ob_get_length()) ob_clean(); 
-
         if ($saved === false) {
-            http_response_code(500);
-            echo json_encode([
+            sendJsonResponse([
                 "status" => "error", 
                 "message" => "Permission denied: Could not write to moss_catalog.json."
-            ]);
+            ], 500);
         } else {
-            echo json_encode(["status" => "success", "message" => "Item deleted and IDs sequentially re-assigned."]);
+            sendJsonResponse(["status" => "success", "message" => "Item deleted and IDs sequentially re-assigned."], 200);
         }
-        exit;
     } else {
-        if (ob_get_length()) ob_clean(); 
-        echo json_encode(["status" => "success", "message" => "Database empty."]);
-        exit;
+        sendJsonResponse(["status" => "success", "message" => "Database empty."], 200);
     }
 }
 elseif ($method === 'GET') {
-    if (ob_get_length()) ob_clean(); 
     if (file_exists($storageFile)) {
-        echo file_get_contents($storageFile);
+        $content = file_get_contents($storageFile);
+        if (ob_get_length()) ob_end_clean();
+        header("Content-Type: application/json; charset=UTF-8");
+        echo $content;
+        exit;
     } else {
-        echo json_encode([]);
+        sendJsonResponse([], 200);
     }
-    exit;
 } else {
-    if (ob_get_length()) ob_clean(); 
-    http_response_code(405);
-    echo json_encode(["status" => "error", "message" => "Method not allowed."]);
-    exit;
+    sendJsonResponse(["status" => "error", "message" => "Method not allowed."], 405);
 }
