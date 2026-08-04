@@ -478,21 +478,5 @@
             ""
         ],
         "id": "M030"
-    },
-    {
-        "scientificName": "",
-        "commonName": "",
-        "location": "",
-        "substrate": "Rock",
-        "lighting": "1",
-        "humidity": "1",
-        "rarity": "N",
-        "imagePaths": [
-            "uploads/moss_M031_0_1785836707.jpg",
-            "",
-            "",
-            ""
-        ],
-        "id": "M031"
     }
 ]
