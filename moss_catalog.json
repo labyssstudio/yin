@@ -196,7 +196,7 @@
         "commonName": "Cement Moss",
         "location": "Kepong Botanica Garden",
         "substrate": "Concrete",
-        "lighting": "3",
+        "lighting": "2",
         "humidity": "2",
         "rarity": "N",
         "imagePaths": [
@@ -276,7 +276,7 @@
         "commonName": "Fountain Moss",
         "location": "Sungai Pisang/ Taman Tugu",
         "substrate": "Rock",
-        "lighting": "1",
+        "lighting": "2",
         "humidity": "2",
         "rarity": "N",
         "imagePaths": [
@@ -376,9 +376,9 @@
         "humidity": "2",
         "rarity": "SR",
         "imagePaths": [
-            "uploads/moss_M025_0_1785830086.jpg",
-            "uploads/moss_M025_1_1785830086.jpg",
-            "uploads/moss_M025_2_1785830086.jpg",
+            "uploads/moss_M024_0_1785834372.jpg",
+            "uploads/moss_M024_1_1785834372.jpg",
+            "uploads/moss_M024_2_1785834372.jpg",
             ""
         ],
         "id": "M024"
@@ -389,7 +389,7 @@
         "location": "Cameron Highland",
         "substrate": "Soil",
         "lighting": "2",
-        "humidity": "2",
+        "humidity": "3",
         "rarity": "R",
         "imagePaths": [
             "uploads/moss_M025_0_1785830979.jpg",
@@ -437,7 +437,7 @@
         "location": "Cameron Highland",
         "substrate": "Soil",
         "lighting": "2",
-        "humidity": "2",
+        "humidity": "3",
         "rarity": "SR",
         "imagePaths": [
             "uploads/moss_M028_0_1785832183.jpg",
@@ -453,7 +453,7 @@
         "location": "Cameron Highland",
         "substrate": "Soil",
         "lighting": "2",
-        "humidity": "2",
+        "humidity": "3",
         "rarity": "R",
         "imagePaths": [
             "uploads/moss_M029_0_1785832385.jpg",
@@ -469,7 +469,7 @@
         "location": "Cameron Highland",
         "substrate": "Soil",
         "lighting": "2",
-        "humidity": "2",
+        "humidity": "3",
         "rarity": "R",
         "imagePaths": [
             "uploads/moss_M030_0_1785832461.jpg",
@@ -478,21 +478,5 @@
             ""
         ],
         "id": "M030"
-    },
-    {
-        "scientificName": "",
-        "commonName": "",
-        "location": "",
-        "substrate": "Rock",
-        "lighting": "1",
-        "humidity": "1",
-        "rarity": "N",
-        "imagePaths": [
-            "uploads/moss_M031_0_1785833471.jpg",
-            "",
-            "",
-            ""
-        ],
-        "id": "M031"
     }
 ]
