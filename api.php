@@ -1,8 +1,8 @@
 <?php
 // Prevent PHP warnings/notices from corrupting JSON output
-error_reporting(E_ALL);
+error_reporting(0);
 ini_set('display_errors', '0');
-
+ini_set('html_errors', '0');
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS");
