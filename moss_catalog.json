@@ -294,7 +294,7 @@
         "substrate": "Tree",
         "lighting": "2",
         "humidity": "2",
-        "rarity": "N",
+        "rarity": "R",
         "imagePaths": [
             "uploads/moss_M019_0_1784286203.jpeg",
             "uploads/moss_M019_1_1784286203.jpeg",
@@ -454,7 +454,7 @@
         "substrate": "Soil",
         "lighting": "2",
         "humidity": "3",
-        "rarity": "R",
+        "rarity": "SR",
         "imagePaths": [
             "uploads/moss_M029_0_1785832385.jpg",
             "uploads/moss_M029_1_1785832385.jpg",
