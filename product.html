@@ -996,8 +996,37 @@ body.admin-editing [contenteditable="true"] {
    ========================================== */ 
 @media screen and (max-width: 900px) { 
   nav { 
+    /* You may need to increase the top padding (e.g., to 80px) 
+       if the icons overlap with a top header menu */
     padding: 15px 20px; 
+    align-items: flex-start; /* Aligns the vertical stack to the top */
   } 
+  
+  /* --- STACK ICONS VERTICALLY --- */
+  .nav-links {
+    flex-direction: column; /* Stacks the icons top-to-bottom */
+    gap: 15px; /* Spacing between the icons */
+  }
+
+  /* --- DECREASE ICON SIZE --- */
+  .icon-wrapper {
+    width: 30px; /* Reduced from 50px */
+    height: 30px; /* Reduced from 50px */
+  }
+
+  /* Hide the text labels (Main, Shop, Cart) on mobile to match your reference */
+  .icon-label {
+    display: none !important;
+  }
+
+  /* Adjust the cart notification badge to fit the smaller icons */
+  .cart-badge {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+    top: -4px;
+    right: -4px;
+  }
  
   /* 1. SECTION CONTAINER */ 
   .hero-section { 
