@@ -78,66 +78,44 @@
     <datalist id="locOptions"></datalist>
 
     <nav class="bg-[#DCD4C7] border-b border-[#C2B6A6] px-4 md:px-12 py-3 shadow-sm select-none">
-    <div>
-        <!-- DESKTOP VIEW -->
-        <div class="hidden md:flex items-center gap-8 text-[#4A4036]">
-            <!-- Logo -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#hero';">
-                <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-12 w-12 object-contain">
-                <span class="font-bold text-lg tracking-wide">Labyss Studio</span>
-            </div>
+        <div>
 
-            <!-- Links -->
-            <ul class="flex space-x-8 cursor-pointer text-[#6B5E51] font-medium text-base">
-                <li onclick="navigateToPath('#about')" class="hover:text-[#3B322A] transition-colors">About Moss</li>
-                <li onclick="navigateToPath('#catalog')" class="hover:text-[#3B322A] transition-colors">Moss Catalog</li>
-                <li onclick="navigateToPath('#product')" class="hover:text-[#3B322A] transition-colors">Product</li>
-                <li onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#contact';" class="hover:text-[#3B322A] transition-colors">Contact</li>
-            </ul>
+            <div class="hidden md:flex items-center gap-8 text-[#4A4036]">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#hero';">
+                    <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-12 w-12 object-contain">
+                    <span class="font-bold text-lg tracking-wide">Labyss Studio</span>
+                </div>
 
-            <!-- Right Side: Cart & Admin Button -->
-            <div class="ml-auto flex items-center gap-4">
-                <!-- Cart Icon (Desktop) -->
-                <button onclick="navigateToPath('#cart')" class="relative p-2 text-[#6B5E51] hover:text-[#3B322A] transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    <!-- Cart Badge (Defaults to 0, you can update this via JS) -->
-                    <span id="desktop-cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-red-600 rounded-full border border-[#DCD4C7]">0</span>
-                </button>
+                <ul class="flex space-x-8 cursor-pointer text-[#6B5E51] font-medium text-base">
+                    <li onclick="navigateToPath('#about')" class="hover:text-[#3B322A] transition-colors">About Moss</li>
+                    <li onclick="navigateToPath('#catalog')" class="hover:text-[#3B322A] transition-colors">Moss Catalog</li>
+                    <li onclick="navigateToPath('#product')" class="hover:text-[#3B322A] transition-colors">Product</li>
+                    <li onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#contact';" class="hover:text-[#3B322A] transition-colors">Contact</li>
+                </ul>
 
-                <button id="authBtn" onclick="toggleAdmin()" class="hidden text-xs bg-[#8C7A6B] hover:bg-[#736457] px-3 py-1.5 rounded text-white transition-colors shadow-sm">
+                <button id="authBtn" onclick="toggleAdmin()" class="hidden text-xs bg-[#8C7A6B] hover:bg-[#736457] px-3 py-1.5 rounded text-white transition-colors shadow-sm ml-auto">
                     Admin Login
                 </button>
             </div>
-        </div>
 
-        <!-- MOBILE VIEW -->
-        <!-- Note: Changed grid-cols-5 to grid-cols-6 to fit the cart -->
-        <div class="md:hidden grid grid-cols-6 items-center gap-1 text-center text-xs font-medium text-[#6B5E51]">
-            <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#hero';">
-                <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-8 w-8 object-contain mb-0.5">
-                <span class="font-bold text-[#4A4036] text-[10px] leading-none">Labyss<br>Studio</span>
-            </div>
-            <div onclick="navigateToPath('#about')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
-                About<br>Moss
-            </div>
-            <div onclick="navigateToPath('#catalog')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
-                Moss<br>Catalog
-            </div>
-            <div onclick="navigateToPath('#product')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
-                Product
-            </div>
-            <div onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#contact';" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
-                Contact
-            </div>
-            <!-- Cart Icon (Mobile) -->
-            <div onclick="navigateToPath('#cart')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A] flex flex-col items-center justify-center relative">
-                <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                <span class="text-[10px] leading-none">Cart</span>
-                <!-- Cart Badge -->
-                <span id="mobile-cart-badge" class="absolute top-1.5 right-1 inline-flex items-center justify-center w-3.5 h-3.5 text-[9px] font-bold text-white bg-red-600 rounded-full border border-[#DCD4C7]">0</span>
+            <div class="md:hidden grid grid-cols-5 items-center gap-1 text-center text-xs font-medium text-[#6B5E51]">
+                <div class="flex flex-col items-center justify-center cursor-pointer leading-tight py-1" onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#hero';">
+                    <img src="icon/labyss-studio-las.png" alt="Labyss Studio" class="h-8 w-8 object-contain mb-0.5">
+                    <span class="font-bold text-[#4A4036] text-[10px] leading-none">Labyss<br>Studio</span>
+                </div>
+                <div onclick="navigateToPath('#about')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
+                    About<br>Moss
+                </div>
+                <div onclick="navigateToPath('#catalog')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
+                    Moss<br>Catalog
+                </div>
+                <div onclick="navigateToPath('#product')" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
+                    Product
+                </div>
+                <div onclick="navigateToPath('#home'); document.getElementById('homeiframe').src='home.html#contact';" class="py-3 border-l border-[#C2B6A6]/30 cursor-pointer active:text-[#3B322A]">
+                    Contact
             </div>
         </div>
-    </div>
     </nav>
 
     <div id="home" class="page active w-full">
