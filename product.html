@@ -996,8 +996,27 @@ body.admin-editing [contenteditable="true"] {
    ========================================== */ 
 @media screen and (max-width: 900px) { 
   nav { 
-    padding: 15px 20px; 
+    top: auto; /* Removes the top positioning */
+    bottom: 0; /* Anchors the bar to the bottom */
+    padding: 12px 0 20px 0; /* Adds safe breathing room at the bottom */
+    background-color: var(--bg-color); /* Solid background to prevent overlap */
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08); /* Soft shadow separating it from content */
+    border-top: 1px solid rgba(0,0,0,0.05);
   } 
+  
+  /* Spread the icons evenly across the bottom bar */
+  .nav-links {
+    width: 100%;
+    justify-content: space-around; 
+    padding: 0 10px;
+    gap: 0;
+  }
+
+  /* Add padding to the body so the very bottom of your pages 
+     (like the cart total) isn't hidden behind the new nav bar */
+  body {
+    padding-bottom: 85px; 
+  }
  
   /* 1. SECTION CONTAINER */ 
   .hero-section { 
