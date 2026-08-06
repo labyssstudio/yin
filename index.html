@@ -722,6 +722,16 @@
             // Evaluate path routing structure on hard refresh load
             handleRouteProcess();
 
+            // Open Symbols Legend by default on PC screens (>= 768px)
+            if (window.innerWidth >= 768) {
+                const legendContent = document.getElementById('legendContent');
+                const legendArrow = document.getElementById('legendArrow');
+                if (legendContent && legendArrow) {
+                    legendContent.classList.remove('hidden');
+                    legendArrow.classList.remove('-rotate-90');
+                }
+            }
+
             // Secret Admin hidden interface footer link click listener
             const secretTrigger = document.getElementById('secret-admin-trigger');
             if (secretTrigger) {
