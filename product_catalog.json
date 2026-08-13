@@ -39,9 +39,12 @@
         "price": 89,
         "date": "JUL 2026",
         "description": "The Para 02 Moss Terrarium features living Octoblepharum albidum moss growing on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome maintain humidity for healthy, low-maintenance growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nOctoblepharum albidum moss",
-        "mainImg": "product uploads/1785085256_6a663d48571ee.png",
+        "mainImg": "product uploads/1786605395_6a7d6f53c671d.jpg",
         "gallery": [
-            "product uploads/1785085256_6a663d48579dd.png"
+            "product uploads/1786605395_6a7d6f53c7e9d.jpg",
+            "product uploads/1786605395_6a7d6f53c7fdd.jpg",
+            "product uploads/1786605395_6a7d6f53c8155.jpg",
+            "product uploads/1786605395_6a7d6f53c82d3.jpg"
         ]
     },
     {
@@ -73,6 +76,19 @@
             "product uploads/1785565243_6a6d903b59330.jpg",
             "product uploads/1785565243_6a6d903b595ad.jpg",
             "product uploads/1785565243_6a6d903b596e7.jpg"
+        ]
+    },
+    {
+        "id": 1786605340557,
+        "name": "Para 03 Moss Terrarium",
+        "series": "Para Series Terrarium",
+        "category": "Complete",
+        "price": 89,
+        "date": "AUG 2026",
+        "description": "Moss Ball",
+        "mainImg": "product uploads/1786605395_6a7d6f53c86cc.png",
+        "gallery": [
+            "product uploads/1786605395_6a7d6f53c8d82.png"
         ]
     }
 ]
