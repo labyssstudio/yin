@@ -90,5 +90,18 @@
         "gallery": [
             "product uploads/1786605395_6a7d6f53c8d82.png"
         ]
+    },
+    {
+        "id": 1786622458625,
+        "name": "Para 03 Structures + Glass Dome",
+        "series": "Para Series Terrarium",
+        "category": "Structure",
+        "price": 69,
+        "date": "AUG 2026",
+        "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm",
+        "mainImg": "product uploads/1786622554_6a7db25a5cf51.png",
+        "gallery": [
+            "product uploads/1786622554_6a7db25a5d2bf.png"
+        ]
     }
 ]
