@@ -45,7 +45,8 @@
             "product uploads/1786605395_6a7d6f53c7fdd.jpg",
             "product uploads/1786605395_6a7d6f53c8155.jpg",
             "product uploads/1786605395_6a7d6f53c82d3.jpg"
-        ]
+        ],
+        "outOfStock": true
     },
     {
         "id": 1785083299252,
@@ -61,7 +62,8 @@
             "product uploads/1786544065_6a7c7fc1812d8.jpg",
             "product uploads/1786544065_6a7c7fc181355.jpg",
             "product uploads/1786544065_6a7c7fc1827ee.jpg"
-        ]
+        ],
+        "outOfStock": true
     },
     {
         "id": 1785086845280,
