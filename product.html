@@ -1509,6 +1509,12 @@ body.admin-editing [contenteditable="true"] {
       <label>Creation Date Text</label>
       <input type="text" id="admDate" value="JUL 2026">
     </div>
+    <!-- NEW: Out of Stock Checkbox -->
+    <div class="admin-form-group" style="flex-direction: row; align-items: center; gap: 10px;">
+      <input type="checkbox" id="admOutOfStock" style="width: 18px; height: 18px; cursor: pointer;">
+      <label for="admOutOfStock" style="margin: 0; cursor: pointer;">Mark as Out of Stock</label>
+    </div>
+    <!-- END NEW -->
     <div class="admin-form-group">
       <label>Description Text</label>
       <textarea id="admDesc" placeholder="Enter product description..."></textarea>
@@ -1701,7 +1707,10 @@ function renderDynamicCatalogSections() {
             ${adminControlsHtml}
           </div>
           <div class="product-info">
-            <div class="date">${prod.date}</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div class="date" style="margin-bottom: 0;">${prod.date}</div>
+              ${prod.outOfStock ? '<div style="color: #C0392B; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">Out of Stock</div>' : ''}
+            </div>
             <h3>${prod.name}</h3>
             <div class="price">RM ${prod.price}</div>
           </div>`;
@@ -2084,6 +2093,7 @@ function openAddProductModal() {
     document.getElementById('admPrice').value = "";
     document.getElementById('admDate').value = "JUL 2026";
     document.getElementById('admDesc').value = "";
+    document.getElementById('admOutOfStock').checked = false;
 
   const seriesSelect = document.getElementById('admSeriesSelect');
   seriesSelect.innerHTML = "";
@@ -2132,6 +2142,7 @@ function openEditProductModal(id) {
     document.getElementById('admPrice').value = prod.price;
     document.getElementById('admDate').value = prod.date;
     document.getElementById('admDesc').value = prod.description || "";
+    document.getElementById('admOutOfStock').checked = prod.outOfStock || false;
 
     document.getElementById('adminProductModal').classList.add('active');
 }
@@ -2143,6 +2154,7 @@ function saveNewProduct() {
     const price = parseFloat(document.getElementById('admPrice').value) || 99;
     const date = document.getElementById('admDate').value.trim() || 'JUL 2026';
     const description = document.getElementById('admDesc').value.trim();
+    const outOfStock = document.getElementById('admOutOfStock').checked;
 
     if (!name) return alert('Please enter a product name.');
 
@@ -2157,6 +2169,7 @@ function saveNewProduct() {
             prod.price = price;
             prod.date = date;
             prod.description = description;
+            prod.outOfStock = outOfStock;
         }
     } else {
         // We are adding a brand new product
@@ -2168,6 +2181,7 @@ function saveNewProduct() {
             price,
             date,
             description,
+            outOfStock,
             mainImg: "icon/placeholder.png",
             gallery: ["icon/placeholder.png"]
         };
