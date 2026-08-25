@@ -1512,7 +1512,7 @@ body.admin-editing [contenteditable="true"] {
     <!-- NEW: Out of Stock Checkbox -->
     <div class="admin-form-group" style="flex-direction: row; align-items: center; gap: 10px;">
       <input type="checkbox" id="admOutOfStock" style="width: 18px; height: 18px; cursor: pointer;">
-      <label for="admOutOfStock" style="margin: 0; cursor: pointer;">Mark as Out of Stock</label>
+      <label for="admOutOfStock" style="margin: 0; cursor: pointer;">Mark as SOLD OUT</label>
     </div>
     <!-- END NEW -->
     <div class="admin-form-group">
@@ -1709,7 +1709,7 @@ function renderDynamicCatalogSections() {
           <div class="product-info">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <div class="date" style="margin-bottom: 0;">${prod.date}</div>
-              ${prod.outOfStock ? '<div style="color: #C0392B; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;">Out of Stock</div>' : ''}
+              ${prod.outOfStock ? '<div style="color: #C0392B; font-size: 0.75rem; font-weight: bold; text-transform: uppercase;"><strong>SOLD OUT</strong></div>' : ''}
             </div>
             <h3>${prod.name}</h3>
             <div class="price">RM ${prod.price}</div>
