@@ -56,6 +56,35 @@ nav {
   cursor: pointer;
   position: relative;
 }
+/* Gallery Navigation Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--white); /* White arrows */
+  font-size: 2.5rem;
+  cursor: pointer;
+  padding: 10px 15px;
+  z-index: 10;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.75;
+  text-shadow: 0px 2px 6px rgba(0,0,0,0.5); /* Prevents arrows from blending into light images */
+}
+
+.nav-arrow:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.15);
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
 .icon-wrapper {
   position: relative;
   width: 50px; /* Adjust size based on your actual icon dimensions */
@@ -1372,8 +1401,14 @@ body.admin-editing [contenteditable="true"] {
   <div class="details-page">
     <div class="details-container">
       <div class="details-gallery-col">
-        <div class="main-display-box">
+        <div class="main-display-box" style="position: relative;">
+          <!-- Left Arrow -->
+          <button class="nav-arrow left-arrow" onclick="navigateGallery(-1)">&#10094;</button>
+  
           <img id="detailsMainImage" src="" alt="Selected Product View">
+  
+          <!-- Right Arrow -->
+          <button class="nav-arrow right-arrow" onclick="navigateGallery(1)">&#10095;</button>
         </div>
         <div class="sub-gallery-grid" id="subGalleryGrid"></div>
         <div id="adminGalleryControls" style="display:none; gap: 10px; margin-top:10px;">
@@ -1606,6 +1641,53 @@ function loadProductsFromJSON() {
       renderGlobalFilterDropdown();
       renderDynamicCatalogSections();
     });
+}
+
+// --- NEW GALLERY NAVIGATION LOGIC ---
+function navigateGallery(direction) {
+  if (!currentSelectedProduct || !currentSelectedProduct.gallery) return;
+  
+  // Filter out empty or null slots so arrows only cycle through valid images
+  const validImages = currentSelectedProduct.gallery.filter(img => img !== null && img !== "");
+  if (validImages.length <= 1) return; // Disable cycling if 1 or fewer images exist
+  
+  const mainImgEl = document.getElementById('detailsMainImage');
+  
+  // Find the index of the image currently being displayed
+  let currentIndex = validImages.findIndex(img => 
+    mainImgEl.src.includes(img) || img === mainImgEl.getAttribute('src')
+  );
+  
+  if (currentIndex === -1) currentIndex = 0; // Fallback
+  
+  // Calculate new index based on direction (-1 for prev, 1 for next)
+  let newIndex = currentIndex + direction;
+  
+  // Loop seamlessly around the gallery bounds
+  if (newIndex >= validImages.length) newIndex = 0;
+  if (newIndex < 0) newIndex = validImages.length - 1;
+  
+  const newImgSrc = validImages[newIndex];
+  
+  // Apply the same 0.15s fade transition used in your thumbnail clicks
+  mainImgEl.style.opacity = '0';
+  setTimeout(() => {
+    mainImgEl.src = newImgSrc;
+    mainImgEl.style.opacity = '1';
+    updateActiveThumbnail(newImgSrc);
+  }, 150);
+}
+
+function updateActiveThumbnail(src) {
+  const thumbs = document.querySelectorAll('.sub-thumb');
+  thumbs.forEach(thumb => {
+    thumb.classList.remove('active-thumb');
+    const img = thumb.querySelector('img');
+    // If this thumbnail matches the newly navigated image, highlight it
+    if (img && (img.src.includes(src) || img.getAttribute('src') === src)) {
+      thumb.classList.add('active-thumb');
+    }
+  });
 }
 
 function switchView(viewId) {
