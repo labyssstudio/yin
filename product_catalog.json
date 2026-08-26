@@ -87,10 +87,29 @@
         "category": "Complete",
         "price": 89,
         "date": "AUG 2026",
-        "description": "Moss Ball",
-        "mainImg": "product uploads/1786605395_6a7d6f53c86cc.png",
+        "description": "The Para 01 Moss Terrarium features a living moss ball made with Thuidium pristocalyx, displayed on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome help maintain humidity, creating a stable microclimate for healthy, low-maintenance moss growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nThuidium pristocalyx moss ball",
+        "mainImg": "product uploads/1787762008_6a8f155812e10.jpg",
         "gallery": [
-            "product uploads/1786605395_6a7d6f53c8d82.png"
+            "product uploads/1787762008_6a8f155812f7b.jpg",
+            "product uploads/1787762008_6a8f155813075.jpg",
+            "product uploads/1787762008_6a8f155813102.jpg"
+        ]
+    },
+    {
+        "id": 1787761817637,
+        "name": "Para 03 Terrarium Kit",
+        "series": "Para Series Terrarium",
+        "category": "Structure",
+        "price": 59,
+        "date": "AUG 2026",
+        "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome",
+        "outOfStock": false,
+        "mainImg": "product uploads/1787762008_6a8f1558131a5.jpg",
+        "gallery": [
+            "product uploads/1787762008_6a8f155813256.jpg",
+            "product uploads/1787762008_6a8f1558133bc.jpg",
+            "product uploads/1787762008_6a8f15581345b.jpg",
+            "product uploads/1787762008_6a8f1558134e9.jpg"
         ]
     }
 ]
