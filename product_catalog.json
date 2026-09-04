@@ -111,5 +111,20 @@
             "product uploads/1787762008_6a8f15581345b.jpg",
             "product uploads/1787762008_6a8f1558134e9.jpg"
         ]
+    },
+    {
+        "id": 1788543714958,
+        "name": "Thuidium cymbifolium",
+        "series": "Living Moss",
+        "category": "Living Moss",
+        "price": 20,
+        "date": "SEP 2026",
+        "description": "",
+        "outOfStock": false,
+        "mainImg": "product uploads/1788543964_6a9b03dcbd81c.jpg",
+        "gallery": [
+            "product uploads/1788543964_6a9b03dcbf635.jpg",
+            "product uploads/1788543964_6a9b03dcbf77a.jpg"
+        ]
     }
 ]
