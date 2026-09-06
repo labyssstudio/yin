@@ -34,6 +34,15 @@
             color: var(--text-dark);
             overflow-x: hidden; /* Prevents layout-breaking horizontal scroll shifts on mobile */
         }
+        body {
+            animation: fadeInPage 1s ease-out forwards;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
 
         /* Global defensive rule to keep uncompressed assets from shattering layouts */
         img {
@@ -200,22 +209,47 @@
 
         /* HERO SECTION */
         #hero {
-            background-color: var(--bg-light);
-            background-image: url('icon/background image 1page.png');
-            background-size: cover;
-            background-position: center;
-            color: var(--text-dark);
-            text-align: center;
-        }
+    position: relative;
+    background-color: var(--bg-light);
+    /* Make sure this matches your exact file path and name */
+    background-image: url('icon/background image 3page.png');
+    background-attachment: fixed; /* Parallax Effect */
+    background-size: cover;
+    background-position: center;
+    color: var(--text-dark);
+    text-align: center;
+    overflow: hidden; /* Keeps mist and leaves from breaking out */
+}
 
-        .hero-content {
-            transform: translateY(-5vh);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 900px;
-            width: 100%;
-        }
+/* Subtle Mist Animation */
+#hero::before {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; width: 200%; height: 50%;
+    background: radial-gradient(ellipse at center, rgba(235, 229, 220, 0.4) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+    animation: mistDrift 20s linear infinite alternate;
+}
+
+@keyframes mistDrift {
+    0% { transform: translateX(0) scale(1.1); opacity: 0.3; }
+    100% { transform: translateX(-10%) scale(1); opacity: 0.6; }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10; 
+    transform: translateY(calc(-5vh + var(--scroll-offset, 0px)));
+    /* Text fades out as you scroll down, and reappears when you scroll back up */
+    opacity: var(--scroll-opacity, 1);
+    transition: opacity 0.1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+}
 
         .hero-title {
             font-size: clamp(1.6rem, 4vw, 3.0rem);
@@ -353,6 +387,67 @@
                 height: 45px;
                 object-fit: contain;
             }
+        
+            /* Moving Leaves Animation */
+.falling-leaf {
+    position: absolute;
+    width: 45px; 
+    height: 45px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
+    top: -10%;
+    transform: rotate(-25deg);
+    filter: blur(3px); /* Increased blur for a softer look */
+    opacity: 0.8; /* Base opacity */
+    animation: leafFallDrift linear infinite;
+}
+
+/* Light Olive-Green Leaf (Solid fill, no opacity inside SVG) */
+.leaf-green {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" fill="%238a9a5b" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10 C 70 20 85 45 80 70 C 75 90 55 95 50 90 C 45 95 25 90 20 70 C 15 45 30 20 50 10 Z"/></svg>');
+}
+
+/* Dark Forest Green Leaf (Solid fill, no opacity inside SVG) */
+.leaf-brown {
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" fill="%234b5832" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10 C 70 20 85 45 80 70 C 75 90 55 95 50 90 C 45 95 25 90 20 70 C 15 45 30 20 50 10 Z"/></svg>');
+}
+
+/* Individual Speeds and Positions */
+.leaf-1 { left: 15%; animation-duration: 12s, 4s; animation-delay: 0s, 0s; }
+.leaf-2 { left: 40%; animation-duration: 15s, 5s; animation-delay: -3s, -1s; width: 35px; height: 35px; }
+.leaf-3 { left: 70%; animation-duration: 10s, 3.5s; animation-delay: -6s, -2s; width: 50px; height: 50px; }
+.leaf-4 { left: 85%; animation-duration: 14s, 4.5s; animation-delay: -2s, 1s; width: 38px; height: 38px; }
+
+@keyframes leafFallDrift {
+    0% { 
+        top: -10%; 
+        opacity: 0.8; 
+        transform: translateX(0px) rotate(0deg);
+    }
+    10% { 
+        opacity: 0.7; 
+        transform: translateX(30px) rotate(72deg);
+    }
+    25% {
+        transform: translateX(90px) rotate(180deg);
+    }
+    40% {
+        transform: translateX(150px) rotate(288deg);
+        opacity: 0.6;
+    }
+    50% { 
+        top: 50%; 
+        opacity: 0; 
+        transform: translateX(210px) rotate(360deg);
+    }
+    100% { 
+        top: 50%; 
+        opacity: 0; 
+    }
+}
+
 
         /* MOBILE MEDIA QUERIES (768px and down) */
         @media (max-width: 768px) {
@@ -360,10 +455,11 @@
                 padding: 50px 16px;
             }
             #hero {
-                background-image: url('icon/lantern.png'), url('icon/moss.png');
-                background-size: 45% auto, 100% auto;    
-                background-position: right top, center bottom;  
-                background-repeat: no-repeat, no-repeat;   
+                background-image: url('icon/background image 3page.png');
+                background-size: cover;   
+                background-position: 70% center;
+                background-attachment: scroll;  
+                background-repeat: no-repeat;   
                 background-color: var(--bg-light);   
                 min-height: 100vh;   
                 display: flex;   
@@ -376,7 +472,7 @@
             }
 
             .hero-content {
-                transform: translateY(0);
+                transform: translateY(var(--scroll-offset, 0px));
             }
 
             .hero-desc br, .about-text br, .contact-intro br {
@@ -443,6 +539,20 @@
         window.location.href = 'https://labyssstudio.com/' + target;
         }
         }
+        // Text Parallax and Fade Effect
+    window.addEventListener('scroll', () => {
+        let scrollPosition = window.scrollY;
+        
+        // Text moves slower than the page (parallax)
+        document.documentElement.style.setProperty('--scroll-offset', `${scrollPosition * 0.4}px`);
+        
+        // Text fades out smoothly over the first 400 pixels of scrolling
+        let fadeLimit = 400;
+        let opacityValue = 1 - (scrollPosition / fadeLimit);
+        if (opacityValue < 0) opacityValue = 0; // Don't go below 0
+        
+        document.documentElement.style.setProperty('--scroll-opacity', opacityValue);
+    });
     </script>
 </head>
 <body>
@@ -482,6 +592,12 @@
     </nav>
 
     <section id="hero">
+        <!-- Moving Leaves -->
+        <div class="falling-leaf leaf-green leaf-1"></div>
+        <div class="falling-leaf leaf-brown leaf-2"></div>
+        <div class="falling-leaf leaf-green leaf-3"></div>
+        <div class="falling-leaf leaf-brown leaf-4"></div>
+
         <div class="hero-content">
             <h1 class="hero-title">Exploring the Beauty & Potential of Mosses in Malaysia</h1>
             <p class="hero-desc">Discovering, Documenting, and Designing <br>with mosses to bring their beauty into modern landscapes and living spaces.</p>
