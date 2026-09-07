@@ -212,7 +212,7 @@
     position: relative;
     background-color: var(--bg-light);
     /* Make sure this matches your exact file path and name */
-    background-image: url('icon/background image 3page.png');
+    background-image: url('icon/background image 1page.png');
     background-attachment: fixed; /* Parallax Effect */
     background-size: cover;
     background-position: center;
@@ -404,14 +404,14 @@
     animation: leafFallDrift linear infinite;
 }
 
-/* Light Olive-Green Leaf (Solid fill, no opacity inside SVG) */
+/* Light Brown Leaf */
 .leaf-green {
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" fill="%238a9a5b" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10 C 70 20 85 45 80 70 C 75 90 55 95 50 90 C 45 95 25 90 20 70 C 15 45 30 20 50 10 Z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" fill="%23C29B7F" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10 C 70 20 85 45 80 70 C 75 90 55 95 50 90 C 45 95 25 90 20 70 C 15 45 30 20 50 10 Z"/></svg>');
 }
 
-/* Dark Forest Green Leaf (Solid fill, no opacity inside SVG) */
+/* Warm Brown Leaf */
 .leaf-brown {
-    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" fill="%234b5832" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10 C 70 20 85 45 80 70 C 75 90 55 95 50 90 C 45 95 25 90 20 70 C 15 45 30 20 50 10 Z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" fill="%23735646" xmlns="http://www.w3.org/2000/svg"><path d="M 50 10 C 70 20 85 45 80 70 C 75 90 55 95 50 90 C 45 95 25 90 20 70 C 15 45 30 20 50 10 Z"/></svg>');
 }
 
 /* Individual Speeds and Positions */
@@ -455,21 +455,28 @@
                 padding: 50px 16px;
             }
             #hero {
-                background-image: url('icon/background image 3page.png');
-                background-size: cover;   
-                background-position: 70% center;
-                background-attachment: scroll;  
-                background-repeat: no-repeat;   
-                background-color: var(--bg-light);   
-                min-height: 100vh;   
-                display: flex;   
-                flex-direction: column;  
-                justify-content: center;   
-                align-items: center;  
-                padding: 80px 24px;
-                box-sizing: border-box;
-
-            }
+        background-image: 
+            url('icon/lantern.png'),
+            url('icon/moss.png');
+        background-position: 
+            right 3vw top 2vh,
+            left 0px bottom 1vh;
+        background-repeat: 
+            no-repeat,
+            no-repeat;
+        background-size: 
+            40vw auto,  /* Lantern takes up ~40% of screen width */
+            80vw auto;  /* Moss takes up ~80% of screen width */
+        background-attachment: scroll;  
+        background-color: var(--bg-light);   
+        min-height: 100vh;   
+        display: flex;   
+        flex-direction: column;  
+        justify-content: center;   
+        align-items: center;  
+        padding: 80px 24px;
+        box-sizing: border-box;
+    }
 
             .hero-content {
                 transform: translateY(var(--scroll-offset, 0px));
