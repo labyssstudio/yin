@@ -436,7 +436,7 @@
         "commonName": "\u8513\u85d3",
         "location": "Cameron Highland",
         "substrate": "Soil",
-        "lighting": "2",
+        "lighting": "1",
         "humidity": "3",
         "rarity": "SR",
         "imagePaths": [
@@ -452,7 +452,7 @@
         "commonName": "haigoke \u5927\u7070\u85d3 ",
         "location": "Cameron Highland",
         "substrate": "Soil",
-        "lighting": "2",
+        "lighting": "1",
         "humidity": "3",
         "rarity": "SR",
         "imagePaths": [
@@ -468,7 +468,7 @@
         "commonName": "Neat Feather Moss",
         "location": "Cameron Highland",
         "substrate": "Soil",
-        "lighting": "2",
+        "lighting": "1",
         "humidity": "3",
         "rarity": "R",
         "imagePaths": [
@@ -532,7 +532,7 @@
         "commonName": "Hinoki Moss \u5927\u6867\u85d3",
         "location": "Oversea",
         "substrate": "Soil",
-        "lighting": "1",
+        "lighting": "2",
         "humidity": "2",
         "rarity": "R",
         "imagePaths": [
