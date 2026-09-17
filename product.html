@@ -134,11 +134,19 @@ nav {
 .hero-section {
   position: relative;
   width: 100%;
-  aspect-ratio: 1200 / 500; /* Strictly locks 1200x500 ratio */
+  aspect-ratio: 1200 / 500;
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   background-color: #000;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: pan-y;
+  cursor: grab;
+}
+.hero-section:active {
+  cursor: grabbing;
 }
 .hero-slider-wrapper {
   display: flex;
@@ -152,6 +160,36 @@ nav {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Hero Indicator Dots */
+.hero-dots-container {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.hero-dot:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.hero-dot.active {
+  background-color: #FFFFFF;
+  transform: scale(1.3);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
 }
 
 /* === SECTION 2: Split Intro Layout === */
@@ -586,6 +624,9 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
   .cart-item-mobile-price { font-weight: 600; font-size: 0.95rem; }
   .cart-item-mobile-actions { display: flex; align-items: center; gap: 15px; }
   .details-container, .policy-modal-card, .delivery-form-grid { grid-template-columns: 1fr; } 
+  
+  .hero-dots-container { bottom: 12px; gap: 8px; }
+  .hero-dot { width: 8px; height: 8px; }
 }
 </style>
 </head>
@@ -643,6 +684,9 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
     <button class="nav-arrow left-arrow" onclick="changeHeroSlide(-1)">&#10094;</button>
     <button class="nav-arrow right-arrow" onclick="changeHeroSlide(1)">&#10095;</button>
 
+    <!-- Interactive White Dots Pagination Container -->
+    <div class="hero-dots-container" id="heroDots"></div>
+
     <!-- Admin Hero Banner Edit Button -->
     <button id="adminHeroEditBtn" class="admin-action-btn save" style="display:none; position: absolute; top: 20px; left: 20px; z-index: 100;" onclick="openHeroAdminModal()">Edit Banners</button>
   </section>
@@ -657,7 +701,7 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
       
       <div style="display: flex; gap: 10px; align-items: center;">
         <button onclick="addHeroImage()" style="background: #1abc9c; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Add Image</button>
-        <!-- Added Save Button inside Admin Section 1 -->
+        <!-- Save Button inside Admin Section 1 -->
         <button onclick="saveProductJSON()" style="background: #f39c12; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;">💾 Save Hero Images</button>
       </div>
     </div>
@@ -855,8 +899,6 @@ let activeGlobalFilter = "all";
 let heroImages = ["1.jpg", "2.jpg", "3.jpg"];
 let currentHeroIndex = 0;
 let heroInterval;
-let touchstartX = 0;
-let touchendX = 0;
 let isTransitioning = false;
 
 let products = [
@@ -912,7 +954,9 @@ window.addEventListener('DOMContentLoaded', () => {
 // --- HERO SLIDER LOGIC ---
 function renderHeroSlider() {
   const slider = document.getElementById('heroSlider');
+  const dotsContainer = document.getElementById('heroDots');
   slider.innerHTML = '';
+  if (dotsContainer) dotsContainer.innerHTML = '';
   if (heroImages.length === 0) return;
 
   const firstClone = document.createElement('img');
@@ -920,11 +964,19 @@ function renderHeroSlider() {
   firstClone.className = 'hero-slide';
   slider.appendChild(firstClone);
 
-  heroImages.forEach(src => {
+  heroImages.forEach((src, idx) => {
     const img = document.createElement('img');
     img.src = src;
     img.className = 'hero-slide';
     slider.appendChild(img);
+
+    // Build pagination dot
+    if (dotsContainer) {
+      const dot = document.createElement('div');
+      dot.className = 'hero-dot' + (idx === 0 ? ' active' : '');
+      dot.onclick = () => goToHeroSlide(idx);
+      dotsContainer.appendChild(dot);
+    }
   });
 
   const lastClone = document.createElement('img');
@@ -935,6 +987,7 @@ function renderHeroSlider() {
   currentHeroIndex = 1;
   slider.style.transition = 'none';
   updateHeroSliderPosition();
+  updateHeroDots();
 }
 
 function updateHeroSliderPosition() {
@@ -942,6 +995,38 @@ function updateHeroSliderPosition() {
   if (slider) {
     slider.style.transform = `translateX(-${currentHeroIndex * 100}%)`;
   }
+}
+
+function updateHeroDots() {
+  const dots = document.querySelectorAll('.hero-dot');
+  if (!dots.length) return;
+  
+  let realIndex = (currentHeroIndex - 1) % heroImages.length;
+  if (realIndex < 0) realIndex = heroImages.length - 1;
+
+  dots.forEach((dot, idx) => {
+    if (idx === realIndex) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
+}
+
+function goToHeroSlide(targetIndex) {
+  if (isTransitioning || heroImages.length <= 1) return;
+  const slider = document.getElementById('heroSlider');
+  
+  isTransitioning = true;
+  currentHeroIndex = targetIndex + 1;
+  slider.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+  updateHeroSliderPosition();
+  updateHeroDots();
+  resetHeroInterval();
+
+  setTimeout(() => {
+    isTransitioning = false;
+  }, 600);
 }
 
 function changeHeroSlide(direction) {
@@ -953,6 +1038,7 @@ function changeHeroSlide(direction) {
   
   currentHeroIndex += direction;
   updateHeroSliderPosition();
+  updateHeroDots();
   resetHeroInterval();
 
   setTimeout(() => {
@@ -966,6 +1052,7 @@ function changeHeroSlide(direction) {
       currentHeroIndex = heroImages.length;
       updateHeroSliderPosition();
     }
+    updateHeroDots();
     isTransitioning = false;
   }, 600);
 }
@@ -977,16 +1064,55 @@ function resetHeroInterval() {
   }
 }
 
+// Swipe & Gesture Controls for PC & Mobile
 function setupHeroSwipe() {
   const heroSec = document.getElementById('heroContainer');
-  if (heroSec) {
-    heroSec.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
-    heroSec.addEventListener('touchend', e => { 
-      touchendX = e.changedTouches[0].screenX; 
-      if (touchendX < touchstartX - 40) changeHeroSlide(1);
-      if (touchendX > touchstartX + 40) changeHeroSlide(-1);
-    });
-  }
+  if (!heroSec) return;
+
+  let startX = 0;
+  let isDragging = false;
+
+  // Prevent right-click long-press popups and native image drag
+  heroSec.addEventListener('contextmenu', e => e.preventDefault());
+  heroSec.addEventListener('dragstart', e => e.preventDefault());
+
+  // Touch handlers (Mobile Phones)
+  heroSec.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  }, { passive: true });
+
+  heroSec.addEventListener('touchend', e => {
+    if (!isDragging) return;
+    let endX = e.changedTouches[0].clientX;
+    let diffX = endX - startX;
+    if (Math.abs(diffX) > 40) {
+      if (diffX < 0) changeHeroSlide(1);
+      else changeHeroSlide(-1);
+    }
+    isDragging = false;
+  }, { passive: true });
+
+  // Mouse drag handlers (Desktop PC)
+  heroSec.addEventListener('mousedown', e => {
+    startX = e.clientX;
+    isDragging = true;
+  });
+
+  heroSec.addEventListener('mouseup', e => {
+    if (!isDragging) return;
+    let endX = e.clientX;
+    let diffX = endX - startX;
+    if (Math.abs(diffX) > 40) {
+      if (diffX < 0) changeHeroSlide(1);
+      else changeHeroSlide(-1);
+    }
+    isDragging = false;
+  });
+
+  heroSec.addEventListener('mouseleave', () => {
+    isDragging = false;
+  });
 }
 
 // --- ADMIN HERO LOGIC ---
