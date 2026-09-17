@@ -1,130 +1,137 @@
-[
-    {
-        "id": 1,
-        "name": "Para 01 Moss Terrarium",
-        "series": "Para Series Terrarium",
-        "category": "Complete",
-        "price": 89,
-        "date": "JUL 2026",
-        "description": "The Para 01 Moss Terrarium features living Octoblepharum albidum moss growing on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome maintain humidity for healthy, low-maintenance growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nOctoblepharum albidum moss",
-        "mainImg": "product uploads/1785074703_6a66140fe613d.jpg",
-        "gallery": [
-            "product uploads/1785074703_6a66140fe628e.jpg",
-            "product uploads/1785074703_6a66140fe6361.jpg",
-            "product uploads/1785074703_6a66140fe648a.jpg",
-            "product uploads/1785074703_6a66140fe655e.jpg"
-        ]
-    },
-    {
-        "id": 2,
-        "name": "Para 01 Terrarium Kit",
-        "series": "Para Series Terrarium",
-        "category": "Structure",
-        "price": 59,
-        "date": "JUL 2026",
-        "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome\n\n\n",
-        "mainImg": "product uploads/1785565243_6a6d903b58364.png",
-        "gallery": [
-            "product uploads/1785565243_6a6d903b58cff.png",
-            "product uploads/1786544065_6a7c7fc17f124.jpg",
-            "product uploads/1786544065_6a7c7fc18118f.jpg",
-            "product uploads/1786544065_6a7c7fc181251.jpg"
-        ]
-    },
-    {
-        "id": 1785083290468,
-        "name": "Para 02 Moss Terrarium",
-        "series": "Para Series Terrarium",
-        "category": "Complete",
-        "price": 89,
-        "date": "JUL 2026",
-        "description": "The Para 02 Moss Terrarium features living Octoblepharum albidum moss growing on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome maintain humidity for healthy, low-maintenance growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nOctoblepharum albidum moss",
-        "mainImg": "product uploads/1786605395_6a7d6f53c671d.jpg",
-        "gallery": [
-            "product uploads/1786605395_6a7d6f53c7e9d.jpg",
-            "product uploads/1786605395_6a7d6f53c7fdd.jpg",
-            "product uploads/1786605395_6a7d6f53c8155.jpg",
-            "product uploads/1786605395_6a7d6f53c82d3.jpg"
-        ],
-        "outOfStock": true
-    },
-    {
-        "id": 1785083299252,
-        "name": "Para 02\u00a0Terrarium Kit",
-        "series": "Para Series Terrarium",
-        "category": "Structure",
-        "price": 59,
-        "date": "JUL 2026",
-        "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome",
-        "mainImg": "product uploads/1785085256_6a663d4858350.png",
-        "gallery": [
-            "product uploads/1785085256_6a663d4858e8f.png",
-            "product uploads/1786544065_6a7c7fc1812d8.jpg",
-            "product uploads/1786544065_6a7c7fc181355.jpg",
-            "product uploads/1786544065_6a7c7fc1827ee.jpg"
-        ],
-        "outOfStock": true
-    },
-    {
-        "id": 1785086845280,
-        "name": "Octoblepharum albidum",
-        "series": "Living Moss",
-        "category": "Living Moss",
-        "price": 15,
-        "date": "JUL 2026",
-        "description": "Premium Moss Cushion.\u00a0Dense, vibrant green live moss. Carefully selected for its quality.\nSize: 8 \u00d7 8 cm.",
-        "mainImg": "product uploads/1785565243_6a6d903b590c4.jpg",
-        "gallery": [
-            "product uploads/1785565243_6a6d903b59330.jpg",
-            "product uploads/1785565243_6a6d903b595ad.jpg",
-            "product uploads/1785565243_6a6d903b596e7.jpg"
-        ]
-    },
-    {
-        "id": 1786605340557,
-        "name": "Para 03 Moss Terrarium",
-        "series": "Para Series Terrarium",
-        "category": "Complete",
-        "price": 89,
-        "date": "AUG 2026",
-        "description": "The Para 03 Moss Terrarium features a living moss ball made with Thuidium pristocalyx, displayed on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome help maintain humidity, creating a stable microclimate for healthy, low-maintenance moss growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nThuidium pristocalyx moss ball",
-        "mainImg": "product uploads/1787762008_6a8f155812e10.jpg",
-        "gallery": [
-            "product uploads/1787762008_6a8f155812f7b.jpg",
-            "product uploads/1787762008_6a8f155813075.jpg",
-            "product uploads/1787762008_6a8f155813102.jpg"
-        ]
-    },
-    {
-        "id": 1787761817637,
-        "name": "Para 03 Terrarium Kit",
-        "series": "Para Series Terrarium",
-        "category": "Structure",
-        "price": 59,
-        "date": "AUG 2026",
-        "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome",
-        "outOfStock": false,
-        "mainImg": "product uploads/1787762008_6a8f1558131a5.jpg",
-        "gallery": [
-            "product uploads/1787762008_6a8f155813256.jpg",
-            "product uploads/1787762008_6a8f1558133bc.jpg",
-            "product uploads/1787762008_6a8f15581345b.jpg",
-            "product uploads/1787762008_6a8f1558134e9.jpg"
-        ]
-    },
-    {
-        "id": 1788543714958,
-        "name": "Thuidium cymbifolium",
-        "series": "Living Moss",
-        "category": "Living Moss",
-        "price": 20,
-        "date": "SEP 2026",
-        "description": "Premium Fern Moss. Dense, vibrant green live moss. Carefully selected for its quality.\nSize: 9.5 \u00d7 14.5cm.",
-        "outOfStock": false,
-        "mainImg": "product uploads/1788543964_6a9b03dcbd81c.jpg",
-        "gallery": [
-            "product uploads/1788543964_6a9b03dcbf635.jpg",
-            "product uploads/1788543964_6a9b03dcbf77a.jpg"
-        ]
-    }
-]
+{
+    "heroImages": [
+        "product uploads/1789645296_6aabd1f076f8c.png",
+        "product uploads/1789645296_6aabd1f077585.png",
+        "product uploads/1789645296_6aabd1f07794e.png"
+    ],
+    "products": [
+        {
+            "id": 1,
+            "name": "Para 01 Moss Terrarium",
+            "series": "Para Series Terrarium",
+            "category": "Complete",
+            "price": 89,
+            "date": "JUL 2026",
+            "description": "The Para 01 Moss Terrarium features living Octoblepharum albidum moss growing on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome maintain humidity for healthy, low-maintenance growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nOctoblepharum albidum moss",
+            "mainImg": "product uploads/1785074703_6a66140fe613d.jpg",
+            "gallery": [
+                "product uploads/1785074703_6a66140fe628e.jpg",
+                "product uploads/1785074703_6a66140fe6361.jpg",
+                "product uploads/1785074703_6a66140fe648a.jpg",
+                "product uploads/1785074703_6a66140fe655e.jpg"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Para 01 Terrarium Kit",
+            "series": "Para Series Terrarium",
+            "category": "Structure",
+            "price": 59,
+            "date": "JUL 2026",
+            "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome\n\n\n",
+            "mainImg": "product uploads/1785565243_6a6d903b58364.png",
+            "gallery": [
+                "product uploads/1785565243_6a6d903b58cff.png",
+                "product uploads/1786544065_6a7c7fc17f124.jpg",
+                "product uploads/1786544065_6a7c7fc18118f.jpg",
+                "product uploads/1786544065_6a7c7fc181251.jpg"
+            ]
+        },
+        {
+            "id": 1785083290468,
+            "name": "Para 02 Moss Terrarium",
+            "series": "Para Series Terrarium",
+            "category": "Complete",
+            "price": 89,
+            "date": "JUL 2026",
+            "description": "The Para 02 Moss Terrarium features living Octoblepharum albidum moss growing on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome maintain humidity for healthy, low-maintenance growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nOctoblepharum albidum moss",
+            "mainImg": "product uploads/1786605395_6a7d6f53c671d.jpg",
+            "gallery": [
+                "product uploads/1786605395_6a7d6f53c7e9d.jpg",
+                "product uploads/1786605395_6a7d6f53c7fdd.jpg",
+                "product uploads/1786605395_6a7d6f53c8155.jpg",
+                "product uploads/1786605395_6a7d6f53c82d3.jpg"
+            ],
+            "outOfStock": true
+        },
+        {
+            "id": 1785083299252,
+            "name": "Para 02\u00a0Terrarium Kit",
+            "series": "Para Series Terrarium",
+            "category": "Structure",
+            "price": 59,
+            "date": "JUL 2026",
+            "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome",
+            "mainImg": "product uploads/1785085256_6a663d4858350.png",
+            "gallery": [
+                "product uploads/1785085256_6a663d4858e8f.png",
+                "product uploads/1786544065_6a7c7fc1812d8.jpg",
+                "product uploads/1786544065_6a7c7fc181355.jpg",
+                "product uploads/1786544065_6a7c7fc1827ee.jpg"
+            ],
+            "outOfStock": true
+        },
+        {
+            "id": 1785086845280,
+            "name": "Octoblepharum albidum",
+            "series": "Living Moss",
+            "category": "Living Moss",
+            "price": 15,
+            "date": "JUL 2026",
+            "description": "Premium Moss Cushion.\u00a0Dense, vibrant green live moss. Carefully selected for its quality.\nSize: 8 \u00d7 8 cm.",
+            "mainImg": "product uploads/1785565243_6a6d903b590c4.jpg",
+            "gallery": [
+                "product uploads/1785565243_6a6d903b59330.jpg",
+                "product uploads/1785565243_6a6d903b595ad.jpg",
+                "product uploads/1785565243_6a6d903b596e7.jpg"
+            ]
+        },
+        {
+            "id": 1786605340557,
+            "name": "Para 03 Moss Terrarium",
+            "series": "Para Series Terrarium",
+            "category": "Complete",
+            "price": 89,
+            "date": "AUG 2026",
+            "description": "The Para 03 Moss Terrarium features a living moss ball made with Thuidium pristocalyx, displayed on a specially designed 3D-printed structure. A built-in water reservoir and fitted glass dome help maintain humidity, creating a stable microclimate for healthy, low-maintenance moss growth.\n\n\nMaterials Included:\n3D-printed structure\nGlass dome\nThuidium pristocalyx moss ball",
+            "mainImg": "product uploads/1787762008_6a8f155812e10.jpg",
+            "gallery": [
+                "product uploads/1787762008_6a8f155812f7b.jpg",
+                "product uploads/1787762008_6a8f155813075.jpg",
+                "product uploads/1787762008_6a8f155813102.jpg"
+            ]
+        },
+        {
+            "id": 1787761817637,
+            "name": "Para 03 Terrarium Kit",
+            "series": "Para Series Terrarium",
+            "category": "Structure",
+            "price": 59,
+            "date": "AUG 2026",
+            "description": "3D-printed base with built-in reservoir and glass dome.\nSize: 15 \u00d7 7 cm\n\nMaterials Included:\n3D-printed structure\nGlass dome",
+            "outOfStock": false,
+            "mainImg": "product uploads/1787762008_6a8f1558131a5.jpg",
+            "gallery": [
+                "product uploads/1787762008_6a8f155813256.jpg",
+                "product uploads/1787762008_6a8f1558133bc.jpg",
+                "product uploads/1787762008_6a8f15581345b.jpg",
+                "product uploads/1787762008_6a8f1558134e9.jpg"
+            ]
+        },
+        {
+            "id": 1788543714958,
+            "name": "Thuidium cymbifolium",
+            "series": "Living Moss",
+            "category": "Living Moss",
+            "price": 20,
+            "date": "SEP 2026",
+            "description": "Premium Fern Moss. Dense, vibrant green live moss. Carefully selected for its quality.\nSize: 9.5 \u00d7 14.5cm.",
+            "outOfStock": false,
+            "mainImg": "product uploads/1788543964_6a9b03dcbd81c.jpg",
+            "gallery": [
+                "product uploads/1788543964_6a9b03dcbf635.jpg",
+                "product uploads/1788543964_6a9b03dcbf77a.jpg"
+            ]
+        }
+    ]
+}
