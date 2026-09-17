@@ -145,6 +145,11 @@ nav {
   touch-action: pan-y;
   cursor: grab;
 }
+.hero-slide img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
 .hero-section:active {
   cursor: grabbing;
 }
@@ -594,6 +599,19 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
   .icon-label { display: none !important; }
   .cart-badge { width: 16px; height: 16px; font-size: 0.65rem; top: -4px; right: -4px; }
 
+  .hero-section .nav-arrow {
+    display: none !important;}
+  .hero-dots-container { bottom: 14px; gap: 12px; z-index: 30;}
+  .hero-dot { width: 12px; height: 12px; position: relative;}
+  .hero-dot::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    bottom: -12px;
+    left: -12px;
+    right: -12px;
+  }
+
   .split-section { grid-template-columns: 1fr; } 
   .split-left { padding: 40px 20px 10px 20px; } 
   .split-left .exploded-graphic { max-width: 180px; max-height: 250px; } 
@@ -972,11 +990,22 @@ function renderHeroSlider() {
 
     // Build pagination dot
     if (dotsContainer) {
-      const dot = document.createElement('div');
-      dot.className = 'hero-dot' + (idx === 0 ? ' active' : '');
-      dot.onclick = () => goToHeroSlide(idx);
-      dotsContainer.appendChild(dot);
-    }
+  const dot = document.createElement('div');
+  dot.className = 'hero-dot' + (idx === 0 ? ' active' : '');
+  
+  const handleDotTap = (e) => {
+    e.stopPropagation();
+    goToHeroSlide(idx);
+  };
+
+  dot.onclick = handleDotTap;
+  dot.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    handleDotTap(e);
+  });
+
+  dotsContainer.appendChild(dot);
+}
   });
 
   const lastClone = document.createElement('img');
@@ -1057,62 +1086,59 @@ function changeHeroSlide(direction) {
   }, 600);
 }
 
-function resetHeroInterval() {
+function stopHeroInterval() {
   clearInterval(heroInterval);
+}
+
+function resetHeroInterval() {
+  stopHeroInterval();
   if (heroImages.length > 1) {
     heroInterval = setInterval(() => { changeHeroSlide(1); }, 5000);
   }
 }
 
-// Swipe & Gesture Controls for PC & Mobile
 function setupHeroSwipe() {
-  const heroSec = document.getElementById('heroContainer');
-  if (!heroSec) return;
+  const heroSec = document.getElementById('heroContainer') || document.querySelector('.hero-section');
+  if (!heroSec) {
+    console.error('Hero slider container element was not found in DOM.');
+    return;
+  }
 
   let startX = 0;
+  let startY = 0;
   let isDragging = false;
 
-  // Prevent right-click long-press popups and native image drag
-  heroSec.addEventListener('contextmenu', e => e.preventDefault());
-  heroSec.addEventListener('dragstart', e => e.preventDefault());
-
-  // Touch handlers (Mobile Phones)
-  heroSec.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-  }, { passive: true });
-
-  heroSec.addEventListener('touchend', e => {
-    if (!isDragging) return;
-    let endX = e.changedTouches[0].clientX;
-    let diffX = endX - startX;
-    if (Math.abs(diffX) > 40) {
-      if (diffX < 0) changeHeroSlide(1);
-      else changeHeroSlide(-1);
-    }
-    isDragging = false;
-  }, { passive: true });
-
-  // Mouse drag handlers (Desktop PC)
-  heroSec.addEventListener('mousedown', e => {
+  heroSec.addEventListener('pointerdown', (e) => {
     startX = e.clientX;
+    startY = e.clientY;
     isDragging = true;
   });
 
-  heroSec.addEventListener('mouseup', e => {
+  heroSec.addEventListener('pointerup', (e) => {
     if (!isDragging) return;
-    let endX = e.clientX;
-    let diffX = endX - startX;
-    if (Math.abs(diffX) > 40) {
-      if (diffX < 0) changeHeroSlide(1);
-      else changeHeroSlide(-1);
+    const diffX = e.clientX - startX;
+    const diffY = e.clientY - startY;
+
+    // Trigger slide change if horizontal drag distance exceeds vertical movement and is > 30px
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+      if (diffX < 0) {
+        changeHeroSlide(1);  // Swipe Left -> Next Slide
+      } else {
+        changeHeroSlide(-1); // Swipe Right -> Previous Slide
+      }
     }
     isDragging = false;
   });
 
-  heroSec.addEventListener('mouseleave', () => {
+  heroSec.addEventListener('pointercancel', () => {
     isDragging = false;
   });
+}
+// Auto-initialize as soon as the DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupHeroSwipe);
+} else {
+  setupHeroSwipe();
 }
 
 // --- ADMIN HERO LOGIC ---
