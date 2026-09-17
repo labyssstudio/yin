@@ -2,29 +2,18 @@
 // save_json.php
 header('Content-Type: application/json');
 
-// Enable full error reporting to capture local filesystem issues
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
+// 1. Define absolute paths based on the location of this script
+// If this file is in "labyss studio web", __DIR__ resolves to "D:\xampp\htdocs\labyss studio web"
+$baseDir = __DIR__; 
+$uploadDir = $baseDir . '/product uploads/';
+$jsonFilePath = $baseDir . '/product_catalog.json';
 
-// Define absolute path to your upload directory
-$uploadDir = __DIR__ . DIRECTORY_SEPARATOR . 'product uploads' . DIRECTORY_SEPARATOR;
-$jsonFilePath = __DIR__ . DIRECTORY_SEPARATOR . 'product_catalog.json';
-
-// Ensure the 'product uploads' directory exists with write permissions
+// Ensure the 'product uploads' directory exists with full permissions
 if (!is_dir($uploadDir)) {
-    if (!mkdir($uploadDir, 0777, true)) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Failed to create directory at: ' . $uploadDir
-        ]);
-        exit;
-    }
+    mkdir($uploadDir, 0777, true);
 }
 
-// -------------------------------------------------------------
-// 1. RAW JSON INPUT HANDLING (php://input)
-// Handles Base64 image data sent directly inside JSON
-// -------------------------------------------------------------
+// Read the incoming JSON payload from your JS fetch request
 $rawInput = file_get_contents('php://input');
 
 if (!empty($rawInput)) {
@@ -32,44 +21,38 @@ if (!empty($rawInput)) {
 
     if (json_last_error() === JSON_ERROR_NONE) {
         
-        /**
-         * Recursively searches the JSON data for Base64 image strings,
-         * saves them as actual files in 'product uploads/', and replaces
-         * the Base64 string in the JSON with the local image path.
-         */
+        // Recursive function to find Base64 strings, save them as files, and update the JSON array
         function processBase64Images(&$item, $uploadDir) {
             if (is_array($item)) {
                 foreach ($item as &$value) {
                     processBase64Images($value, $uploadDir);
                 }
             } elseif (is_string($item) && preg_match('/^data:image\/(\w+);base64,/', $item, $type)) {
-                // Extract base64 payload and decode
+                // Extract and decode base64 payload
                 $imageData = substr($item, strpos($item, ',') + 1);
                 $imageData = base64_decode($imageData);
                 
                 if ($imageData !== false) {
-                    $extension = strtolower($type[1]); // e.g., png, jpeg, webp
+                    $extension = strtolower($type[1]);
                     if ($extension === 'jpeg') { $extension = 'jpg'; }
                     
+                    // Generate unique filename
                     $fileName = time() . '_' . uniqid() . '.' . $extension;
                     $filePath = $uploadDir . $fileName;
 
-                    // Save the image file to 'product uploads/'
+                    // Save the physical file to D:\xampp\htdocs\labyss studio web\product uploads\
                     if (file_put_contents($filePath, $imageData) !== false) {
-                        // Replace the original Base64 string with the relative file path
+                        // Replace the Base64 string in the JSON payload with the relative path
                         $item = 'product uploads/' . $fileName;
                     }
                 }
             }
         }
 
-        // Process any embedded base64 images inside the new JSON payload
+        // Process both 'products' and 'heroImages' inside the payload
         processBase64Images($newData, $uploadDir);
 
-        // -------------------------------------------------------------
-        // AUTOMATIC IMAGE CLEANUP (GARBAGE COLLECTION)
-        // Deletes files from the server if they are removed from the JSON
-        // -------------------------------------------------------------
+        // Garbage Collection: Delete old unused images from the server
         if (file_exists($jsonFilePath)) {
             $oldData = json_decode(file_get_contents($jsonFilePath), true);
             
@@ -89,35 +72,35 @@ if (!empty($rawInput)) {
             $imagesToDelete = array_diff($oldPaths, $newPaths);
             
             foreach ($imagesToDelete as $imagePath) {
-                $fullPath = __DIR__ . '/' . $imagePath;
+                $fullPath = $baseDir . '/' . $imagePath;
                 if (file_exists($fullPath) && is_file($fullPath)) {
                     unlink($fullPath); 
                 }
             }
         }
 
-        // Save the clean JSON payload back to product_catalog.json
+        // Save the updated JSON object back to product_catalog.json
         $formattedJson = json_encode($newData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         
         if (file_put_contents($jsonFilePath, $formattedJson) !== false) {
             echo json_encode([
                 'status' => 'success', 
-                'message' => 'Catalog and images saved successfully.',
-                'target_folder' => realpath($uploadDir)
+                'message' => 'Catalog and Hero Images saved successfully.',
+                'debug_upload_path' => $uploadDir // Use this to verify the XAMPP path in your browser console
             ]);
         } else {
             echo json_encode([
                 'status' => 'error', 
-                'message' => 'Could not write to product_catalog.json. Check file permissions.'
+                'message' => 'Could not write to product_catalog.json. Check folder permissions.'
             ]);
         }
         exit;
     }
 }
 
-// Default error response if JSON is missing or malformed
+// Default error response
 echo json_encode([
     'status' => 'error', 
-    'message' => 'No valid data or JSON payload received.'
+    'message' => 'No valid JSON payload received.'
 ]);
 ?>
