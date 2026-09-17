@@ -130,12 +130,12 @@ nav {
 .view-section { display: none; }
 .view-section.active { display: block; }
 
-/* === SECTION 1: Updated Hero Slider === */
+/* === SECTION 1: Updated Hero Slider with 1200x500 Aspect Ratio === */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 60vh; /* Reduced height as requested */
-  min-height: 400px;
+  aspect-ratio: 1200 / 500; /* Strictly locks 1200x500 ratio */
+  max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   background-color: #000;
@@ -548,17 +548,13 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ========================================== 
-   MOBILE HERO & OVERALL RESPONSIVE OVERRIDES
-   ========================================== */ 
+/* MOBILE RESPONSIVE OVERRIDES */
 @media screen and (max-width: 900px) { 
   nav { padding: 15px 20px; align-items: flex-start; } 
   .nav-links { flex-direction: column; gap: 15px; }
   .icon-wrapper { width: 30px; height: 30px; }
   .icon-label { display: none !important; }
   .cart-badge { width: 16px; height: 16px; font-size: 0.65rem; top: -4px; right: -4px; }
- 
-  .hero-section { height: 40vh; min-height: 250px; }
 
   .split-section { grid-template-columns: 1fr; } 
   .split-left { padding: 40px 20px 10px 20px; } 
@@ -651,19 +647,24 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
     <button id="adminHeroEditBtn" class="admin-action-btn save" style="display:none; position: absolute; top: 20px; left: 20px; z-index: 100;" onclick="openHeroAdminModal()">Edit Banners</button>
   </section>
   
+  <!-- SECTION 1 ADMIN PANEL FOR HERO IMAGES -->
   <div id="heroAdminPanel" style="display: none; background: #1a1a1a; padding: 15px 20px; border-bottom: 3px solid #1abc9c;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-    <h3 style="color: #fff; margin: 0; font-size: 1.1rem;">Manage Hero Images</h3>
-    
-    <!-- Added hidden file input -->
-    <input type="file" id="heroFileInput" accept="image/*" style="display: none;" onchange="handleHeroFileUpload(event)">
-    
-    <button onclick="addHeroImage()" style="background: #1abc9c; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Add Image</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <h3 style="color: #fff; margin: 0; font-size: 1.1rem;">Manage Hero Images</h3>
+      
+      <!-- Hidden file input for file uploading -->
+      <input type="file" id="heroFileInput" accept="image/*" style="display: none;" onchange="handleHeroFileUpload(event)">
+      
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button onclick="addHeroImage()" style="background: #1abc9c; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Add Image</button>
+        <!-- Added Save Button inside Admin Section 1 -->
+        <button onclick="saveProductJSON()" style="background: #f39c12; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px;">💾 Save Hero Images</button>
+      </div>
+    </div>
+    <div id="heroAdminList" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;">
+      <!-- Thumbnails injected here via JS -->
+    </div>
   </div>
-  <div id="heroAdminList" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;">
-    <!-- Thumbnails will be injected here via JS -->
-  </div>
-</div>
 
   <!-- SECTION 2: Split Intro Layout -->
   <section class="split-section">
@@ -903,8 +904,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   
   loadProductsFromJSON();
-  
-  // Hero Slider Initialization
   renderHeroSlider();
   resetHeroInterval();
   setupHeroSwipe();
@@ -916,13 +915,11 @@ function renderHeroSlider() {
   slider.innerHTML = '';
   if (heroImages.length === 0) return;
 
-  // 1. Clone the LAST image and place it at the beginning
   const firstClone = document.createElement('img');
   firstClone.src = heroImages[heroImages.length - 1];
   firstClone.className = 'hero-slide';
   slider.appendChild(firstClone);
 
-  // 2. Render all actual images
   heroImages.forEach(src => {
     const img = document.createElement('img');
     img.src = src;
@@ -930,15 +927,13 @@ function renderHeroSlider() {
     slider.appendChild(img);
   });
 
-  // 3. Clone the FIRST image and place it at the end
   const lastClone = document.createElement('img');
   lastClone.src = heroImages[0];
   lastClone.className = 'hero-slide';
   slider.appendChild(lastClone);
 
-  // Start at index 1 (the first real image, bypassing the initial clone)
   currentHeroIndex = 1;
-  slider.style.transition = 'none'; // Disable transition for initial setup
+  slider.style.transition = 'none';
   updateHeroSliderPosition();
 }
 
@@ -950,30 +945,25 @@ function updateHeroSliderPosition() {
 }
 
 function changeHeroSlide(direction) {
-  // Prevent spam-clicking/swiping while an animation is playing
   if (heroImages.length <= 1 || isTransitioning) return;
   const slider = document.getElementById('heroSlider');
   
   isTransitioning = true;
-  // Re-enable the CSS transition for the smooth swipe
   slider.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
   
   currentHeroIndex += direction;
   updateHeroSliderPosition();
   resetHeroInterval();
 
-  // Wait 600ms (matching your CSS transition speed) before snapping back silently
   setTimeout(() => {
-    // If we swiped forward past the last real image (onto the first image's clone)
     if (currentHeroIndex === heroImages.length + 1) {
       slider.style.transition = 'none'; 
-      currentHeroIndex = 1; // Snap instantly back to real first image
+      currentHeroIndex = 1;
       updateHeroSliderPosition();
     } 
-    // If we swiped backward past the first real image (onto the last image's clone)
     else if (currentHeroIndex === 0) {
       slider.style.transition = 'none'; 
-      currentHeroIndex = heroImages.length; // Snap instantly back to real last image
+      currentHeroIndex = heroImages.length;
       updateHeroSliderPosition();
     }
     isTransitioning = false;
@@ -993,8 +983,8 @@ function setupHeroSwipe() {
     heroSec.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
     heroSec.addEventListener('touchend', e => { 
       touchendX = e.changedTouches[0].screenX; 
-      if (touchendX < touchstartX - 40) changeHeroSlide(1); // Swipe left
-      if (touchendX > touchstartX + 40) changeHeroSlide(-1); // Swipe right
+      if (touchendX < touchstartX - 40) changeHeroSlide(1);
+      if (touchendX > touchstartX + 40) changeHeroSlide(-1);
     });
   }
 }
@@ -1047,35 +1037,28 @@ function renderHeroAdminList() {
   });
 }
 
-// Triggers the hidden file input window instead of a URL prompt
 function addHeroImage() {
   document.getElementById('heroFileInput').click();
 }
 
-// Reads the file from your PC and adds it to the slider
 function handleHeroFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = function(e) {
-    const imageUrl = e.target.result; // The Base64 string of the uploaded image
-    
+    const imageUrl = e.target.result;
     heroImages.push(imageUrl);
     renderHeroAdminList();
-    renderHeroSlider(); // Re-render the live slider
+    renderHeroSlider();
   };
   reader.readAsDataURL(file);
-  
-  // Clear the input value so you can upload the same file again if needed
   event.target.value = "";
 }
 
-// Make sure you have this updated remove function from the previous step
 function removeHeroImage(index) {
   if(confirm("Are you sure you want to delete this hero image?")) {
     heroImages.splice(index, 1);
-    // Prevent out-of-bounds index due to our slider clone offset
     if (currentHeroIndex > heroImages.length) currentHeroIndex = 1; 
     renderHeroAdminList();
     renderHeroSlider();
@@ -1083,6 +1066,7 @@ function removeHeroImage(index) {
   }
 }
 
+// --- SAVING AND LOADING DATA FROM PHP / JSON ---
 function loadProductsFromJSON() {
   fetch('product_catalog.json?t=' + new Date().getTime())
     .then(response => {
@@ -1090,21 +1074,56 @@ function loadProductsFromJSON() {
       return response.json();
     })
     .then(data => {
-      if (Array.isArray(data) && data.length > 0) {
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
+        if (data.products && Array.isArray(data.products)) products = data.products;
+        if (data.heroImages && Array.isArray(data.heroImages)) heroImages = data.heroImages;
+      } else if (Array.isArray(data)) {
         products = data;
-        products.forEach(p => {
-          if (p.series && !storeSeriesList.includes(p.series)) storeSeriesList.push(p.series);
-          if (p.category && !storeCategoryList.includes(p.category)) storeCategoryList.push(p.category);
-        });
       }
+      
+      products.forEach(p => {
+        if (p.series && !storeSeriesList.includes(p.series)) storeSeriesList.push(p.series);
+        if (p.category && !storeCategoryList.includes(p.category)) storeCategoryList.push(p.category);
+      });
+      
+      renderHeroSlider();
+      renderHeroAdminList();
       renderGlobalFilterDropdown();
       renderDynamicCatalogSections();
     })
     .catch(error => {
-      console.warn("Could not load product_catalog.json, falling back to default array:", error);
+      console.warn("Could not load product_catalog.json, falling back to default memory arrays:", error);
+      renderHeroSlider();
+      renderHeroAdminList();
       renderGlobalFilterDropdown();
       renderDynamicCatalogSections();
     });
+}
+
+function saveProductJSON() {
+  const payload = {
+    heroImages: heroImages,
+    products: products
+  };
+
+  fetch('save_json.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if(data.status === 'success') {
+      alert("Hero images & product changes saved directly to 'product uploads' folder and catalog!");
+      loadProductsFromJSON();
+    } else { 
+      alert("Error saving: " + (data.message || "Unknown error")); 
+    }
+  })
+  .catch(error => { 
+    console.error('Error:', error); 
+    alert("Network error: Could not reach save_json.php."); 
+  });
 }
 
 function navigateGallery(direction) {
@@ -1267,7 +1286,7 @@ function openDetailsPage(id) {
   document.getElementById('detailsName').innerText = currentSelectedProduct.name;
   document.getElementById('detailsDescription').innerText = currentSelectedProduct.description || "";
   
-  updateDetailsPriceDisplay(); // Updates price display based on category and initial qty
+  updateDetailsPriceDisplay();
   renderDetailsGallery();
   switchView('details-view');
 }
@@ -1330,12 +1349,12 @@ function adjustDetailQty(amount) {
   currentDetailQty += amount;
   if (currentDetailQty < 1) currentDetailQty = 1;
   document.getElementById('detailQtyVal').innerText = currentDetailQty;
-  updateDetailsPriceDisplay(); // Updates price and -20% OFF tag when reaching 20
+  updateDetailsPriceDisplay();
 }
 
 function getEffectiveUnitPrice(product, qty) {
   if (product && product.category === "Structure" && qty >= 20) {
-    return product.price * 0.8; // 20% off
+    return product.price * 0.8;
   }
   return product.price;
 }
@@ -1451,9 +1470,9 @@ function renderCartView() {
 
 function calculateJTAndTotals() {
   const subtotal = cart.reduce((sum, item) => {
-  const unitPrice = getEffectiveUnitPrice(item.product, item.qty);
-  return sum + (unitPrice * item.qty);
-}, 0);
+    const unitPrice = getEffectiveUnitPrice(item.product, item.qty);
+    return sum + (unitPrice * item.qty);
+  }, 0);
   const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
   const postcodeVal = document.getElementById('shipPostcode').value.trim();
   currentCalculatedShipping = 0.00;
@@ -1517,13 +1536,13 @@ function proceedToWhatsAppCheckout() {
   orderMsg += `*Order Items:*\n`;
   
   let subtotal = 0;
-cart.forEach(item => {
-  let unitPrice = getEffectiveUnitPrice(item.product, item.qty);
-  let t = unitPrice * item.qty;
-  subtotal += t;
-  let discountTag = (item.product.category === 'Structure' && item.qty >= 20) ? ' (20% OFF)' : '';
-  orderMsg += `${item.qty}x ${item.product.name}${discountTag} - RM ${t.toFixed(2)}\n`;
-});
+  cart.forEach(item => {
+    let unitPrice = getEffectiveUnitPrice(item.product, item.qty);
+    let t = unitPrice * item.qty;
+    subtotal += t;
+    let discountTag = (item.product.category === 'Structure' && item.qty >= 20) ? ' (20% OFF)' : '';
+    orderMsg += `${item.qty}x ${item.product.name}${discountTag} - RM ${t.toFixed(2)}\n`;
+  });
   orderMsg += `\n- Subtotal: RM ${subtotal.toFixed(2)}`;
   
   if (currentCalculatedShipping === "TBC") {
@@ -1539,21 +1558,6 @@ cart.forEach(item => {
   const targetWhatsAppNumber = "601165375621";
   const encodedUrl = `https://wa.me/${targetWhatsAppNumber}?text=` + encodeURIComponent(orderMsg);
   window.open(encodedUrl, '_blank');
-}
-
-function saveProductJSON() {
-  fetch('save_json.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(products)
-  })
-  .then(response => {
-    if(response.ok) {
-      alert("Changes saved directly to JSON file successfully!");
-      loadProductsFromJSON();
-    } else { alert("Error saving JSON file."); }
-  })
-  .catch(error => { console.error('Error:', error); alert("Network error: Could not reach save_json.php."); });
 }
 
 function promptAddSeriesSection() {
