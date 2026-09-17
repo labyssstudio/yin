@@ -2,13 +2,23 @@
 // save_json.php
 header('Content-Type: application/json');
 
-// Define directory paths based on your project structure
-$uploadDir = __DIR__ . '/product uploads/';
-$jsonFilePath = __DIR__ . '/product_catalog.json';
+// Enable full error reporting to capture local filesystem issues
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
 
-// Ensure the 'product uploads' directory exists
+// Define absolute path to your upload directory
+$uploadDir = __DIR__ . DIRECTORY_SEPARATOR . 'product uploads' . DIRECTORY_SEPARATOR;
+$jsonFilePath = __DIR__ . DIRECTORY_SEPARATOR . 'product_catalog.json';
+
+// Ensure the 'product uploads' directory exists with write permissions
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
+    if (!mkdir($uploadDir, 0777, true)) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Failed to create directory at: ' . $uploadDir
+        ]);
+        exit;
+    }
 }
 
 // -------------------------------------------------------------
@@ -45,7 +55,7 @@ if (!empty($rawInput)) {
                     $filePath = $uploadDir . $fileName;
 
                     // Save the image file to 'product uploads/'
-                    if (file_put_contents($filePath, $imageData)) {
+                    if (file_put_contents($filePath, $imageData) !== false) {
                         // Replace the original Base64 string with the relative file path
                         $item = 'product uploads/' . $fileName;
                     }
@@ -63,7 +73,6 @@ if (!empty($rawInput)) {
         if (file_exists($jsonFilePath)) {
             $oldData = json_decode(file_get_contents($jsonFilePath), true);
             
-            // Helper function to extract all image paths from the JSON data
             function extractImagePaths($data, &$paths = []) {
                 if (is_array($data)) {
                     foreach ($data as $value) {
@@ -75,14 +84,10 @@ if (!empty($rawInput)) {
                 return $paths;
             }
 
-            // Extract paths from both the old JSON and the newly submitted JSON
             $oldPaths = extractImagePaths($oldData);
             $newPaths = extractImagePaths($newData);
-
-            // Find images that exist in the old file but are missing from the new file
             $imagesToDelete = array_diff($oldPaths, $newPaths);
             
-            // Delete the orphaned files from the server
             foreach ($imagesToDelete as $imagePath) {
                 $fullPath = __DIR__ . '/' . $imagePath;
                 if (file_exists($fullPath) && is_file($fullPath)) {
@@ -94,10 +99,11 @@ if (!empty($rawInput)) {
         // Save the clean JSON payload back to product_catalog.json
         $formattedJson = json_encode($newData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         
-        if (file_put_contents($jsonFilePath, $formattedJson)) {
+        if (file_put_contents($jsonFilePath, $formattedJson) !== false) {
             echo json_encode([
                 'status' => 'success', 
-                'message' => 'Catalog and images updated successfully. Unused images removed.'
+                'message' => 'Catalog and images saved successfully.',
+                'target_folder' => realpath($uploadDir)
             ]);
         } else {
             echo json_encode([
@@ -109,36 +115,7 @@ if (!empty($rawInput)) {
     }
 }
 
-// -------------------------------------------------------------
-// 2. MULTIPART FORM DATA HANDLING ($_FILES + $_POST)
-// Fallback if uploading via standard HTTP multipart forms
-// -------------------------------------------------------------
-if (isset($_POST['catalog_data']) || isset($_FILES['product_image'])) {
-    $savedImagePath = null;
-
-    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
-        $cleanFileName = preg_replace("/[^a-zA-Z0-9\._-]/", "", basename($_FILES['product_image']['name']));
-        $fileName = time() . '_' . $cleanFileName;
-        $targetFilePath = $uploadDir . $fileName;
-
-        if (move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFilePath)) {
-            $savedImagePath = 'product uploads/' . $fileName;
-        }
-    }
-
-    if (isset($_POST['catalog_data'])) {
-        file_put_contents($jsonFilePath, $_POST['catalog_data']);
-    }
-
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Data saved successfully.',
-        'image_path' => $savedImagePath
-    ]);
-    exit;
-}
-
-// Default response if no valid input was detected
+// Default error response if JSON is missing or malformed
 echo json_encode([
     'status' => 'error', 
     'message' => 'No valid data or JSON payload received.'
