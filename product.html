@@ -651,6 +651,16 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
     <button id="adminHeroEditBtn" class="admin-action-btn save" style="display:none; position: absolute; top: 20px; left: 20px; z-index: 100;" onclick="openHeroAdminModal()">Edit Banners</button>
   </section>
   
+  <div id="heroAdminPanel" style="display: none; background: #1a1a1a; padding: 15px 20px; border-bottom: 3px solid #1abc9c;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h3 style="color: #fff; margin: 0; font-size: 1.1rem;">Manage Hero Images</h3>
+    <button onclick="addHeroImage()" style="background: #1abc9c; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Add Image</button>
+  </div>
+  <div id="heroAdminList" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;">
+    <!-- Thumbnails will be injected here via JS -->
+  </div>
+</div>
+
   <!-- SECTION 2: Split Intro Layout -->
   <section class="split-section">
     <div class="split-left" id="splitLeftAnim">
@@ -884,6 +894,8 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('detailsSaveReturnBtn').style.display = 'inline-block';
     document.getElementById('adminProductEditControls').style.display = 'flex';
     document.getElementById('adminAddSeriesBtnWrapper').style.display = 'block';
+    document.getElementById('heroAdminPanel').style.display = 'block';
+    renderHeroAdminList();
   }
   
   loadProductsFromJSON();
@@ -992,37 +1004,65 @@ function closeHeroAdminModal() {
   document.getElementById('adminHeroModal').classList.remove('active');
 }
 function renderHeroAdminList() {
-  const list = document.getElementById('adminHeroList');
-  list.innerHTML = "";
-  heroImages.forEach((src, idx) => {
-    list.innerHTML += `
-      <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9f9; padding:8px 12px; border-radius:6px; border:1px solid #ddd;">
-        <span style="font-size:0.9rem; word-break:break-all;">${src}</span>
-        <button class="admin-action-btn danger" style="padding:4px 8px; font-size:0.75rem;" onclick="removeHeroImage(${idx})">Delete</button>
-      </div>
-    `;
+  const listContainer = document.getElementById('heroAdminList');
+  if (!listContainer) return;
+  listContainer.innerHTML = '';
+
+  heroImages.forEach((imgSrc, index) => {
+    const itemWrapper = document.createElement('div');
+    itemWrapper.style.position = 'relative';
+    itemWrapper.style.flexShrink = '0';
+    itemWrapper.style.border = '2px solid #333';
+    itemWrapper.style.borderRadius = '4px';
+    itemWrapper.style.overflow = 'hidden';
+
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.style.height = '80px';
+    img.style.width = '160px';
+    img.style.objectFit = 'cover';
+    img.style.display = 'block';
+
+    const delBtn = document.createElement('button');
+    delBtn.innerText = '✕';
+    delBtn.style.position = 'absolute';
+    delBtn.style.top = '0';
+    delBtn.style.right = '0';
+    delBtn.style.background = '#e74c3c';
+    delBtn.style.color = 'white';
+    delBtn.style.border = 'none';
+    delBtn.style.width = '24px';
+    delBtn.style.height = '24px';
+    delBtn.style.cursor = 'pointer';
+    delBtn.style.fontWeight = 'bold';
+    delBtn.onclick = () => removeHeroImage(index);
+
+    itemWrapper.appendChild(img);
+    itemWrapper.appendChild(delBtn);
+    listContainer.appendChild(itemWrapper);
   });
 }
+
 function addHeroImage() {
-  const input = document.getElementById('newHeroImgUrl');
-  const url = input.value.trim();
-  if (url) {
-    heroImages.push(url);
-    input.value = "";
+  const url = prompt("Enter the URL or file path for the new Hero Image:");
+  if (url && url.trim() !== "") {
+    heroImages.push(url.trim());
+    renderHeroAdminList();
+    renderHeroSlider(); // Re-render the live slider
+  }
+}
+
+// Make sure you have this updated remove function from the previous step
+function removeHeroImage(index) {
+  if(confirm("Are you sure you want to delete this hero image?")) {
+    heroImages.splice(index, 1);
+    // Prevent out-of-bounds index due to our slider clone offset
+    if (currentHeroIndex > heroImages.length) currentHeroIndex = 1; 
     renderHeroAdminList();
     renderHeroSlider();
     resetHeroInterval();
   }
 }
-function removeHeroImage(index) {
-  heroImages.splice(index, 1);
-  // Ensure the index doesn't go out of bounds based on our new offset
-  if (currentHeroIndex > heroImages.length) currentHeroIndex = 1;
-  renderHeroAdminList();
-  renderHeroSlider();
-  resetHeroInterval();
-}
-// ------------------------
 
 function loadProductsFromJSON() {
   fetch('product_catalog.json?t=' + new Date().getTime())
