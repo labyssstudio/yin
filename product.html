@@ -654,6 +654,10 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
   <div id="heroAdminPanel" style="display: none; background: #1a1a1a; padding: 15px 20px; border-bottom: 3px solid #1abc9c;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
     <h3 style="color: #fff; margin: 0; font-size: 1.1rem;">Manage Hero Images</h3>
+    
+    <!-- Added hidden file input -->
+    <input type="file" id="heroFileInput" accept="image/*" style="display: none;" onchange="handleHeroFileUpload(event)">
+    
     <button onclick="addHeroImage()" style="background: #1abc9c; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">+ Add Image</button>
   </div>
   <div id="heroAdminList" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;">
@@ -1043,13 +1047,28 @@ function renderHeroAdminList() {
   });
 }
 
+// Triggers the hidden file input window instead of a URL prompt
 function addHeroImage() {
-  const url = prompt("Enter the URL or file path for the new Hero Image:");
-  if (url && url.trim() !== "") {
-    heroImages.push(url.trim());
+  document.getElementById('heroFileInput').click();
+}
+
+// Reads the file from your PC and adds it to the slider
+function handleHeroFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const imageUrl = e.target.result; // The Base64 string of the uploaded image
+    
+    heroImages.push(imageUrl);
     renderHeroAdminList();
     renderHeroSlider(); // Re-render the live slider
-  }
+  };
+  reader.readAsDataURL(file);
+  
+  // Clear the input value so you can upload the same file again if needed
+  event.target.value = "";
 }
 
 // Make sure you have this updated remove function from the previous step

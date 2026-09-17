@@ -18,7 +18,7 @@ if (!is_dir($uploadDir)) {
 $rawInput = file_get_contents('php://input');
 
 if (!empty($rawInput)) {
-    $data = json_decode($rawInput, true);
+    $newData = json_decode($rawInput, true);
 
     if (json_last_error() === JSON_ERROR_NONE) {
         
@@ -53,16 +53,51 @@ if (!empty($rawInput)) {
             }
         }
 
-        // Process any embedded base64 images inside the JSON payload
-        processBase64Images($data, $uploadDir);
+        // Process any embedded base64 images inside the new JSON payload
+        processBase64Images($newData, $uploadDir);
+
+        // -------------------------------------------------------------
+        // AUTOMATIC IMAGE CLEANUP (GARBAGE COLLECTION)
+        // Deletes files from the server if they are removed from the JSON
+        // -------------------------------------------------------------
+        if (file_exists($jsonFilePath)) {
+            $oldData = json_decode(file_get_contents($jsonFilePath), true);
+            
+            // Helper function to extract all image paths from the JSON data
+            function extractImagePaths($data, &$paths = []) {
+                if (is_array($data)) {
+                    foreach ($data as $value) {
+                        extractImagePaths($value, $paths);
+                    }
+                } elseif (is_string($data) && strpos($data, 'product uploads/') === 0) {
+                    $paths[] = $data;
+                }
+                return $paths;
+            }
+
+            // Extract paths from both the old JSON and the newly submitted JSON
+            $oldPaths = extractImagePaths($oldData);
+            $newPaths = extractImagePaths($newData);
+
+            // Find images that exist in the old file but are missing from the new file
+            $imagesToDelete = array_diff($oldPaths, $newPaths);
+            
+            // Delete the orphaned files from the server
+            foreach ($imagesToDelete as $imagePath) {
+                $fullPath = __DIR__ . '/' . $imagePath;
+                if (file_exists($fullPath) && is_file($fullPath)) {
+                    unlink($fullPath); 
+                }
+            }
+        }
 
         // Save the clean JSON payload back to product_catalog.json
-        $formattedJson = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $formattedJson = json_encode($newData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         
         if (file_put_contents($jsonFilePath, $formattedJson)) {
             echo json_encode([
                 'status' => 'success', 
-                'message' => 'Catalog and images updated successfully.'
+                'message' => 'Catalog and images updated successfully. Unused images removed.'
             ]);
         } else {
             echo json_encode([
