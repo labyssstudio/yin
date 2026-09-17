@@ -39,12 +39,14 @@ nav {
   width: 100%;
   z-index: 1000;
   box-shadow: none;
+  pointer-events: none;
 }
 .nav-links {
   display: flex;
   gap: 20px;
   list-style: none;
   align-items: center;
+  pointer-events: auto;
 }
 .nav-icon-link {
   display: flex;
@@ -601,15 +603,19 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
 
   .hero-section .nav-arrow {
     display: none !important;}
-  .hero-dots-container { bottom: 14px; gap: 12px; z-index: 30;}
-  .hero-dot { width: 12px; height: 12px; position: relative;}
+  .hero-dots-container { bottom: 8px; gap: 8px; z-index: 30;}
+  .hero-dot { width: 7px; height: 7px; position: relative;}
+  .hero-dot.active {
+    transform: scale(1.2);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  }
   .hero-dot::before {
     content: '';
     position: absolute;
-    top: -12px;
-    bottom: -12px;
-    left: -12px;
-    right: -12px;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
   }
 
   .split-section { grid-template-columns: 1fr; } 
@@ -643,8 +649,6 @@ body.admin-editing [contenteditable="true"] { outline: 2px dashed #1ABC9C; outli
   .cart-item-mobile-actions { display: flex; align-items: center; gap: 15px; }
   .details-container, .policy-modal-card, .delivery-form-grid { grid-template-columns: 1fr; } 
   
-  .hero-dots-container { bottom: 12px; gap: 8px; }
-  .hero-dot { width: 8px; height: 8px; }
 }
 </style>
 </head>
@@ -989,20 +993,14 @@ function renderHeroSlider() {
     slider.appendChild(img);
 
     // Build pagination dot
-    if (dotsContainer) {
+if (dotsContainer) {
   const dot = document.createElement('div');
   dot.className = 'hero-dot' + (idx === 0 ? ' active' : '');
   
-  const handleDotTap = (e) => {
-    e.stopPropagation();
+  dot.onclick = (e) => {
+    e.stopPropagation(); // Prevents the pointerdown event from confusing the slider
     goToHeroSlide(idx);
   };
-
-  dot.onclick = handleDotTap;
-  dot.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    handleDotTap(e);
-  });
 
   dotsContainer.appendChild(dot);
 }
@@ -1099,46 +1097,91 @@ function resetHeroInterval() {
 
 function setupHeroSwipe() {
   const heroSec = document.getElementById('heroContainer') || document.querySelector('.hero-section');
-  if (!heroSec) {
-    console.error('Hero slider container element was not found in DOM.');
-    return;
-  }
+  if (!heroSec) return;
 
   let startX = 0;
   let startY = 0;
-  let isDragging = false;
+  let endX = 0;
+  let endY = 0;
+  let isSwiping = false;
 
-  heroSec.addEventListener('pointerdown', (e) => {
-    startX = e.clientX;
-    startY = e.clientY;
-    isDragging = true;
-  });
+  heroSec.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    endX = startX;
+    endY = startY;
+    isSwiping = true;
+    stopHeroInterval();
+  }, { passive: true });
 
-  heroSec.addEventListener('pointerup', (e) => {
-    if (!isDragging) return;
-    const diffX = e.clientX - startX;
-    const diffY = e.clientY - startY;
+  heroSec.addEventListener('touchmove', (e) => {
+    if (!isSwiping || !e.touches.length) return;
+    endX = e.touches[0].clientX;
+    endY = e.touches[0].clientY;
+  }, { passive: true });
 
-    // Trigger slide change if horizontal drag distance exceeds vertical movement and is > 30px
+  const handleTouchEnd = (e) => {
+    if (!isSwiping) return;
+
+    // Use changedTouches to retrieve release position on mobile
+    if (e.changedTouches && e.changedTouches.length > 0) {
+      endX = e.changedTouches[0].clientX;
+      endY = e.changedTouches[0].clientY;
+    }
+
+    const diffX = endX - startX;
+    const diffY = endY - startY;
+
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
       if (diffX < 0) {
-        changeHeroSlide(1);  // Swipe Left -> Next Slide
+        changeHeroSlide(1);  // Swipe Left -> Next
       } else {
-        changeHeroSlide(-1); // Swipe Right -> Previous Slide
+        changeHeroSlide(-1); // Swipe Right -> Previous
       }
     }
-    isDragging = false;
+
+    isSwiping = false;
+    resetHeroInterval();
+  };
+
+  heroSec.addEventListener('touchend', handleTouchEnd, { passive: true });
+  heroSec.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+
+  // Mouse Drag Fallback for Desktop
+  heroSec.addEventListener('mousedown', (e) => {
+    startX = e.clientX;
+    startY = e.clientY;
+    endX = startX;
+    endY = startY;
+    isSwiping = true;
+    stopHeroInterval();
   });
 
-  heroSec.addEventListener('pointercancel', () => {
-    isDragging = false;
+  heroSec.addEventListener('mousemove', (e) => {
+    if (!isSwiping) return;
+    endX = e.clientX;
+    endY = e.clientY;
   });
-}
-// Auto-initialize as soon as the DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', setupHeroSwipe);
-} else {
-  setupHeroSwipe();
+
+  heroSec.addEventListener('mouseup', () => {
+    if (!isSwiping) return;
+    const diffX = endX - startX;
+    const diffY = endY - startY;
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+      if (diffX < 0) changeHeroSlide(1);
+      else changeHeroSlide(-1);
+    }
+    isSwiping = false;
+    resetHeroInterval();
+  });
+
+  heroSec.addEventListener('mouseleave', () => {
+    if (isSwiping) {
+      isSwiping = false;
+      resetHeroInterval();
+    }
+  });
 }
 
 // --- ADMIN HERO LOGIC ---
