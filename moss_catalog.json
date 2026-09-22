@@ -48,7 +48,7 @@
         "id": "M003"
     },
     {
-        "scientificName": "Lejeunea sp. (liverwort)",
+        "scientificName": "Lejeunea sp. (Liverworts)",
         "commonName": "Sheet Moss",
         "location": "Sungai Tua",
         "substrate": "Soil",
@@ -468,7 +468,7 @@
         "commonName": "Neat Feather Moss",
         "location": "Cameron Highland",
         "substrate": "Soil",
-        "lighting": "1",
+        "lighting": "2",
         "humidity": "3",
         "rarity": "R",
         "imagePaths": [
@@ -480,7 +480,7 @@
         "id": "M030"
     },
     {
-        "scientificName": "Marchantia sp. (liverworts)",
+        "scientificName": "Marchantia sp. (Liverworts)",
         "commonName": "Umbrella liverworts",
         "location": "Cameron Highland",
         "substrate": "Soil",
@@ -498,10 +498,10 @@
     {
         "scientificName": "Thuidium cymbifolium",
         "commonName": "Fern Moss \u5927\u7fbd\u85d3",
-        "location": "-",
+        "location": "Highland",
         "substrate": "Soil",
         "lighting": "2",
-        "humidity": "2",
+        "humidity": "3",
         "rarity": "R",
         "imagePaths": [
             "uploads/moss_M032_0_1788580642.jpg",
@@ -516,7 +516,7 @@
         "commonName": "\u5927\u51e4\u5c3e\u85d3",
         "location": "-",
         "substrate": "Soil",
-        "lighting": "1",
+        "lighting": "2",
         "humidity": "3",
         "rarity": "R",
         "imagePaths": [
@@ -530,7 +530,7 @@
     {
         "scientificName": "Pyrrhobryum dozyanum ",
         "commonName": "Hinoki Moss \u5927\u6867\u85d3",
-        "location": "Oversea",
+        "location": "Oversea (highland)",
         "substrate": "Soil",
         "lighting": "2",
         "humidity": "2",
