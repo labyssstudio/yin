@@ -48,7 +48,7 @@
         "id": "M003"
     },
     {
-        "scientificName": "-",
+        "scientificName": "Lejeunea sp. (liverwort)",
         "commonName": "Sheet Moss",
         "location": "Sungai Tua",
         "substrate": "Soil",
@@ -153,9 +153,9 @@
         "rarity": "N",
         "imagePaths": [
             "uploads/moss_M010_0_1781582612.jpeg",
-            "uploads/moss_M010_1_1781519957.jpeg",
-            "uploads/moss_M010_2_1781519957.jpeg",
-            "uploads/moss_M010_3_1783872597.jpeg"
+            "",
+            "",
+            ""
         ],
         "id": "M010"
     },
@@ -542,5 +542,37 @@
             ""
         ],
         "id": "M034"
+    },
+    {
+        "scientificName": "Ectropothecium sp.",
+        "commonName": "Mini Malaya moss",
+        "location": "Universiti Malaya",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "N",
+        "imagePaths": [
+            "uploads/moss_M035_0_1790053329.jpg",
+            "uploads/moss_M035_1_1790053329.jpg",
+            "",
+            ""
+        ],
+        "id": "M035"
+    },
+    {
+        "scientificName": "Vesicularia Montagnei",
+        "commonName": "Christmas moss",
+        "location": "Universiti Malaya",
+        "substrate": "Soil",
+        "lighting": "2",
+        "humidity": "2",
+        "rarity": "N",
+        "imagePaths": [
+            "uploads/moss_M036_0_1790053445.jpg",
+            "uploads/moss_M036_1_1790053445.jpg",
+            "",
+            ""
+        ],
+        "id": "M036"
     }
 ]
